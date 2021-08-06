@@ -1,7 +1,9 @@
 import React from 'react';
 
 import { ChevronLeft, Info } from '@edx/paragon/icons';
-import { Alert, Hyperlink } from '@edx/paragon';
+import {
+  Alert, Button, DataTable, Hyperlink,
+} from '@edx/paragon';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';
@@ -21,6 +23,14 @@ const ProgramRecordsList = () => {
       if (_.isEmpty(data)) {
         setHasNoData(true);
       } else {
+        (data.enrolled_programs).map((program) => { /* eslint-disable no-param-reassign */
+          if (program.completed) {
+            program.status = 'Completed';
+          } else {
+            program.status = 'Partially Completed';
+          }
+          return null;
+        });
         setRecords(data.enrolled_programs);
       }
     }).catch((error) => {
@@ -70,8 +80,8 @@ const ProgramRecordsList = () => {
     </p>
   );
 
-  const renderRows = () => (
-    <section id="program-records-list" className="pl-3 pr-3">
+  const renderTable = () => (
+    <section id="program-records-list" className="pl-3 pr-3 pb-3">
       <header>
         <h2 className="h4">
           <FormattedMessage
@@ -89,10 +99,51 @@ const ProgramRecordsList = () => {
           />
         </p>
       </header>
+      <DataTable
+        itemCount={records.length}
+        additionalColumns={[
+          {
+            id: 'action',
+            Header: '', /* eslint-disable react/prop-types */
+            Cell: ({ row }) => (
+              <Hyperlink
+                variant="muted"
+                destination={`${getConfig().CREDENTIALS_BASE_URL}/records/programs/${row.original.uuid}/`}
+              >
+                <Button variant="outline-primary">
+                  <FormattedMessage
+                    id="records.record.view.link"
+                    defaultMessage="View Program Record"
+                    description="Link text for button that redirects user to view a program record"
+                  />
+                </Button>
+              </Hyperlink>
+            ),
+          },
+        ]}
+        data={records}
+        columns={[
+          {
+            Header: 'Program Name',
+            accessor: 'name',
+          },
+          {
+            Header: 'School',
+            accessor: 'partner',
+          },
+          {
+            Header: 'Status',
+            accessor: 'status',
+          },
+        ]}
+      >
+        <DataTable.Table />
+        <DataTable.EmptyTable content="No results found" />
+      </DataTable>
     </section>
   );
 
-  const renderList = () => {
+  const renderData = () => {
     if (isLoaded) {
       if (hasNoData) {
         return renderCredentialsServiceIssueAlert();
@@ -100,7 +151,7 @@ const ProgramRecordsList = () => {
       if (!records.length) {
         return renderEmpty();
       }
-      return renderRows();
+      return renderTable();
     }
     return null;
   };
@@ -115,7 +166,7 @@ const ProgramRecordsList = () => {
           description="Header for the Learner Records page"
         />
       </h1>
-      {renderList()}
+      {renderData()}
     </main>
   );
 };
