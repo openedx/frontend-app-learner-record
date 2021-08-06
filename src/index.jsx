@@ -1,25 +1,23 @@
 import 'babel-polyfill';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import {
   APP_INIT_ERROR, APP_READY, subscribe, initialize,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
-import React from 'react';
-import ReactDOM from 'react-dom';
-
 import Header, { messages as headerMessages } from '@edx/frontend-component-header';
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
 
 import appMessages from './i18n';
-import ExamplePage from './example/ExamplePage';
-
 import './index.scss';
+import ProgramRecordsList from './components/ProgramRecordsList';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider>
       <Header />
-      <ExamplePage />
+      <ProgramRecordsList />
       <Footer />
     </AppProvider>,
     document.getElementById('root'),
