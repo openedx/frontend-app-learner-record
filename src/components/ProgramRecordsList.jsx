@@ -44,7 +44,7 @@ const ProgramRecordsList = () => {
     return (
       <Hyperlink
         destination={`${getConfig().LMS_BASE_URL}/u/${username}`}
-        className="mt-2 mb-4 d-inline-block muted-link pl-3 pr-3"
+        className="mb-4 d-inline-block muted-link pl-3 pr-3"
       >
         <ChevronLeft className="mb-1" />
         <FormattedMessage
@@ -156,6 +156,34 @@ const ProgramRecordsList = () => {
     return null;
   };
 
+  const renderHelp = () => (
+    <div className="pl-3 pr-3 pt-4 pb-1">
+      <h3 className="h5">
+        <FormattedMessage
+          id="records.help.header"
+          defaultMessage="Questions about Learner Records?"
+          description="Header for the help section of Learner Records page"
+        />
+      </h3>
+      <FormattedMessage
+        id="records.help.description"
+        defaultMessage="To learn more about records you can "
+        description="Text description for the help section of Learner Records page"
+      />
+      <Hyperlink
+        variant="muted"
+        destination={`${getConfig().SUPPORT_URL_LEARNER_RECORDS}`}
+        className="text-primary-900"
+      >
+        <FormattedMessage
+          id="records.help.link"
+          defaultMessage="read more in our records help area."
+          description="Text containing link that redirects user to support page"
+        />
+      </Hyperlink>
+    </div>
+  );
+
   return (
     <main id="main-content" className="pt-5 pb-5 pl-4 pr-4 " tabIndex="-1">
       {renderProfile()}
@@ -167,6 +195,7 @@ const ProgramRecordsList = () => {
         />
       </h1>
       {renderData()}
+      {renderHelp()}
     </main>
   );
 };
