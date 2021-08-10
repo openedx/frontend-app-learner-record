@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {
-  APP_INIT_ERROR, APP_READY, subscribe, initialize,
+  APP_INIT_ERROR, APP_READY, subscribe, initialize, mergeConfig,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
 import Header, { messages as headerMessages } from '@edx/frontend-component-header';
@@ -29,6 +29,13 @@ subscribe(APP_INIT_ERROR, (error) => {
 });
 
 initialize({
+  handlers: {
+    config: () => {
+      mergeConfig({
+        SUPPORT_URL_LEARNER_RECORDS: process.env.SUPPORT_URL_LEARNER_RECORDS || '',
+      }, 'LearnerRecordConfig');
+    },
+  },
   messages: [
     appMessages,
     headerMessages,
