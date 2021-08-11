@@ -32,7 +32,7 @@ Installation
     .. code-block::
       npm start
 
-The page is currently hosted on http://localhost:8080/
+The page is currently hosted on http://localhost:1990/
 
 
 Environment Variables/Setup Notes
