@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ChevronLeft, Info } from '@edx/paragon/icons';
 import {
-  Alert, Button, DataTable, Hyperlink,
+  Alert, Button, Hyperlink,
 } from '@edx/paragon';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
@@ -80,7 +80,7 @@ const ProgramRecordsList = () => {
     </p>
   );
 
-  const renderTable = () => (
+  const renderProgramRecords = () => (
     <section id="program-records-list" className="pl-3 pr-3 pb-3">
       <header>
         <h2 className="h4">
@@ -99,16 +99,18 @@ const ProgramRecordsList = () => {
           />
         </p>
       </header>
-      <DataTable
-        itemCount={records.length}
-        additionalColumns={[
-          {
-            id: 'action',
-            Header: '', /* eslint-disable react/prop-types */
-            Cell: ({ row }) => (
+      {records.map((record, index) => {
+        const useBackground = (index % 2) === 0;
+        return (
+          <div className={`d-flex justify-content-between flex-wrap p-4 ${useBackground ? 'bg-gray-200' : ''}`}>
+            <div className="flex-column">
+              <h3>{record.name}</h3>
+              <div>{record.partner} | {record.status}</div>
+            </div>
+            <div className="d-flex align-items-center pt-3 pt-lg-0">
               <Hyperlink
                 variant="muted"
-                destination={`${getConfig().CREDENTIALS_BASE_URL}/records/programs/${row.original.uuid}/`}
+                destination={`${getConfig().CREDENTIALS_BASE_URL}/records/programs/${record.uuid}/`}
               >
                 <Button variant="outline-primary">
                   <FormattedMessage
@@ -118,28 +120,10 @@ const ProgramRecordsList = () => {
                   />
                 </Button>
               </Hyperlink>
-            ),
-          },
-        ]}
-        data={records}
-        columns={[
-          {
-            Header: 'Program Name',
-            accessor: 'name',
-          },
-          {
-            Header: 'School',
-            accessor: 'partner',
-          },
-          {
-            Header: 'Status',
-            accessor: 'status',
-          },
-        ]}
-      >
-        <DataTable.Table />
-        <DataTable.EmptyTable content="No results found" />
-      </DataTable>
+            </div>
+          </div>
+        );
+      })}
     </section>
   );
 
@@ -151,7 +135,7 @@ const ProgramRecordsList = () => {
       if (!records.length) {
         return renderEmpty();
       }
-      return renderTable();
+      return renderProgramRecords();
     }
     return null;
   };
