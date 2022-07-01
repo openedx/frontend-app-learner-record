@@ -102,7 +102,10 @@ const ProgramRecordsList = () => {
       {records.map((record, index) => {
         const useBackground = (index % 2) === 0;
         return (
-          <div className={`d-flex justify-content-between flex-wrap p-4 ${useBackground ? 'bg-gray-200' : ''}`}>
+          <div
+            key={record.uuid}
+            className={`d-flex justify-content-between flex-wrap p-4 ${useBackground ? 'bg-gray-200' : ''}`}
+          >
             <div className="flex-column">
               <h3>{record.name}</h3>
               <div>{record.partner} | {record.status}</div>
