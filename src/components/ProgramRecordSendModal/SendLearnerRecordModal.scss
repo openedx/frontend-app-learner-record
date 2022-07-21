@@ -1,0 +1,20 @@
+.send-record-modal {
+    @extend .d-flex, .flex-column;
+
+    > div:nth-child(2) {
+        @extend .d-flex, .flex-column;
+        color: $primary-500;
+    }
+
+    > div:nth-child(3) {
+        overflow: hidden;
+    }
+
+    .checkbox-group {
+        @extend .d-flex, .flex-column;
+
+        > div {
+            width: 100%;
+        }
+    }
+}

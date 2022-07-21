@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { ChevronLeft, Info } from '@edx/paragon/icons';
 import {
@@ -17,9 +17,8 @@ function ProgramRecordsList() {
   const [hasNoData, setHasNoData] = React.useState(false);
   const [records, setRecords] = React.useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getProgramRecords().then((data) => {
-      setIsLoaded(true);
       if (_.isEmpty(data)) {
         setHasNoData(true);
       } else {
@@ -33,6 +32,7 @@ function ProgramRecordsList() {
         });
         setRecords(data.enrolled_programs);
       }
+      setIsLoaded(true);
     }).catch((error) => {
       const errorMessage = (`Error: Could not fetch learner record data for user: ${error.message}`);
       logError(errorMessage);
@@ -113,7 +113,7 @@ function ProgramRecordsList() {
             <div className="d-flex align-items-center pt-3 pt-lg-0">
               <Hyperlink
                 variant="muted"
-                destination={`${getConfig().CREDENTIALS_BASE_URL}/records/programs/${record.uuid}/`}
+                destination={getConfig().USE_LR_MFE ? `/${record.uuid}` : `${getConfig().CREDENTIALS_BASE_URL}/records/programs/${record.uuid}/`}
               >
                 <Button variant="outline-primary">
                   <FormattedMessage
@@ -158,9 +158,9 @@ function ProgramRecordsList() {
         description="Text description for the help section of Learner Records page"
       />
       <Hyperlink
-        variant="muted"
         destination={`${getConfig().SUPPORT_URL_LEARNER_RECORDS}`}
-        className="text-primary-900"
+        target="_blank"
+        showLaunchIcon={false}
       >
         <FormattedMessage
           id="records.help.link"
