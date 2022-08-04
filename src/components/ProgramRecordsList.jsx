@@ -12,7 +12,7 @@ import _ from 'lodash';
 
 import getProgramRecords from './data/service';
 
-const ProgramRecordsList = () => {
+function ProgramRecordsList() {
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [hasNoData, setHasNoData] = React.useState(false);
   const [records, setRecords] = React.useState([]);
@@ -185,6 +185,6 @@ const ProgramRecordsList = () => {
       {renderHelp()}
     </main>
   );
-};
+}
 
 export default ProgramRecordsList;
