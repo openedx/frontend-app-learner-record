@@ -60,7 +60,7 @@
     "@edx/frontend-build": "11.0.2",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "^12.1.2",
-    "axios-mock-adapter": "^1.20.0",
+    "axios-mock-adapter": "1.21.2",
     "codecov": "3.8.3",
     "glob": "7.2.3",
     "husky": "7.0.4",
