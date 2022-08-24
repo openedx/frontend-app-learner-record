@@ -2,8 +2,9 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import {
-  APP_INIT_ERROR, APP_READY, subscribe, initialize, mergeConfig,
+  APP_INIT_ERROR, APP_READY, subscribe, initialize, mergeConfig, getConfig,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
 import Header, { messages as headerMessages } from '@edx/frontend-component-header';
@@ -12,12 +13,40 @@ import Footer, { messages as footerMessages } from '@edx/frontend-component-foot
 import appMessages from './i18n';
 import './index.scss';
 import ProgramRecordsList from './components/ProgramRecordsList';
+import ProgramRecord from './components/ProgramRecord';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider>
       <Header />
-      <ProgramRecordsList />
+      {getConfig().USE_LR_MFE ? (
+        <Router>
+          <Switch>
+            <Route
+              exact
+              path="/"
+            >
+              <ProgramRecordsList />
+            </Route>
+            <Route
+              path="/shared/:programId"
+            >
+              <ProgramRecord
+                isPublic
+              />
+            </Route>
+            <Route
+              path="/:programId"
+            >
+              <ProgramRecord
+                isPublic={false}
+              />
+            </Route>
+          </Switch>
+        </Router>
+      ) : (
+        <ProgramRecordsList />
+      )}
       <Footer />
     </AppProvider>,
     document.getElementById('root'),
@@ -33,6 +62,7 @@ initialize({
     config: () => {
       mergeConfig({
         SUPPORT_URL_LEARNER_RECORDS: process.env.SUPPORT_URL_LEARNER_RECORDS || '',
+        USE_LR_MFE: process.env.USE_LR_MFE || '',
       }, 'LearnerRecordConfig');
     },
   },

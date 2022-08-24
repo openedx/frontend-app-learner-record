@@ -8,11 +8,11 @@ import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform';
 import {
   render, screen, cleanup, initializeMockApp,
-} from '../../setupTest';
-import ProgramRecordsList from '../ProgramRecordsList';
+} from '../../../setupTest';
+import ProgramRecordsList from '..';
 import programListRecordsFactory from './__factories__/programListRecords.factory';
 
-describe('Program records list', () => {
+describe('program-records-list', () => {
   beforeAll(async () => {
     await initializeMockApp();
   });
@@ -35,7 +35,7 @@ describe('Program records list', () => {
   });
 });
 
-describe('Program list data', () => {
+describe('program-list-data', () => {
   beforeAll(async () => {
     await initializeMockApp();
   });
@@ -59,7 +59,7 @@ describe('Program list data', () => {
     const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
     axiosMock
       .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/`)
-      .reply(200, { enrolled_programs: {} });
+      .reply(200, { enrolled_programs: [] });
     render(<ProgramRecordsList />);
     expect(await screen.findByText('No records yet. Program records are created once you have earned at least one course certificate in a program.')).toBeTruthy();
   });
