@@ -15,7 +15,7 @@ import programRecordUrlFactory from './__factories__/programRecordActions.factor
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ programId: 'test-id' }),
+  useParams: jest.fn().mockReturnValue({ programUUID: 'test-id' }),
 }));
 
 describe('program-record', () => {

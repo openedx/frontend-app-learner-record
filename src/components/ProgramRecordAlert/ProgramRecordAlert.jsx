@@ -11,10 +11,10 @@ import { getConfig } from '@edx/frontend-platform';
 import sendRecords from '../ProgramRecordSendModal/data/service';
 
 const ProgramRecordAlert = ({
-  alertType, onClose, programId, username, setSendRecord, creditPathway, platform,
+  alertType, onClose, programUUID, username, setSendRecord, creditPathway, platform,
 }) => {
   const handleTryAgainSendRecord = () => {
-    sendRecords(programId, username, creditPathway.id)
+    sendRecords(programUUID, username, creditPathway.id)
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           setSendRecord(prev => ({
@@ -114,7 +114,7 @@ ProgramRecordAlert.propTypes = {
   onClose: PropTypes.func,
   creditPathway: PropTypes.shape().isRequired,
   setSendRecord: PropTypes.func,
-  programId: PropTypes.string,
+  programUUID: PropTypes.string,
   username: PropTypes.string,
   platform: PropTypes.string,
 };
@@ -123,7 +123,7 @@ ProgramRecordAlert.defaultProps = {
   alertType: '',
   onClose: () => {},
   setSendRecord: () => {},
-  programId: '',
+  programUUID: '',
   username: '',
   platform: '',
 };

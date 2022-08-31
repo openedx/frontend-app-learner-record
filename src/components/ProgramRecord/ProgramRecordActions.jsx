@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 
 import PropTypes from 'prop-types';
 import {
@@ -15,7 +16,7 @@ import { getConfig } from '@edx/frontend-platform';
 import { getProgramRecordUrl, getProgramRecordCsv } from './data/service';
 
 function ProgramRecordActions({
-  showSendRecordButton, isPublic, toggleSendRecordModal, renderBackButton, username, programId,
+  showSendRecordButton, isPublic, toggleSendRecordModal, renderBackButton, username, programUUID,
 }) {
   const [programRecordUrl, setProgramRecordUrl] = useState('');
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
@@ -75,7 +76,7 @@ function ProgramRecordActions({
     if (programRecordUrl) {
       navigator.clipboard.writeText(programRecordUrl);
     } else {
-      getProgramRecordUrl(programId, username)
+      getProgramRecordUrl(programUUID, username)
         .then(({ data }) => {
           setProgramRecordUrl(data.url);
           navigator.clipboard.writeText(data.url);
@@ -85,6 +86,10 @@ function ProgramRecordActions({
           throw new Error(error);
         });
     }
+    sendTrackEvent('edx.bi.credentials.program_record.share_url_copied', {
+      category: 'records',
+      'program-uuid': programUUID,
+    });
   };
 
   const handleCopyButtonClick = () => {
@@ -94,11 +99,11 @@ function ProgramRecordActions({
 
   const handleDownloadRecord = () => {
     setDownloadRecord('pending');
-    getProgramRecordCsv(programId)
+    getProgramRecordCsv(programUUID)
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           setDownloadRecord('complete');
-          window.location = `${getConfig().CREDENTIALS_BASE_URL}/records/programs/shared/${programId}/csv`;
+          window.location = `${getConfig().CREDENTIALS_BASE_URL}/records/programs/shared/${programUUID}/csv`;
         }
       })
       .catch((error) => {
@@ -242,7 +247,7 @@ ProgramRecordActions.propTypes = {
   toggleSendRecordModal: PropTypes.func.isRequired,
   renderBackButton: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  programId: PropTypes.string.isRequired,
+  programUUID: PropTypes.string.isRequired,
 };
 
 export default ProgramRecordActions;
