@@ -14,7 +14,7 @@ import programRecordFactory from './__factories__/programRecord.factory';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ programId: 'test-id' }),
+  useParams: jest.fn().mockReturnValue({ programUUID: 'test-id' }),
 }));
 
 let windowSpy;

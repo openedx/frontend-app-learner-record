@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
@@ -35,10 +36,10 @@ function ProgramRecord({ isPublic }) {
     sendRecordFailureOrgs: [],
   });
 
-  const { programId } = useParams();
+  const { programUUID } = useParams();
 
   useEffect(() => {
-    getProgramDetails(programId, isPublic).then((data) => {
+    getProgramDetails(programUUID, isPublic).then((data) => {
       if (isEmpty(data)) {
         setHasNoData(true);
       } else {
@@ -50,9 +51,15 @@ function ProgramRecord({ isPublic }) {
       const errorMessage = (`Error: Could not fetch program record data for user: ${error.message}`);
       logError(errorMessage);
     });
-  }, [programId, isPublic]);
+  }, [programUUID, isPublic]);
 
   const toggleSendRecordModal = () => {
+    if (!sendRecord.sendRecordModalOpen) {
+      sendTrackEvent('edx.bi.credentials.program_record.send_started', {
+        category: 'records',
+        'program-uuid': programUUID,
+      });
+    }
     setSendRecord(prev => ({
       ...prev,
       sendRecordModalOpen: !prev.sendRecordModalOpen,
@@ -94,7 +101,7 @@ function ProgramRecord({ isPublic }) {
         toggleSendRecordModal={toggleSendRecordModal}
         renderBackButton={renderBackButton}
         username={recordDetails.record.learner.username}
-        programId={recordDetails.uuid}
+        programUUID={programUUID}
       />
       {sendRecord.sendRecordSuccessOrgs && sendRecord.sendRecordSuccessOrgs.map(org => (
         <ProgramRecordAlert
@@ -103,7 +110,7 @@ function ProgramRecord({ isPublic }) {
           onClose={updateSuccessAndFailureOrgs}
           creditPathway={org}
           setSendRecord={setSendRecord}
-          programId={programId}
+          programUUID={programUUID}
           username={recordDetails.record.learner.username}
           platform={recordDetails.record.platform_name}
         />
@@ -115,7 +122,7 @@ function ProgramRecord({ isPublic }) {
           onClose={updateSuccessAndFailureOrgs}
           creditPathway={org}
           setSendRecord={setSendRecord}
-          programId={programId}
+          programUUID={programUUID}
           username={recordDetails.record.learner.username}
           platform={recordDetails.record.platform_name}
         />
@@ -143,7 +150,7 @@ function ProgramRecord({ isPublic }) {
           isOpen={sendRecord.sendRecordModalOpen}
           toggleSendRecordModal={toggleSendRecordModal}
           creditPathways={recordDetails.record.pathways}
-          uuid={programId}
+          programUUID={programUUID}
           username={recordDetails.record.learner.username}
           setSendRecord={setSendRecord}
           platform={recordDetails.record.platform_name}

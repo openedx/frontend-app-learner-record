@@ -4,7 +4,7 @@ export default Factory.define('programAlertData')
   .attrs({
     alertType: '',
     onClose: () => {},
-    programId: '12345',
+    programUUID: '12345',
     username: 'edX',
     setSendRecord: () => {},
     creditPathway: {

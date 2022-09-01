@@ -29,14 +29,14 @@ subscribe(APP_READY, () => {
               <ProgramRecordsList />
             </Route>
             <Route
-              path="/shared/:programId"
+              path="/shared/:programUUID"
             >
               <ProgramRecord
                 isPublic
               />
             </Route>
             <Route
-              path="/:programId"
+              path="/:programUUID"
             >
               <ProgramRecord
                 isPublic={false}

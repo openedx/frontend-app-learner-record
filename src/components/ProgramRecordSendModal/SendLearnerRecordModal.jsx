@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { sendTrackEvent } from '@edx/frontend-platform/analytics';
+
 import PropTypes from 'prop-types';
 import {
   ModalDialog, Form, SelectableBox, ActionRow, Button,
@@ -10,7 +12,7 @@ import { logError } from '@edx/frontend-platform/logging';
 import sendRecords from './data/service';
 
 function SendLearnerRecordModal({
-  isOpen, toggleSendRecordModal, creditPathways, uuid, username, setSendRecord, platform, programType,
+  isOpen, toggleSendRecordModal, creditPathways, programUUID, username, setSendRecord, platform, programType,
 }) {
   const [selectedPathways, setSelectedPathways] = useState([]);
 
@@ -22,7 +24,7 @@ function SendLearnerRecordModal({
       sendRecordFailureOrgs: [],
     };
 
-    await Promise.all(pathwaysToSendRecords.map(pathway => sendRecords(uuid, username, pathway.id)
+    await Promise.all(pathwaysToSendRecords.map(pathway => sendRecords(programUUID, username, pathway.id)
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           orgs.sendRecordSuccessOrgs.push(pathway);
@@ -40,6 +42,12 @@ function SendLearnerRecordModal({
       ...prev,
       ...orgs,
     }));
+
+    sendTrackEvent('edx.bi.credentials.program_record.send_finished', {
+      category: 'records',
+      'program-uuid': programUUID,
+      organizations: pathwaysToSendRecords,
+    });
 
     toggleSendRecordModal();
   };
@@ -153,7 +161,7 @@ SendLearnerRecordModal.propTypes = {
   toggleSendRecordModal: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   creditPathways: PropTypes.arrayOf(PropTypes.object).isRequired,
-  uuid: PropTypes.string.isRequired,
+  programUUID: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   setSendRecord: PropTypes.func.isRequired,
   platform: PropTypes.string.isRequired,
