@@ -16,9 +16,9 @@ import { getConfig } from '@edx/frontend-platform';
 import { getProgramRecordUrl, getProgramRecordCsv } from './data/service';
 
 function ProgramRecordActions({
-  showSendRecordButton, isPublic, toggleSendRecordModal, renderBackButton, username, programUUID,
+  showSendRecordButton, isPublic, toggleSendRecordModal, renderBackButton, username, programUUID, sharedRecordUUID,
 }) {
-  const [programRecordUrl, setProgramRecordUrl] = useState('');
+  const [programRecordUrl, setProgramRecordUrl] = useState(sharedRecordUUID && `${getConfig().BASE_URL}/shared/${sharedRecordUUID}`);
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
   const [showDownloadToast, setShowDownloadToast] = useState(false);
   const [downloadRecord, setDownloadRecord] = useState('default');
@@ -72,29 +72,34 @@ function ProgramRecordActions({
     }
   }, [downloadRecord]);
 
-  const handleProgramUrlCopy = () => {
-    if (programRecordUrl) {
-      navigator.clipboard.writeText(programRecordUrl);
-    } else {
-      getProgramRecordUrl(programUUID, username)
-        .then(({ data }) => {
-          setProgramRecordUrl(data.url);
-          navigator.clipboard.writeText(data.url);
-        })
-        .catch((error) => {
-          logError(error);
-          throw new Error(error);
-        });
-    }
+  const handleCopyEvent = () => {
     sendTrackEvent('edx.bi.credentials.program_record.share_url_copied', {
       category: 'records',
       'program-uuid': programUUID,
     });
+    setShowCopyTooltip(true);
   };
 
-  const handleCopyButtonClick = () => {
-    handleProgramUrlCopy();
-    setShowCopyTooltip(true);
+  const handleProgramUrlCopy = () => {
+    navigator.clipboard.writeText(programRecordUrl);
+    handleCopyEvent();
+  };
+
+  const handleProgramUrlCreate = () => {
+    getProgramRecordUrl(programUUID, username)
+      .then(({ data }) => {
+        setProgramRecordUrl(data.url);
+        navigator.clipboard.writeText(data.url);
+        sendTrackEvent('edx.bi.credentials.program_record.share_started', {
+          category: 'records',
+          'program-uuid': programUUID,
+        });
+      })
+      .catch((error) => {
+        logError(error);
+        throw new Error(error);
+      });
+    handleCopyEvent();
   };
 
   const handleDownloadRecord = () => {
@@ -147,18 +152,33 @@ function ProgramRecordActions({
                 </Tooltip>
                 )}
             >
-              <Button
-                variant="outline-primary"
-                iconBefore={ContentCopy}
-                className="copy-record-button"
-                onClick={handleCopyButtonClick}
-              >
-                <FormattedMessage
-                  id="copy.program.record.link"
-                  defaultMessage="Copy program record link"
-                  description="Button text for copying a link to the program record"
-                />
-              </Button>
+              {programRecordUrl ? (
+                <Button
+                  variant="outline-primary"
+                  iconBefore={ContentCopy}
+                  className="copy-record-button"
+                  onClick={handleProgramUrlCopy}
+                >
+                  <FormattedMessage
+                    id="copy.program.record.link"
+                    defaultMessage="Copy program record link"
+                    description="Button text for copying a link to the program record"
+                  />
+                </Button>
+              ) : (
+                <Button
+                  variant="outline-primary"
+                  iconBefore={ContentCopy}
+                  className="copy-record-button"
+                  onClick={handleProgramUrlCreate}
+                >
+                  <FormattedMessage
+                    id="create.program.record.link"
+                    defaultMessage="Create program record link"
+                    description="Button text for creating a link to the program record"
+                  />
+                </Button>
+              )}
             </OverlayTrigger>
             <OverlayTrigger
               trigger="click"
@@ -191,7 +211,7 @@ function ProgramRecordActions({
                   <Popover.Content>
                     <FormattedMessage
                       id="share.program.record.popover.content"
-                      defaultMessage="Share this record with universities and employers and showcase your progress! Copy and paste the link below to give people access to your record."
+                      defaultMessage="Share this record with universities and employers and showcase your progress! Create a public program record link to give people access to your record."
                       description="Content describing the process of sharing program records to organizations and employers"
                     />
                   </Popover.Content>
@@ -248,6 +268,7 @@ ProgramRecordActions.propTypes = {
   renderBackButton: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   programUUID: PropTypes.string.isRequired,
+  sharedRecordUUID: PropTypes.string.isRequired,
 };
 
 export default ProgramRecordActions;
