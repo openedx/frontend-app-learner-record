@@ -60,6 +60,7 @@ export default Factory.define('program_record_details')
         pathway_type: 'credit',
       },
     ],
+    shared_program_record_uuid: '',
   })
   .attr('is_public', 'false')
   .attr('uuid', '82d38639ccc340db8be5f0f259500dde')

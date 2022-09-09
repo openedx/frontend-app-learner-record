@@ -66,7 +66,7 @@ describe('program-record', () => {
         .reply(200, programRecordUrlFactory.build());
       render(<ProgramRecord isPublic={false} />);
     });
-    expect(screen.queryByRole('button', { name: 'Send program record ' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Send program record' })).toBeNull();
   });
 
   it('renders alert on successful request with no data', async () => {

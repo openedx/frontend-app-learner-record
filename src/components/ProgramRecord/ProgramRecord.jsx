@@ -102,6 +102,7 @@ function ProgramRecord({ isPublic }) {
         renderBackButton={renderBackButton}
         username={recordDetails.record.learner.username}
         programUUID={programUUID}
+        sharedRecordUUID={recordDetails.record.shared_program_record_uuid}
       />
       {sendRecord.sendRecordSuccessOrgs && sendRecord.sendRecordSuccessOrgs.map(org => (
         <ProgramRecordAlert
