@@ -12,24 +12,27 @@ This is the Learner Record micro-frontend, currently under development by `edX <
 
 The Learner Record provides information about the enrolled programs for a user.
 
-Installation
-------------
+Local Development
+-----------------
 
 1. Clone the repository `this repository <https://github.com/edx/frontend-app-learner-record.git>`_
 
 2. Enter the directory
 
-   .. code-block::
+    .. code-block::
+
       cd frontend-app-learner-record
 
-3. Install dependencies
+3. Clean Install dependencies
 
     .. code-block::
-      npm install
+
+      npm ci
 
 4. Start the Learner Record MFE
 
     .. code-block::
+
       npm start
 
 The page is currently hosted on http://localhost:1990/
@@ -38,7 +41,19 @@ The page is currently hosted on http://localhost:1990/
 Environment Variables/Setup Notes
 ---------------------------------
 
-This MFE will use a REST API from the Credentials IDA located at credentials/apps/records/rest_api
+Currently, this MFE is not intergrated into the devstack, and must be run locally. This MFE requires credentials to be running, and will use a REST API from the Credentials IDA located at `credentials/apps/records/rest_api`.
+
+Credentials uses 2 enviroment variables to link to this MFE:
+
+* ``USE_LEARNER_RECORD_MFE`` -- Toggles the navigation in credentials to redirect to this MFE
+* ``LEARNER_RECORD_MFE_RECORDS_PAGE_URL`` -- The URL for the base URL of this MFE
+
+More details for these flags can be found in the base configuration of credentials: ``credentials/settings/base``
+This MFE has 2 flags of its own:
+
+* ``SUPPORT_URL_LEARNER_RECORDS`` -- A link to a help/support center for learners who run into problems whilst trying to share their records
+* ``USE_LR_MFE`` -- A toggle that when on, uses the MFE to host shared records instead of the the old UI inside of credentials
+
 
 Project Structure
 -----------------
