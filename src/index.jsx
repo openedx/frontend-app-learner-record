@@ -9,6 +9,7 @@ import {
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
 import Header, { messages as headerMessages } from '@edx/frontend-component-header';
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
+import Head from './components/head/Head';
 
 import appMessages from './i18n';
 import './index.scss';
@@ -18,6 +19,7 @@ import ProgramRecord from './components/ProgramRecord';
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider>
+      <Head />
       <Header />
       {getConfig().USE_LR_MFE ? (
         <Router>
