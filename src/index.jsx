@@ -14,10 +14,12 @@ import appMessages from './i18n';
 import './index.scss';
 import ProgramRecordsList from './components/ProgramRecordsList';
 import ProgramRecord from './components/ProgramRecord';
+import Head from './components/head/Head';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider>
+      <Head />
       <Header />
       {getConfig().USE_LR_MFE ? (
         <Router>
