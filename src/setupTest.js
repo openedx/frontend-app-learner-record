@@ -8,11 +8,7 @@ import { configure as configureI18n, IntlProvider } from '@edx/frontend-platform
 import { configure as configureLogging, MockLoggingService } from '@edx/frontend-platform/logging';
 import { getConfig, mergeConfig } from '@edx/frontend-platform';
 import { configure as configureAuth, MockAuthService } from '@edx/frontend-platform/auth';
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import appMessages from './i18n';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

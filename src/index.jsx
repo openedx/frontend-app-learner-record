@@ -14,7 +14,7 @@ import appMessages from './i18n';
 import './index.scss';
 import ProgramRecordsList from './components/ProgramRecordsList';
 import ProgramRecord from './components/ProgramRecord';
-import Head from './components/head/Head';
+import Head from './components/Head';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
