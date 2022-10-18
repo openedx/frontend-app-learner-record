@@ -18,7 +18,7 @@ import { getProgramRecordUrl, getProgramRecordCsv } from './data/service';
 function ProgramRecordActions({
   showSendRecordButton, isPublic, toggleSendRecordModal, renderBackButton, username, programUUID, sharedRecordUUID,
 }) {
-  const [programRecordUrl, setProgramRecordUrl] = useState(sharedRecordUUID && `${getConfig().BASE_URL}/shared/${sharedRecordUUID}`);
+  const [programRecordUrl, setProgramRecordUrl] = useState(sharedRecordUUID && `${getConfig().CREDENTIALS_BASE_URL}/records/programs/shared/${sharedRecordUUID}`);
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
   const [showDownloadToast, setShowDownloadToast] = useState(false);
   const [downloadRecord, setDownloadRecord] = useState('default');
