@@ -1,42 +1,69 @@
+frontend-app-learner-record
+#############################
+
+
 |Build Status| |Codecov| |license|
 
-frontend-app-learner-record
-=================================
+Purpose
+*******
 
-Please tag **@edx/aperture-eng** on any PRs or issues.  Thanks.
-
-Introduction
-------------
+The Learner Record provides information about the enrolled programs for a user. 
+It contains views for a learners current status in a program, their current grade, and the ability to share any earned credentials either publically or with institutions.
 
 This is the Learner Record micro-frontend, currently under development by `edX <https://www.edx.org>`_.
 
-The Learner Record provides information about the enrolled programs for a user.
+Getting Started
+***************
 
-Local Development
------------------
+Developing
+==========
 
-1. Clone the repository `this repository <https://github.com/edx/frontend-app-learner-record.git>`_
+One Time Setup
+--------------
+.. code-block::
 
-2. Enter the directory
+  # Clone the repository 
+  git clone https://github.com/edx/frontend-app-learner-record.git
 
-    .. code-block::
+  # Enter the directory
+    cd frontend-app-learner-record
 
-      cd frontend-app-learner-record
+  # Clean Install dependencies
+    npm ci
 
-3. Clean Install dependencies
+  # Start the Learner Record MFE
+    npm start
 
-    .. code-block::
+The page will then be hosted on http://localhost:1990/
 
-      npm ci
+Every time you develop something in this repo
+---------------------------------------------
+.. code-block::
 
-4. Start the Learner Record MFE
+  # Grab the latest code
+    git fetch
+    git pull
 
-    .. code-block::
+  # Make a new branch for your changes
+    git checkout -b <your_github_username>/<short_description>
 
-      npm start
+  # Clean install/update the dev requirements
+    npm ci
 
-The page is currently hosted on http://localhost:1990/
+  # Start the Learner Record MFE
+    npm start
+  
+  # Using your favorite editor, edit the code to make your change.
+    vim ...
 
+  # Run the tests after making changes (to verify the status before you make any changes)
+    npm test
+
+  # Commit all your changes
+    git commit ...
+    git push
+
+  # Open a PR and ask for review after the github CI has passed.
 
 Environment Variables/Setup Notes
 ---------------------------------
@@ -54,23 +81,103 @@ This MFE has 2 flags of its own:
 * ``SUPPORT_URL_LEARNER_RECORDS`` -- A link to a help/support center for learners who run into problems whilst trying to share their records
 * ``USE_LR_MFE`` -- A toggle that when on, uses the MFE to host shared records instead of the the old UI inside of credentials
 
-
 Project Structure
 -----------------
 
 The source for this project is organized into nested submodules according to the ADR `Feature-based Application Organization <https://github.com/edx/frontend-template-application/blob/master/docs/decisions/0002-feature-based-application-organization.rst>`_.
 
-Build Process Notes
--------------------
+Deploying
+=========
 
 **Production Build**
 
 The production build is created with ``npm run build``.
 
-Internationalization
---------------------
+General deployment information can be found in the `Microfrontend onboarding`_ documentation, along with other MFE implementation details.
 
-Please see `edx/frontend-platform's i18n module <https://edx.github.io/frontend-platform/module-Internationalization.html>`_ for documentation on internationalization.  The documentation explains how to use it, and the `How To <https://github.com/edx/frontend-i18n/blob/master/docs/how_tos/i18n.rst>`_ has more detail.
+.. _Microfrontend onboarding: https://openedx.atlassian.net/wiki/spaces/FEDX/pages/2629829454/Micro+Frontend+MFE+Onboarding#Deployment
+
+
+Getting Help
+************
+
+Documentation
+=============
+
+PLACEHOLDER: Start by going through `the documentation`_.  If you need more help see below.
+
+.. _the documentation: https://docs.openedx.org/projects/learner_records
+
+(TODO: `Set up documentation <https://openedx.atlassian.net/wiki/spaces/DOC/pages/21627535/Publish+Documentation+on+Read+the+Docs>`_)
+
+More Help
+=========
+
+If you're having trouble, we have discussion forums at
+https://discuss.openedx.org where you can connect with others in the
+community.
+
+Our real-time conversations are on Slack. You can request a `Slack
+invitation`_, then join our `community Slack workspace`_.
+
+For anything non-trivial, the best path is to open an issue in this
+repository with as many details about the issue you are facing as you
+can provide.
+
+https://github.com/openedx/frontend-app-learner-record/issues
+
+For more information about these options, see the `Getting Help`_ page.
+
+.. _Slack invitation: https://openedx.org/slack
+.. _community Slack workspace: https://openedx.slack.com/
+.. _Getting Help: https://openedx.org/getting-help
+
+License
+*******
+
+The code in this repository is licensed under the `GNU AFFERO GENERAL PUBLIC LICENSE` unless
+otherwise noted.
+
+Please see `LICENSE.txt <LICENSE.txt>`_ for details.
+
+Contributing
+************
+
+Contributions are very welcome.
+Please read `How To Contribute <https://openedx.org/r/how-to-contribute>`_ for details.
+
+This project is currently accepting all types of contributions, bug fixes,
+security fixes, maintenance work, or new features.  However, please make sure
+to have a discussion about your new feature idea with the maintainers prior to
+beginning development to maximize the chances of your change being accepted.
+You can start a conversation by creating a new issue on this repo summarizing
+your idea.
+
+Development Roadmap
+-------------------
+
+Learner Record MFE Epic: `https://openedx.atlassian.net/browse/MICROBA-1296`_
+
+The Open edX Code of Conduct
+****************************
+
+All community members are expected to follow the `Open edX Code of Conduct`_.
+
+.. _Open edX Code of Conduct: https://openedx.org/code-of-conduct/
+
+People
+******
+
+The assigned maintainers for this component and other project details may be
+found in `Backstage`_. Backstage pulls this data from the ``catalog-info.yaml``
+file in this repo.
+
+.. _Backstage: https://open-edx-backstage.herokuapp.com/catalog/default/component/frontend-app-learner-record
+
+Reporting Security Issues
+*************************
+
+Please do not report security issues in public. Please email security@tcril.org.
 
 .. |Build Status| image:: https://api.travis-ci.com/edx/frontend-app-learner-record.svg?branch=master
    :target: https://travis-ci.com/edx/frontend-app-learner-record
@@ -78,22 +185,3 @@ Please see `edx/frontend-platform's i18n module <https://edx.github.io/frontend-
    :target: https://codecov.io/gh/edx/frontend-app-learner-record
 .. |license| image:: https://img.shields.io/npm/l/@edx/frontend-app-learner-record.svg
    :target: @edx/frontend-app-learner-record
-
-Known Issues
-------------
-
-
-Development Roadmap
--------------------
-
-The following is a list of current short-term development targets, in (rough) descending order of priority:
-
-Learner Record MFE Epic: `https://openedx.atlassian.net/browse/MICROBA-1296`_
-
-* Set up automated deployment for MFE
-* Implement Learner Record MFE to mirror the currently existing Learner Record page
-* Add user masquerading
-* Update Profile MFE to redirect to new Learner Record MFE
-* Set up automated dependency updates
-
-==============================

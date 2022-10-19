@@ -1,0 +1,18 @@
+# This file records information about this repo. Its use is described in OEP-55:
+# https://open-edx-proposals.readthedocs.io/en/latest/processes/oep-0055-proc-project-maintainers.html
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'Learner Records'
+  description: 'The Microfrontend for the Credentials service. Contains views for the learner records and credentials sharing.'
+  links:
+    - url: 'https://github.com/openedx/frontend-app-learner-record/blob/master/README.rst'
+      title: 'Documentation'
+      icon: 'Article'
+spec:
+  type: 'service'
+  lifecycle: 'production'
+  owner: 2U-aperture
+# (Optional) An array of different components or resources.
+dependsOn:
+- 'Credentials'
