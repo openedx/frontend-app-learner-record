@@ -100,16 +100,6 @@ General deployment information can be found in the `Microfrontend onboarding`_ d
 
 Getting Help
 ************
-
-Documentation
-=============
-
-PLACEHOLDER: Start by going through `the documentation`_.  If you need more help see below.
-
-.. _the documentation: https://docs.openedx.org/projects/learner_records
-
-(TODO: `Set up documentation <https://openedx.atlassian.net/wiki/spaces/DOC/pages/21627535/Publish+Documentation+on+Read+the+Docs>`_)
-
 More Help
 =========
 
@@ -153,11 +143,6 @@ beginning development to maximize the chances of your change being accepted.
 You can start a conversation by creating a new issue on this repo summarizing
 your idea.
 
-Development Roadmap
--------------------
-
-Learner Record MFE Epic: `https://openedx.atlassian.net/browse/MICROBA-1296`_
-
 The Open edX Code of Conduct
 ****************************
 
@@ -172,7 +157,7 @@ The assigned maintainers for this component and other project details may be
 found in `Backstage`_. Backstage pulls this data from the ``catalog-info.yaml``
 file in this repo.
 
-.. _Backstage: https://open-edx-backstage.herokuapp.com/catalog/default/component/frontend-app-learner-record
+.. _Backstage: https://open-edx-backstage.herokuapp.com/catalog/default/component/{{ cookiecutter.repo_name }}
 
 Reporting Security Issues
 *************************
