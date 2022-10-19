@@ -169,4 +169,4 @@ Please do not report security issues in public. Please email security@tcril.org.
 .. |Codecov| image:: https://codecov.io/gh/edx/frontend-app-learner-record/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/edx/frontend-app-learner-record
 .. |license| image:: https://img.shields.io/npm/l/@edx/frontend-app-learner-record.svg
-   :target: @edx/frontend-app-learner-record
+   :target: https://github.com/openedx/frontend-app-learner-record/blob/master/LICENSE
