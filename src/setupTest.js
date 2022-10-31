@@ -50,14 +50,12 @@ export function initializeMockApp() {
 
 function render(ui, options) {
   // eslint-disable-next-line react/prop-types
-  function Wrapper({ children }) {
-    return (
-      // eslint-disable-next-line react/jsx-filename-extension
-      <IntlProvider locale="en">
-        <AppProvider>{children}</AppProvider>
-      </IntlProvider>
-    );
-  }
+  const Wrapper = ({ children }) => (
+    // eslint-disable-next-line react/jsx-filename-extension
+    <IntlProvider locale="en">
+      <AppProvider>{children}</AppProvider>
+    </IntlProvider>
+  );
   return rtlRender(ui, { wrapper: Wrapper, ...options });
 }
 

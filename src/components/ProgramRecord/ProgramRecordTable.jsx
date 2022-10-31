@@ -4,7 +4,7 @@ import { DataTable, Badge } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './messages';
 
-function ProgramRecordTable({ grades, intl }) {
+const ProgramRecordTable = ({ grades, intl }) => {
   const formatGradeData = (data) => (
     data.map(grade => ({
       ...grade,
@@ -77,7 +77,7 @@ function ProgramRecordTable({ grades, intl }) {
       <DataTable.EmptyTable content="No results found" />
     </DataTable>
   );
-}
+};
 
 ProgramRecordTable.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types

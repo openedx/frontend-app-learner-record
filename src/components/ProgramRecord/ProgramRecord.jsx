@@ -24,7 +24,7 @@ import SendLearnerRecordModal from '../ProgramRecordSendModal';
 
 import getProgramDetails from './data/service';
 
-function ProgramRecord({ isPublic }) {
+const ProgramRecord = ({ isPublic }) => {
   const [recordDetails, setRecordDetails] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasNoData, setHasNoData] = useState(false);
@@ -203,7 +203,7 @@ function ProgramRecord({ isPublic }) {
       {renderData()}
     </Container>
   );
-}
+};
 
 ProgramRecord.propTypes = {
   isPublic: PropTypes.bool.isRequired,

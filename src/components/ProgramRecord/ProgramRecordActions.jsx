@@ -15,9 +15,9 @@ import { logError } from '@edx/frontend-platform/logging';
 import { getConfig } from '@edx/frontend-platform';
 import { getProgramRecordUrl, getProgramRecordCsv } from './data/service';
 
-function ProgramRecordActions({
+const ProgramRecordActions = ({
   showSendRecordButton, isPublic, toggleSendRecordModal, renderBackButton, username, programUUID, sharedRecordUUID,
-}) {
+}) => {
   const [programRecordUrl, setProgramRecordUrl] = useState(sharedRecordUUID && `${getConfig().CREDENTIALS_BASE_URL}/records/programs/shared/${sharedRecordUUID}`);
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
   const [showDownloadToast, setShowDownloadToast] = useState(false);
@@ -259,7 +259,7 @@ function ProgramRecordActions({
       )}
     </div>
   );
-}
+};
 
 ProgramRecordActions.propTypes = {
   showSendRecordButton: PropTypes.bool.isRequired,

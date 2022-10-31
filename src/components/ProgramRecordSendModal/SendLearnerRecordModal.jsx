@@ -11,9 +11,9 @@ import { logError } from '@edx/frontend-platform/logging';
 
 import sendRecords from './data/service';
 
-function SendLearnerRecordModal({
+const SendLearnerRecordModal = ({
   isOpen, toggleSendRecordModal, creditPathways, programUUID, username, setSendRecord, platform, programType,
-}) {
+}) => {
   const [selectedPathways, setSelectedPathways] = useState([]);
 
   const handleSendRecords = async () => {
@@ -154,7 +154,7 @@ function SendLearnerRecordModal({
       </ModalDialog.Footer>
     </ModalDialog>
   );
-}
+};
 
 SendLearnerRecordModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,

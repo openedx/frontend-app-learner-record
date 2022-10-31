@@ -5,48 +5,47 @@ import { Badge } from '@edx/paragon';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 import messages from './messages';
 
-function ProgramRecordHeader({
+const ProgramRecordHeader = ({
   learner, program, platform, intl,
-}) {
-  return (
-    <header className="program-record-header">
-      <div className="program-headings">
-        <div className="program-title">
-          <p className="heading-label">
-            <FormattedMessage
-              id="program.record.type"
-              defaultMessage="{program_type} Program Record"
-              description="The type of program record"
-              values={{
-                program_type: program.type_name,
-              }}
-            />
-          </p>
-          <h1>
-            <FormattedMessage
-              id="program.record.name"
-              defaultMessage="{program_name} Record"
-              description="Name of the program"
-              values={{
-                program_name: program.name,
-              }}
-            />
-          </h1>
-        </div>
-        <h4>
+}) => (
+  <header className="program-record-header">
+    <div className="program-headings">
+      <div className="program-title">
+        <p className="heading-label">
           <FormattedMessage
-            id="platform.and.school.name"
-            defaultMessage="{platform} | {school}"
-            description="Name of the platform and school"
+            id="program.record.type"
+            defaultMessage="{program_type} Program Record"
+            description="The type of program record"
             values={{
-              platform,
-              school: program.school,
+              program_type: program.type_name,
             }}
           />
-        </h4>
+        </p>
+        <h1>
+          <FormattedMessage
+            id="program.record.name"
+            defaultMessage="{program_name} Record"
+            description="Name of the program"
+            values={{
+              program_name: program.name,
+            }}
+          />
+        </h1>
       </div>
-      <div className="program-status">
-        {
+      <h4>
+        <FormattedMessage
+          id="platform.and.school.name"
+          defaultMessage="{platform} | {school}"
+          description="Name of the platform and school"
+          values={{
+            platform,
+            school: program.school,
+          }}
+        />
+      </h4>
+    </div>
+    <div className="program-status">
+      {
         (program.completed
             && (
             <Badge variant="success">
@@ -65,39 +64,38 @@ function ProgramRecordHeader({
             </Badge>
             )
         }
-        <span className="updated">
-          <FormattedMessage
-            id="last.updated.date"
-            defaultMessage="Last Updated {date}"
-            description="Date recorded from the last updated to this record"
-            values={{
-              date: new Date(program.last_updated).toLocaleDateString(),
-            }}
-          />
-        </span>
-      </div>
-      <div className="learner-info my-3">
+      <span className="updated">
         <FormattedMessage
-          id="learner.username"
-          defaultMessage="{username}"
-          description="Username of the learner"
+          id="last.updated.date"
+          defaultMessage="Last Updated {date}"
+          description="Date recorded from the last updated to this record"
           values={{
-            username: learner.username,
+            date: new Date(program.last_updated).toLocaleDateString(),
           }}
         />
-        |
-        <FormattedMessage
-          id="learner.email"
-          defaultMessage="{email}"
-          description="Email of the learner"
-          values={{
-            email: learner.email,
-          }}
-        />
-      </div>
-    </header>
-  );
-}
+      </span>
+    </div>
+    <div className="learner-info my-3">
+      <FormattedMessage
+        id="learner.username"
+        defaultMessage="{username}"
+        description="Username of the learner"
+        values={{
+          username: learner.username,
+        }}
+      />
+      |
+      <FormattedMessage
+        id="learner.email"
+        defaultMessage="{email}"
+        description="Email of the learner"
+        values={{
+          email: learner.email,
+        }}
+      />
+    </div>
+  </header>
+);
 
 ProgramRecordHeader.propTypes = {
   learner: PropTypes.shape({
