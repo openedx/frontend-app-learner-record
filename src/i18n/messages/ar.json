@@ -4,7 +4,7 @@
   "partially.completed.status.badge": "Partially Completed",
   "link.back.to.records": "Back to My Records",
   "records.list.error": "An error occurred attempting to retrieve your program records. Please try again later.",
-  "page.notfound.message": "الصفحة التي تبحث عنها غير متوفرة أو هناك خطأ في نص الرابط. رجاءً تحقق من الرابط و حاول مجدّدًا.",
+  "page.notfound.message": "الصفحة التي تبحث عنها غير متوفرة أو هناك خطأ في العنوان. رجاءً تحقق من العنوان و حاول مجددًا.",
   "download.button.default": "Download program record",
   "download.button.pending": "Downloading program record",
   "download.button.complete": "Download complete",
