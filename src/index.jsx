@@ -7,6 +7,7 @@ import {
   APP_INIT_ERROR, APP_READY, subscribe, initialize, mergeConfig, getConfig,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
+import { HelmetProvider } from 'react-helmet-async';
 import Header, { messages as headerMessages } from '@edx/frontend-component-header';
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
 
@@ -19,37 +20,39 @@ import Head from './components/Head';
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider>
-      <Head />
-      <Header />
-      {getConfig().USE_LR_MFE ? (
-        <Router>
-          <Switch>
-            <Route
-              exact
-              path="/"
-            >
-              <ProgramRecordsList />
-            </Route>
-            <Route
-              path="/shared/:programUUID"
-            >
-              <ProgramRecord
-                isPublic
-              />
-            </Route>
-            <Route
-              path="/:programUUID"
-            >
-              <ProgramRecord
-                isPublic={false}
-              />
-            </Route>
-          </Switch>
-        </Router>
-      ) : (
-        <ProgramRecordsList />
-      )}
-      <Footer />
+      <HelmetProvider>
+        <Head />
+        <Header />
+        {getConfig().USE_LR_MFE ? (
+          <Router>
+            <Switch>
+              <Route
+                exact
+                path="/"
+              >
+                <ProgramRecordsList />
+              </Route>
+              <Route
+                path="/shared/:programUUID"
+              >
+                <ProgramRecord
+                  isPublic
+                />
+              </Route>
+              <Route
+                path="/:programUUID"
+              >
+                <ProgramRecord
+                  isPublic={false}
+                />
+              </Route>
+            </Switch>
+          </Router>
+        ) : (
+          <ProgramRecordsList />
+        )}
+        <Footer />
+      </HelmetProvider>
     </AppProvider>,
     document.getElementById('root'),
   );
