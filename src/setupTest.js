@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render as rtlRender } from '@testing-library/react';
 import AppProvider from '@edx/frontend-platform/react/AppProvider';
+import { HelmetProvider } from 'react-helmet-async';
 import { configure as configureI18n, IntlProvider } from '@edx/frontend-platform/i18n';
 import { configure as configureLogging, MockLoggingService } from '@edx/frontend-platform/logging';
 import { getConfig, mergeConfig } from '@edx/frontend-platform';
@@ -53,7 +54,7 @@ function render(ui, options) {
   const Wrapper = ({ children }) => (
     // eslint-disable-next-line react/jsx-filename-extension
     <IntlProvider locale="en">
-      <AppProvider>{children}</AppProvider>
+      <AppProvider><HelmetProvider>{children}</HelmetProvider></AppProvider>
     </IntlProvider>
   );
   return rtlRender(ui, { wrapper: Wrapper, ...options });
