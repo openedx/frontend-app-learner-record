@@ -22,8 +22,8 @@ One Time Setup
 --------------
 .. code-block::
 
-  # Clone the repository 
-  git clone https://github.com/edx/frontend-app-learner-record.git
+  # Clone the repository via SSH
+  git clone git@github.com:openedx/frontend-app-learner-record.git
 
   # Enter the directory
     cd frontend-app-learner-record
