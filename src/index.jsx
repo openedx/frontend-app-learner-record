@@ -10,7 +10,7 @@ import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
 import { HelmetProvider } from 'react-helmet-async';
 import Header, { messages as headerMessages } from '@edx/frontend-component-header';
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
-
+import { messages as paragonMessages } from '@edx/paragon';
 import appMessages from './i18n';
 import './index.scss';
 import ProgramRecordsList from './components/ProgramRecordsList';
@@ -75,5 +75,6 @@ initialize({
     appMessages,
     headerMessages,
     footerMessages,
+    paragonMessages,
   ],
 });
