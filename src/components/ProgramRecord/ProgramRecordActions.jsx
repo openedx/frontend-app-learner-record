@@ -18,7 +18,7 @@ import { getProgramRecordUrl, getProgramRecordCsv } from './data/service';
 function ProgramRecordActions({
   showSendRecordButton, isPublic, toggleSendRecordModal, renderBackButton, username, programUUID, sharedRecordUUID,
 }) {
-  const [programRecordUrl, setProgramRecordUrl] = useState(sharedRecordUUID && `${getConfig().BASE_URL}/shared/${sharedRecordUUID}`);
+  const [programRecordUrl, setProgramRecordUrl] = useState(sharedRecordUUID && `${getConfig().CREDENTIALS_BASE_URL}/records/programs/shared/${sharedRecordUUID}`);
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
   const [showDownloadToast, setShowDownloadToast] = useState(false);
   const [downloadRecord, setDownloadRecord] = useState('default');
@@ -197,7 +197,7 @@ function ProgramRecordActions({
                   <Popover.Content>
                     <FormattedMessage
                       id="send.program.record.popover.content"
-                      defaultMessage="Pursue deeper learner and send your record to universities that accept this program for credit. You can send your record to multiple universities at once. Once sent, the records cannot be unsent."
+                      defaultMessage="Pursue deeper learning. Send your record to universities that accept this program for credit. You can send your record to multiple universities at once. Once sent, the records cannot be unsent."
                       description="Content describing the process of sending program records to organizations"
                     />
                   </Popover.Content>
@@ -211,7 +211,7 @@ function ProgramRecordActions({
                   <Popover.Content>
                     <FormattedMessage
                       id="share.program.record.popover.content"
-                      defaultMessage="Share this record with universities and employers and showcase your progress! Create a public program record link to give people access to your record."
+                      defaultMessage="Showcase your progress! Share this record publicly with universities and employers. Create a 'public program record link' to give people access to your record."
                       description="Content describing the process of sharing program records to organizations and employers"
                     />
                   </Popover.Content>
