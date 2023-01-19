@@ -19,7 +19,7 @@ async function getProgramDetails(programUUID, isPublic) {
 export async function getProgramRecordUrl(programUUID, username) {
   const url = `${getConfig().CREDENTIALS_BASE_URL}/records/programs/${programUUID}/share`;
   try {
-    const response = await getAuthenticatedHttpClient().post(url, { username, withCredentials: true });
+    const response = await getAuthenticatedHttpClient().post(url, { username }, { withCredentials: true });
     return response;
   } catch (error) {
     throw new Error(error);
