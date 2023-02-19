@@ -1,4 +1,5 @@
 {
+  "PageTitle": "Mis registros de alumno | {siteName}",
   "earned.status.badge": "Realizado",
   "not.earned.status.badge": "No aprobado",
   "partially.completed.status.badge": "Parcialmente Completado",
@@ -13,9 +14,9 @@
   "copy.program.record.link": "Copiar enlace de registro de programa",
   "create.program.record.link": "Crear enlace de registro de programa",
   "send.program.record.popover.heading": "Envío de su registro de programa",
-  "send.program.record.popover.content": "Busque un aprendizaje más profundo y envíe su registro a universidades que acepten este programa para obtener créditos. Puede enviar su registro a varias universidades a la vez. Una vez enviados, los registros no se pueden cancelar.",
+  "send.program.record.popover.content": "Persigue un aprendizaje más profundo. Envíe su registro a universidades que acepten este programa para crédito. Puede enviar su registro a varias universidades a la vez. Una vez enviados, los registros no se pueden cancelar.",
   "share.program.record.popover.heading": "Compartir su registro de programa",
-  "share.program.record.popover.content": "¡Comparta este registro con universidades y empleadores y muestre su progreso! Cree un enlace de registro de programa público para que las personas accedan a su registro.",
+  "share.program.record.popover.content": "¡Muestra el progreso! Comparta este registro públicamente con universidades y empleadores. Cree un \"enlace de registro de programa público\"; para que las personas accedan a su registro.",
   "download.program.record": "Descargar registro del programa",
   "successful.record.download.toast.message": "Registro de programa descargado con éxito",
   "program.record.type": "{program_type} Registro del programa",
