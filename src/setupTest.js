@@ -11,6 +11,11 @@ import { getConfig, mergeConfig } from '@edx/frontend-platform';
 import { configure as configureAuth, MockAuthService } from '@edx/frontend-platform/auth';
 import appMessages from './i18n';
 
+jest.mock('@edx/frontend-platform/react/hooks', () => ({
+  ...jest.requireActual('@edx/frontend-platform/react/hooks'),
+  useTrackColorSchemeChoice: jest.fn(),
+}));
+
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: jest.fn().mockImplementation((query) => ({

@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import {
   APP_INIT_ERROR, APP_READY, subscribe, initialize, mergeConfig, getConfig,
 } from '@edx/frontend-platform';
@@ -25,30 +25,20 @@ subscribe(APP_READY, () => {
         <Head />
         <Header />
         {getConfig().USE_LR_MFE ? (
-          <Router>
-            <Switch>
-              <Route
-                exact
-                path="/"
-              >
-                <ProgramRecordsList />
-              </Route>
-              <Route
-                path="/shared/:programUUID"
-              >
-                <ProgramRecord
-                  isPublic
-                />
-              </Route>
-              <Route
-                path="/:programUUID"
-              >
-                <ProgramRecord
-                  isPublic={false}
-                />
-              </Route>
-            </Switch>
-          </Router>
+          <Routes>
+            <Route
+              path="/"
+              element={<ProgramRecordsList />}
+            />
+            <Route
+              path="/shared/:programUUID"
+              element={<ProgramRecord isPublic />}
+            />
+            <Route
+              path="/:programUUID"
+              element={<ProgramRecord isPublic={false} />}
+            />
+          </Routes>
         ) : (
           <ProgramRecordsList />
         )}
