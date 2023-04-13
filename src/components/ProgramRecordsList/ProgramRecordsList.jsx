@@ -10,6 +10,8 @@ import { getConfig } from '@edx/frontend-platform/config';
 import { logError } from '@edx/frontend-platform/logging';
 import _ from 'lodash';
 
+import NavigationBar from '../NavigationBar/NavigationBar';
+
 import getProgramRecords from './data/service';
 
 function ProgramRecordsList() {
@@ -70,7 +72,7 @@ function ProgramRecordsList() {
   );
 
   const renderEmpty = () => (
-    <p className="pl-3 pr-3">
+    <p className="pl-3 pr-3 text-gray-500">
       <FormattedMessage
         id="records.list.empty"
         defaultMessage="No records yet. Program records are created once you have earned at least one course
@@ -172,8 +174,9 @@ function ProgramRecordsList() {
   );
 
   return (
-    <main id="main-content" className="pt-5 pb-5 pl-4 pr-4 " tabIndex="-1">
+    <main id="main-content" className="pt-5 pb-5 pl-4 pr-4" tabIndex="-1">
       {renderProfile()}
+      <NavigationBar />
       <h1 className="h3 pl-3 pr-3 mb-4">
         <FormattedMessage
           id="records.header"
