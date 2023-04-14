@@ -59,7 +59,7 @@
     "regenerator-runtime": "0.13.9"
   },
   "devDependencies": {
-    "@edx/browserslist-config": "1.1.0",
+    "@edx/browserslist-config": "^1.2.0",
     "@edx/frontend-build": "^12.7.0",
     "@edx/reactifex": "1.0.3",
     "@testing-library/jest-dom": "5.16.5",
