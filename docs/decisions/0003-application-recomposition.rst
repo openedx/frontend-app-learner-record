@@ -137,7 +137,7 @@ Services (API)
 .. note::
     This item continues the State Management point.
 
-At this point, micro-frontend has a pretty few interactions (data fetches) with a single backend API. We use ``getAuthenticatedHttpClient`` on a low level (e.g. directly, each time configured). We than manually manage API request results (e.g. error checking, loading states, etc.).
+At this point, the micro-frontend has a few interactions (data fetches) with a single backend API. We use ``getAuthenticatedHttpClient`` on a low level (e.g. directly, each time it's configured), and then handle the API request results (e.g. error checking, loading states, etc.).
 
 `RTK Query`_ has a bunch of convenient tools that make everything more comprehensive - `eliminating the need to hand-write data fetching & caching logic yourself`.
 
