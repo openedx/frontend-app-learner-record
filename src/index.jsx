@@ -8,11 +8,10 @@ import {
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
 import { HelmetProvider } from 'react-helmet-async';
-import Header, { messages as headerMessages } from '@edx/frontend-component-header';
-import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
-import { messages as paragonMessages } from '@edx/paragon';
+import Header from '@edx/frontend-component-header';
+import Footer from '@edx/frontend-component-footer';
 
-import appMessages from './i18n';
+import messages from './i18n';
 import './index.scss';
 import ProgramRecordsList from './components/ProgramRecordsList';
 import ProgramRecord from './components/ProgramRecord';
@@ -72,10 +71,5 @@ initialize({
       }, 'LearnerRecordConfig');
     },
   },
-  messages: [
-    appMessages,
-    headerMessages,
-    footerMessages,
-    paragonMessages,
-  ],
+  messages,
 });
