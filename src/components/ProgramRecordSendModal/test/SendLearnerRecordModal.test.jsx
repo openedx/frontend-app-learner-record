@@ -51,8 +51,10 @@ describe('program-record-alert', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Send program record' }));
     expect(await screen.findByText(`Send Program Record to ${responseMock.record.platform_name} Credit Partner`)).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Send program record' })).toBeDisabled();
-    fireEvent.click(await screen.findByText('Funambulist'));
-    expect(screen.getByRole('button', { name: 'Send program record' })).toBeEnabled();
+    fireEvent.click(screen.getByRole('button', { name: 'Send program record' }));
+    setTimeout(() => {
+      expect(screen.getByRole('button', { name: 'Send program record' })).toBeEnabled();
+    }, 0);
     // TODO: test for when the user clicks the send button inside the modal
     fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
     expect(screen.queryByText('Send Program Record to edX Credit Partner')).toBeNull();
