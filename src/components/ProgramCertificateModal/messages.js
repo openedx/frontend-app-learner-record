@@ -76,6 +76,11 @@ const messages = defineMessages({
     defaultMessage: 'QR code to obtain the verifiable credential',
     description: 'The label for verifiable credential QR code',
   },
+  certificateModalCopyLinkLabel: {
+    id: 'credentials.modal.copyLink.label',
+    defaultMessage: 'Copy link',
+    description: 'Label for copy link from QR code',
+  },
   credentialsModalError: {
     id: 'credentials.modal.error',
     defaultMessage:

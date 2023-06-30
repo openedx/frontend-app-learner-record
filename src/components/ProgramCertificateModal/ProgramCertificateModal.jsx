@@ -5,7 +5,7 @@ import { BrowserView, MobileView, isBrowser } from 'react-device-detect';
 import {
   ActionRow, Button, Row, StandardModal,
 } from '@edx/paragon';
-import { Info } from '@edx/paragon/icons';
+import { Info, ContentCopy } from '@edx/paragon/icons';
 
 import messages from './messages';
 import appStoreImg from '../../assets/images/appStore.png';
@@ -17,8 +17,8 @@ function ProgramCertificateModal({
   const {
     deeplink,
     qrcode,
-    app_link_android: appLinkAndroid,
-    app_link_ios: appLinkIos,
+    app_link_android: googlePlayAppLink,
+    app_link_ios: appleStoreAppLink,
     error,
   } = data;
 
@@ -30,6 +30,10 @@ function ProgramCertificateModal({
       </StandardModal>
     );
   }
+
+  const handleCopyClick = () => {
+    navigator.clipboard.writeText(deeplink);
+  };
 
   return (
     <StandardModal
@@ -62,6 +66,14 @@ function ProgramCertificateModal({
                   alt={intl.formatMessage(messages.certificateModalQrCodeLabel)}
                 />
               </div>
+              <button
+                className="justify-content-center align-items-center mt-2 copy-link"
+                onClick={handleCopyClick}
+                type="button"
+              >
+                <ContentCopy />
+                {intl.formatMessage(messages.certificateModalCopyLinkLabel)}
+              </button>
             </div>
             <div className="col-12 col-md-8">
               <h4>
@@ -88,6 +100,14 @@ function ProgramCertificateModal({
                     messages.certificateModalInstructionStep4,
                   )}
                 </li>
+                <div className="d-flex justify-content-between buttons-wrapper">
+                  <a href={googlePlayAppLink}>
+                    <img src={googlePlayImg} alt="Google Play" />
+                  </a>
+                  <a href={appleStoreAppLink}>
+                    <img src={appStoreImg} alt="Apple App Store" />
+                  </a>
+                </div>
               </ol>
             </div>
           </Row>
@@ -95,36 +115,28 @@ function ProgramCertificateModal({
         <MobileView>
           <p>{intl.formatMessage(messages.certificateModalMobileTitle)}</p>
           <Button
-            href={appLinkIos}
+            href={appleStoreAppLink}
             target="_blank"
             size="lg"
-            className="mb-2 bg-gray-900 p-2"
+            className="mb-3 mobile-button"
             block
             aria-label={intl.formatMessage(
               messages.certificateModalAppStoreBtn,
             )}
           >
-            <img
-              src={appStoreImg}
-              style={{ maxHeight: '2rem' }}
-              alt="App Store"
-            />
+            <img src={appStoreImg} alt="Apple App Store" />
           </Button>
           <Button
-            href={appLinkAndroid}
+            href={googlePlayAppLink}
             target="_blank"
             size="lg"
-            className="mb-3 bg-gray-900 p-2"
+            className="mb-3 mobile-button"
             block
             aria-label={intl.formatMessage(
               messages.certificateModalGooglePlayBtn,
             )}
           >
-            <img
-              src={googlePlayImg}
-              style={{ maxHeight: '2rem' }}
-              alt="Google Play"
-            />
+            <img src={googlePlayImg} alt="Google Play" />
           </Button>
           <p />
           <ol>

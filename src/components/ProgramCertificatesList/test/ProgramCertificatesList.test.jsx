@@ -21,7 +21,7 @@ describe('program-certificates-list', () => {
 
   it('renders the Program Certificates List', () => {
     render(<ProgramCertificatesList />);
-    
+
     expect(screen.getByText('Verifiable Credentials')).toBeTruthy();
     expect(screen.getByText('Back to My Profile')).toBeTruthy();
     expect(screen.getByText('Questions about Verifiable Credentials?')).toBeTruthy();

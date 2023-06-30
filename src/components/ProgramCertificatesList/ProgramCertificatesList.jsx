@@ -30,7 +30,7 @@ function ProgramCertificatesList({ intl }) {
   const [modalIsOpen, openModal, closeModal] = useToggle(false);
 
   const [
-    verfifiableCredentialIssuanceData,
+    verifiableCredentialIssuanceData,
     setVerifiableCredentialIssuanceData,
   ] = useState({});
 
@@ -171,7 +171,7 @@ function ProgramCertificatesList({ intl }) {
       <ProgramCertificateModal
         isOpen={modalIsOpen}
         close={closeModal}
-        data={verfifiableCredentialIssuanceData}
+        data={verifiableCredentialIssuanceData}
       />
     </main>
   );
