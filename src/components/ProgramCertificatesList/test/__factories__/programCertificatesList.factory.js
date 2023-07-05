@@ -1,7 +1,8 @@
 import { Factory } from 'rosie'; // eslint-disable-line import/no-extraneous-dependencies
 
-export const getProgramCredentialsFactory = Factory.define('program_credentials')
-  .attr('program_credentials', [
+export const getProgramCredentialsFactory = Factory.define('program_credentials').attr(
+  'program_credentials',
+  [
     {
       uuid: '12345',
       status: 'awarded',
@@ -20,11 +21,12 @@ export const getProgramCredentialsFactory = Factory.define('program_credentials'
       download_url: null,
       credential_id: 1,
       program_uuid: '09876',
-      program_title: 'Programm title 2',
+      program_title: 'Program title 2',
       program_org: '',
       modified_date: '2023-02-02',
     },
-  ]);
+  ],
+);
 
 export const getAvailableStoragesFactory = Factory.define('storages')
   .attrs({

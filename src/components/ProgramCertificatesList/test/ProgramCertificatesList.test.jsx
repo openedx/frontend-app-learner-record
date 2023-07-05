@@ -67,6 +67,10 @@ describe('program-certificates-data', () => {
         .reply(200, []);
       render(<ProgramCertificatesList />);
     });
-    expect(await screen.findByText('No certificate available. Finish you first program to get a certificate.')).toBeTruthy();
+    expect(
+      await screen.findByText(
+        'No certificate available. Finish your first program to get a certificate.',
+      ),
+    ).toBeTruthy();
   });
 });
