@@ -52,8 +52,8 @@ describe('program-certificates-data', () => {
     expect(await screen.findByText('Verifiable Credentials')).toBeTruthy();
     expect(await screen.findByText('A certificate for a program will appear in the list once you '
       + 'have earned all course certificates in a program.')).toBeTruthy();
-    expect(await screen.findByText('Programm title 1')).toBeTruthy();
-    expect(await screen.findByText('Programm org 1')).toBeTruthy();
+    expect(await screen.findByText("Program title 1")).toBeTruthy();
+    expect(await screen.findByText("Program org 1")).toBeTruthy();
   });
 
   it('should display no certificates when no enrolled_programs are present', async () => {
