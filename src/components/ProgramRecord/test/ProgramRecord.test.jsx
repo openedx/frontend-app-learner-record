@@ -84,6 +84,6 @@ describe('program-record', () => {
       .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/test-id/?is_public=false`)
       .reply(404, {});
     render(<ProgramRecord isPublic={false} />);
-    expect(screen.findByText('The page you\'re looking for is unavailable or there\'s an error in the URL. Please check the URL and try again.')).toBeTruthy();
+    expect(await screen.findByText('The page you\'re looking for is unavailable or there\'s an error in the URL. Please check the URL and try again.')).toBeTruthy();
   });
 });
