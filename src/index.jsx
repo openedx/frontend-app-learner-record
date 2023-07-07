@@ -14,8 +14,10 @@ import Footer from '@edx/frontend-component-footer';
 import messages from './i18n';
 import './index.scss';
 import ProgramRecordsList from './components/ProgramRecordsList';
+import ProgramCertificatesList from './components/ProgramCertificatesList';
 import ProgramRecord from './components/ProgramRecord';
 import Head from './components/Head';
+import { ROUTES } from './constants';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
@@ -28,19 +30,27 @@ subscribe(APP_READY, () => {
             <Switch>
               <Route
                 exact
-                path="/"
+                path={ROUTES.PROGRAM_RECORDS}
               >
                 <ProgramRecordsList />
               </Route>
+              {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
+                <Route
+                  exact
+                  path={ROUTES.VERIFIABLE_CREDENTIALS}
+                >
+                  <ProgramCertificatesList />
+                </Route>
+              )}
               <Route
-                path="/shared/:programUUID"
+                path={ROUTES.PROGRAM_RECORD_SHARED}
               >
                 <ProgramRecord
                   isPublic
                 />
               </Route>
               <Route
-                path="/:programUUID"
+                path={ROUTES.PROGRAM_RECORD_ITEM}
               >
                 <ProgramRecord
                   isPublic={false}
@@ -67,7 +77,9 @@ initialize({
     config: () => {
       mergeConfig({
         SUPPORT_URL_LEARNER_RECORDS: process.env.SUPPORT_URL_LEARNER_RECORDS || '',
-        USE_LR_MFE: process.env.USE_LR_MFE || '',
+        USE_LR_MFE: process.env.USE_LR_MFE || false,
+        ENABLE_VERIFIABLE_CREDENTIALS: process.env.ENABLE_VERIFIABLE_CREDENTIALS || false,
+        SUPPORT_URL_VERIFIABLE_CREDENTIALS: process.env.SUPPORT_URL_VERIFIABLE_CREDENTIALS || '',
       }, 'LearnerRecordConfig');
     },
   },
