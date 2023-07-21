@@ -36,29 +36,29 @@ const messages = defineMessages({
   },
   certificateModalInstructionTitle: {
     id: 'credentials.modal.instruction.title',
-    defaultMessage: 'Download and install the app on your smartphone.',
+    defaultMessage:
+      'Follow this instructions below to get verifiable credential:',
     description: 'Title text of the instructions.',
   },
   certificateModalInstructionStep1: {
     id: 'credentials.modal.instruction.step1',
-    defaultMessage: 'Sign up for the app to identify yourself.',
+    defaultMessage: 'Download and install the app on your smartphone.',
     description: 'Text of step of the instructions.',
   },
   certificateModalInstructionStep2: {
     id: 'credentials.modal.instruction.step2',
-    defaultMessage:
-      'Open the application and select the option "Scan QR code". Scan the provided code.',
+    defaultMessage: 'Sign up for the app to identify yourself.',
     description: 'Text of step of the instructions.',
   },
   certificateModalInstructionStep3: {
     id: 'credentials.modal.instruction.step3',
     defaultMessage:
-      'Follow the instructions below to get the verifiable credential:',
+      'Open the application and select the option "Scan QR code". Scan the provided code.',
     description: 'Text of step of the instructions.',
   },
   certificateModalInstructionStep4: {
     id: 'credentials.modal.instruction.step4',
-    defaultMessage: 'Once you have successfully finished, close the modal.',
+    defaultMessage: 'Once you have successfully done - close modal.',
     description: 'Text of step of the instructions.',
   },
   certificateModalDeeplinkBtn: {
