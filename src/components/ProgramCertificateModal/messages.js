@@ -37,12 +37,12 @@ const messages = defineMessages({
   certificateModalInstructionTitle: {
     id: 'credentials.modal.instruction.title',
     defaultMessage:
-      'Follow this instructions below to get verifiable credential:',
+      'Follow the instructions below to get a verifiable credential:',
     description: 'Title text of the instructions.',
   },
   certificateModalInstructionStep1: {
     id: 'credentials.modal.instruction.step1',
-    defaultMessage: 'Download and install the app on your smartphone.',
+    defaultMessage: 'Download and install the wallet app on your smartphone.',
     description: 'Text of step of the instructions.',
   },
   certificateModalInstructionStep2: {
@@ -53,12 +53,12 @@ const messages = defineMessages({
   certificateModalInstructionStep3: {
     id: 'credentials.modal.instruction.step3',
     defaultMessage:
-      'Open the application and select the option "Scan QR code". Scan the provided code.',
+      'Open the wallet application and select the option "Scan QR code". Then scan the image of QR code.',
     description: 'Text of step of the instructions.',
   },
   certificateModalInstructionStep4: {
     id: 'credentials.modal.instruction.step4',
-    defaultMessage: 'Once you have successfully done - close modal.',
+    defaultMessage: 'Once you have successfully done - close modal window.',
     description: 'Text of step of the instructions.',
   },
   certificateModalDeeplinkBtn: {
