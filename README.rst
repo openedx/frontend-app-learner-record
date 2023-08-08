@@ -7,10 +7,17 @@ frontend-app-learner-record
 Purpose
 *******
 
-The Learner Record provides information about the enrolled programs for a user. 
+The Learner Record provides information about the enrolled programs for a user.
 It contains views for a learners current status in a program, their current grade, and the ability to share any earned credentials either publically or with institutions.
 
+Verifiable Credentials
+======================
+
+Optionally, this micro-frontend allows `verifiable credentials`_ creation for already achieved Open edX credentials (currently, program certificates only).
+
 This is the Learner Record micro-frontend, currently under development by `edX <https://www.edx.org>`_.
+
+.. _verifiable credentials: https://en.wikipedia.org/wiki/Verifiable_credentials
 
 Getting Started
 ***************
@@ -52,7 +59,7 @@ Every time you develop something in this repo
 
   # Start the Learner Record MFE
     npm start
-  
+
   # Using your favorite editor, edit the code to make your change.
     vim ...
 
@@ -80,6 +87,18 @@ This MFE has 2 flags of its own:
 
 * ``SUPPORT_URL_LEARNER_RECORDS`` -- A link to a help/support center for learners who run into problems whilst trying to share their records
 * ``USE_LR_MFE`` -- A toggle that when on, uses the MFE to host shared records instead of the the old UI inside of credentials
+
+Verifiable Credentials
+......................
+
+An optional feature. It is behind a feature flag.
+The feature introduces two environment variables:
+
+* ``ENABLE_VERIFIABLE_CREDENTIALS`` -- Toggles the Verifiable Credentials feature (used by the Credentials IDA and this micro-frontend)
+* ``SUPPORT_URL_VERIFIABLE_CREDENTIALS`` -- A link to a help/support center for learners who run into problems while trying to create their verifiable credential
+
+The Verifiable Credentials UI is a functional addition to the corresponding backend app. It will use a REST API from the Credentials IDA located at `credentials/apps/verifiable_credentials/rest_api`.
+
 
 Project Structure
 -----------------
@@ -162,7 +181,7 @@ file in this repo.
 Reporting Security Issues
 *************************
 
-Please do not report security issues in public. Please email security@tcril.org.
+Please do not report security issues in public. Please email security@openedx.org.
 
 .. |Build Status| image:: https://api.travis-ci.com/edx/frontend-app-learner-record.svg?branch=master
    :target: https://travis-ci.com/edx/frontend-app-learner-record

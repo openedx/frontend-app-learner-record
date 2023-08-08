@@ -8,15 +8,16 @@ import {
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
 import { HelmetProvider } from 'react-helmet-async';
-import Header, { messages as headerMessages } from '@edx/frontend-component-header';
-import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
-import { messages as paragonMessages } from '@edx/paragon';
+import Header from '@edx/frontend-component-header';
+import Footer from '@edx/frontend-component-footer';
 
-import appMessages from './i18n';
+import messages from './i18n';
 import './index.scss';
 import ProgramRecordsList from './components/ProgramRecordsList';
+import ProgramCertificatesList from './components/ProgramCertificatesList';
 import ProgramRecord from './components/ProgramRecord';
 import Head from './components/Head';
+import { ROUTES } from './constants';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
@@ -27,15 +28,21 @@ subscribe(APP_READY, () => {
         {getConfig().USE_LR_MFE ? (
           <Routes>
             <Route
-              path="/"
+              path={ROUTES.PROGRAM_RECORDS}
               element={<ProgramRecordsList />}
             />
+            {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
+              <Route
+                path={ROUTES.VERIFIABLE_CREDENTIALS}
+                element={<ProgramCertificatesList />}
+              />
+            )}
             <Route
-              path="/shared/:programUUID"
+              path={ROUTES.PROGRAM_RECORD_SHARED}
               element={<ProgramRecord isPublic />}
             />
             <Route
-              path="/:programUUID"
+              path={ROUTES.PROGRAM_RECORD_ITEM}
               element={<ProgramRecord isPublic={false} />}
             />
           </Routes>
@@ -58,14 +65,11 @@ initialize({
     config: () => {
       mergeConfig({
         SUPPORT_URL_LEARNER_RECORDS: process.env.SUPPORT_URL_LEARNER_RECORDS || '',
-        USE_LR_MFE: process.env.USE_LR_MFE || '',
+        USE_LR_MFE: process.env.USE_LR_MFE || false,
+        ENABLE_VERIFIABLE_CREDENTIALS: process.env.ENABLE_VERIFIABLE_CREDENTIALS || false,
+        SUPPORT_URL_VERIFIABLE_CREDENTIALS: process.env.SUPPORT_URL_VERIFIABLE_CREDENTIALS || '',
       }, 'LearnerRecordConfig');
     },
   },
-  messages: [
-    appMessages,
-    headerMessages,
-    footerMessages,
-    paragonMessages,
-  ],
+  messages,
 });
