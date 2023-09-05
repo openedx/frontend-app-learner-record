@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Tabs, Tab } from '@edx/paragon';
@@ -23,14 +23,14 @@ function NavigationBar({ intl }) {
     });
   }
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   return NavigationTabs.length > 1 ? (
     <Tabs
       className="mt-1 mb-5"
       defaultActiveKey={location.pathname}
-      onSelect={path => history.push(path)}
+      onSelect={path => navigate(path)}
     >
       {NavigationTabs.map(tab => (
         <Tab

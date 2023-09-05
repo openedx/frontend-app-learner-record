@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import {
   APP_INIT_ERROR, APP_READY, subscribe, initialize, mergeConfig, getConfig,
 } from '@edx/frontend-platform';
@@ -26,38 +26,26 @@ subscribe(APP_READY, () => {
         <Head />
         <Header />
         {getConfig().USE_LR_MFE ? (
-          <Router>
-            <Switch>
+          <Routes>
+            <Route
+              path={ROUTES.PROGRAM_RECORDS}
+              element={<ProgramRecordsList />}
+            />
+            {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
               <Route
-                exact
-                path={ROUTES.PROGRAM_RECORDS}
-              >
-                <ProgramRecordsList />
-              </Route>
-              {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
-                <Route
-                  exact
-                  path={ROUTES.VERIFIABLE_CREDENTIALS}
-                >
-                  <ProgramCertificatesList />
-                </Route>
-              )}
-              <Route
-                path={ROUTES.PROGRAM_RECORD_SHARED}
-              >
-                <ProgramRecord
-                  isPublic
-                />
-              </Route>
-              <Route
-                path={ROUTES.PROGRAM_RECORD_ITEM}
-              >
-                <ProgramRecord
-                  isPublic={false}
-                />
-              </Route>
-            </Switch>
-          </Router>
+                path={ROUTES.VERIFIABLE_CREDENTIALS}
+                element={<ProgramCertificatesList />}
+              />
+            )}
+            <Route
+              path={ROUTES.PROGRAM_RECORD_SHARED}
+              element={<ProgramRecord isPublic />}
+            />
+            <Route
+              path={ROUTES.PROGRAM_RECORD_ITEM}
+              element={<ProgramRecord isPublic={false} />}
+            />
+          </Routes>
         ) : (
           <ProgramRecordsList />
         )}

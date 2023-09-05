@@ -8,14 +8,12 @@ import {
 } from '../../../setupTest';
 import NavigationBar from '..';
 
-const mockHistoryPush = jest.fn();
+const mockedNavigator = jest.fn();
 global.ResizeObserver = require('resize-observer-polyfill');
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: mockHistoryPush,
-  }),
+  useNavigate: () => mockedNavigator,
 }));
 
 describe('navigation-bar', () => {
@@ -43,6 +41,6 @@ describe('navigation-bar', () => {
   it('redirects the appropriate route on tab click', () => {
     render(<NavigationBar />);
     fireEvent.click(screen.getByText('Verifiable Credentials'));
-    expect(mockHistoryPush).toHaveBeenCalledWith('/verifiable-credentials');
+    expect(mockedNavigator).toHaveBeenCalledWith('/verifiable-credentials');
   });
 });
