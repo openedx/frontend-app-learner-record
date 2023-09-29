@@ -28,6 +28,8 @@ function ProgramRecord({ isPublic }) {
   const [recordDetails, setRecordDetails] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasNoData, setHasNoData] = useState(false);
+  // Leaving a stub value in for a method that's ticketed to fix
+  // eslint-disable-next-line no-unused-vars
   const [isNotFound, setNotFound] = useState(false);
   const [showSendRecordButton, setShowSendRecordButton] = useState(false);
 
