@@ -6,7 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import {
   APP_INIT_ERROR, APP_READY, subscribe, initialize, mergeConfig, getConfig,
 } from '@edx/frontend-platform';
-import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
+import { AppProvider, ErrorPage, AuthenticatedPageRoute } from '@edx/frontend-platform/react';
 import { HelmetProvider } from 'react-helmet-async';
 import Header from '@edx/frontend-component-header';
 import Footer from '@edx/frontend-component-footer';
@@ -29,12 +29,12 @@ subscribe(APP_READY, () => {
           <Routes>
             <Route
               path={ROUTES.PROGRAM_RECORDS}
-              element={<ProgramRecordsList />}
+              element={<AuthenticatedPageRoute><ProgramRecordsList /></AuthenticatedPageRoute>}
             />
             {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
               <Route
                 path={ROUTES.VERIFIABLE_CREDENTIALS}
-                element={<ProgramCertificatesList />}
+                element={<AuthenticatedPageRoute><ProgramCertificatesList /></AuthenticatedPageRoute>}
               />
             )}
             <Route
@@ -43,7 +43,7 @@ subscribe(APP_READY, () => {
             />
             <Route
               path={ROUTES.PROGRAM_RECORD_ITEM}
-              element={<ProgramRecord isPublic={false} />}
+              element={<AuthenticatedPageRoute><ProgramRecord isPublic={false} /></AuthenticatedPageRoute>}
             />
           </Routes>
         ) : (
