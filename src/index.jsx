@@ -34,7 +34,7 @@ subscribe(APP_READY, () => {
             {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
               <Route
                 path={ROUTES.VERIFIABLE_CREDENTIALS}
-                element={<ProgramCertificatesList />}
+                element={<AuthenticatedPageRoute><ProgramCertificatesList /></AuthenticatedPageRoute>}
               />
             )}
             <Route
