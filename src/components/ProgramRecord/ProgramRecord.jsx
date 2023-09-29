@@ -28,9 +28,6 @@ function ProgramRecord({ isPublic }) {
   const [recordDetails, setRecordDetails] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasNoData, setHasNoData] = useState(false);
-  // Leaving a stub value in for a method that's ticketed to fix
-  // eslint-disable-next-line no-unused-vars
-  const [isNotFound, setNotFound] = useState(false);
   const [showSendRecordButton, setShowSendRecordButton] = useState(false);
 
   const [sendRecord, setSendRecord] = useState({
@@ -178,19 +175,6 @@ function ProgramRecord({ isPublic }) {
     </div>
   );
 
-  const renderNotFound = () => (
-    <>
-      {!isPublic && renderBackButton()}
-      <p>
-        <FormattedMessage
-          id="page.notfound.message"
-          defaultMessage="The page you're looking for is unavailable or there's an error in the URL. Please check the URL and try again."
-          description="Error message when a page does not exist for the provided URL"
-        />
-      </p>
-    </>
-  );
-
   const renderLoading = () => (
     <>
       {!isPublic && renderBackButton()}
@@ -208,9 +192,6 @@ function ProgramRecord({ isPublic }) {
     if (isLoaded) {
       if (hasNoData) {
         return renderCredentialsServiceIssueAlert();
-      }
-      if (isNotFound) {
-        return renderNotFound();
       }
       return renderProgramDetails();
     }
