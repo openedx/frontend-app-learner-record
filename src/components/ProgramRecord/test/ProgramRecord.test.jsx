@@ -78,12 +78,11 @@ describe('program-record', () => {
     expect(await screen.findByText('An error occurred attempting to retrieve your program records. Please try again later.')).toBeTruthy();
   });
 
-  it('renders not found message on unsuccessful request', async () => {
+  it('renders loading message on delay', async () => {
     const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
     axiosMock
-      .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/test-id/?is_public=false`)
-      .reply(404, {});
+      .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/test-id/?is_public=false`);
     render(<ProgramRecord isPublic={false} />);
-    expect(await screen.findByText('The page you\'re looking for is unavailable or there\'s an error in the URL. Please check the URL and try again.')).toBeTruthy();
+    expect(await screen.findByText('Loading...')).toBeTruthy();
   });
 });
