@@ -28,6 +28,7 @@ function ProgramRecord({ isPublic }) {
   const [recordDetails, setRecordDetails] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasNoData, setHasNoData] = useState(false);
+  const [isNotFound, setNotFound] = useState(false);
   const [showSendRecordButton, setShowSendRecordButton] = useState(false);
 
   const [sendRecord, setSendRecord] = useState({
@@ -188,14 +189,30 @@ function ProgramRecord({ isPublic }) {
     </>
   );
 
+  const renderLoading = () => (
+    <>
+      {!isPublic && renderBackButton()}
+      <p>
+        <FormattedMessage
+          id="page.loading.message"
+          defaultMessage="Loading..."
+          description="Loading message when a program record is fetching data."
+        />
+      </p>
+    </>
+  );
+
   const renderData = () => {
     if (isLoaded) {
       if (hasNoData) {
         return renderCredentialsServiceIssueAlert();
       }
+      if (isNotFound) {
+        return renderNotFound();
+      }
       return renderProgramDetails();
     }
-    return renderNotFound();
+    return renderLoading();
   };
 
   return (
