@@ -175,14 +175,14 @@ function ProgramRecord({ isPublic }) {
     </div>
   );
 
-  const renderNotFound = () => (
+  const renderLoading = () => (
     <>
       {!isPublic && renderBackButton()}
       <p>
         <FormattedMessage
-          id="page.notfound.message"
-          defaultMessage="The page you're looking for is unavailable or there's an error in the URL. Please check the URL and try again."
-          description="Error message when a page does not exist for the provided URL"
+          id="page.loading.message"
+          defaultMessage="Loading..."
+          description="Loading message when a program record is fetching data."
         />
       </p>
     </>
@@ -195,7 +195,7 @@ function ProgramRecord({ isPublic }) {
       }
       return renderProgramDetails();
     }
-    return renderNotFound();
+    return renderLoading();
   };
 
   return (
