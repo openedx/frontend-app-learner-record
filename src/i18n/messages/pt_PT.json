@@ -40,7 +40,7 @@
   "partially.completed.status.badge": "Concluído Parcialmente",
   "link.back.to.records": "Voltar aos Meus Registos",
   "records.list.error": "Ocorreu um erro ao tentar recuperar os registros do programa. Por favor, tente novamente mais tarde.",
-  "page.notfound.message": "A página que procura não está disponível ou há um erro no URL. Por favor, verifique o URL e tente novamente.",
+  "page.loading.message": "Loading...",
   "download.button.default": "Transferir registo do programa",
   "download.button.pending": "Transferindo registo do programa",
   "download.button.complete": "Transferência completa",
