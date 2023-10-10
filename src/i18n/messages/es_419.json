@@ -40,7 +40,7 @@
   "partially.completed.status.badge": "Parcialmente Completado",
   "link.back.to.records": "Volver a mis registros",
   "records.list.error": "Se produjo un error al intentar recuperar los registros de su programa. Por favor, inténtelo de nuevo más tarde.",
-  "page.notfound.message": "La página que está buscando no está disponible o hay un error en la URL. Por favor, verifique la URL y vuelva a intentarlo.",
+  "page.loading.message": "Cargando...",
   "download.button.default": "Descargar registro del programa",
   "download.button.pending": "Descargando el registro del programa",
   "download.button.complete": "Descarga completa",
