@@ -25,30 +25,26 @@ subscribe(APP_READY, () => {
       <HelmetProvider>
         <Head />
         <Header />
-        {getConfig().USE_LR_MFE ? (
-          <Routes>
+        <Routes>
+          <Route
+            path={ROUTES.PROGRAM_RECORDS}
+            element={<AuthenticatedPageRoute><ProgramRecordsList /></AuthenticatedPageRoute>}
+          />
+          <Route
+            path={ROUTES.PROGRAM_RECORD_SHARED}
+            element={<ProgramRecord isPublic />}
+          />
+          <Route
+            path={ROUTES.PROGRAM_RECORD_ITEM}
+            element={<AuthenticatedPageRoute><ProgramRecord isPublic={false} /></AuthenticatedPageRoute>}
+          />
+          {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
             <Route
-              path={ROUTES.PROGRAM_RECORDS}
-              element={<AuthenticatedPageRoute><ProgramRecordsList /></AuthenticatedPageRoute>}
+              path={ROUTES.VERIFIABLE_CREDENTIALS}
+              element={<AuthenticatedPageRoute><ProgramCertificatesList /></AuthenticatedPageRoute>}
             />
-            {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
-              <Route
-                path={ROUTES.VERIFIABLE_CREDENTIALS}
-                element={<AuthenticatedPageRoute><ProgramCertificatesList /></AuthenticatedPageRoute>}
-              />
-            )}
-            <Route
-              path={ROUTES.PROGRAM_RECORD_SHARED}
-              element={<ProgramRecord isPublic />}
-            />
-            <Route
-              path={ROUTES.PROGRAM_RECORD_ITEM}
-              element={<AuthenticatedPageRoute><ProgramRecord isPublic={false} /></AuthenticatedPageRoute>}
-            />
-          </Routes>
-        ) : (
-          <ProgramRecordsList />
-        )}
+          )}
+        </Routes>
         <Footer />
       </HelmetProvider>
     </AppProvider>,
@@ -65,7 +61,6 @@ initialize({
     config: () => {
       mergeConfig({
         SUPPORT_URL_LEARNER_RECORDS: process.env.SUPPORT_URL_LEARNER_RECORDS || '',
-        USE_LR_MFE: process.env.USE_LR_MFE || false,
         ENABLE_VERIFIABLE_CREDENTIALS: process.env.ENABLE_VERIFIABLE_CREDENTIALS || false,
         SUPPORT_URL_VERIFIABLE_CREDENTIALS: process.env.SUPPORT_URL_VERIFIABLE_CREDENTIALS || '',
       }, 'LearnerRecordConfig');
