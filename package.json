@@ -65,7 +65,7 @@
     "@edx/reactifex": "1.1.0",
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "12.1.5",
-    "axios-mock-adapter": "1.21.2",
+    "axios-mock-adapter": "1.22.0",
     "babel-plugin-react-intl": "8.2.25",
     "glob": "7.2.3",
     "husky": "7.0.4",
