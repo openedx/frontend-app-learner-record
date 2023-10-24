@@ -7,75 +7,66 @@
 
     .program-record-nav {
         @extend .d-flex, .justify-content-between, .mb-3;
-    
+
         .program-record-actions {
             @extend .d-flex;
             gap: 0.5rem;
-    
-            .send-record-button span.btn-icon-before {
-                filter: invert(100%) sepia(97%) saturate(0%) hue-rotate(70deg) brightness(104%) contrast(105%);
-            }
-    
-            .copy-record-button:hover span.btn-icon-before,
-            .copy-record-button:focus span.btn-icon-before {
-                filter: invert(100%) sepia(97%) saturate(0%) hue-rotate(70deg) brightness(104%) contrast(105%);
-            }
         }
-        
+
         .download-record {
             @extend .d-flex, .flex-row-reverse;
         }
     }
-    
+
     .program-record {
-    
+
         .program-record-header {
-    
+
             .program-headings {
                 @extend .d-flex, .justify-content-between;
                 color: $primary-500;
-    
+
                 h4 {
                     color: inherit;
                 }
-    
+
                 .program-title {
                     @extend .d-flex, .flex-column;
-        
+
                     .heading-label {
                         text-transform: capitalize;
                     }
-    
+
                     h1 {
                         color: inherit;
                     }
                 }
             }
-    
+
             .program-status {
                 @extend .d-flex, .align-items-center;
                 gap: 0.5rem;
-    
+
                 span.badge {
                     @extend .d-flex;
                 }
-    
+
                 span.updated {
                     @extend .small;
                 }
             }
-    
+
             .learner-info {
                 @extend .d-flex;
                 gap: 0.25rem;
             }
         }
-    
+
         .program-record-grades {
             overflow: auto;
         }
     }
-    
+
     .help {
         color: $primary-500;
     }
