@@ -115,7 +115,7 @@ function ProgramRecordsList() {
             <div className="d-flex align-items-center pt-3 pt-lg-0">
               <Hyperlink
                 variant="muted"
-                destination={getConfig().USE_LR_MFE ? `/${record.uuid}` : `${getConfig().CREDENTIALS_BASE_URL}/records/programs/${record.uuid}/`}
+                destination={`/${record.uuid}`}
               >
                 <Button variant="outline-primary">
                   <FormattedMessage

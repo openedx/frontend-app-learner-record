@@ -77,16 +77,15 @@ Environment Variables/Setup Notes
 
 Currently, this MFE is not intergrated into the devstack, and must be run locally. This MFE requires credentials to be running, and will use a REST API from the Credentials IDA located at `credentials/apps/records/rest_api`.
 
-Credentials uses 2 enviroment variables to link to this MFE:
+Credentials requires configuring a Django setting to support directing traffic to the Learner Record MFE:
 
-* ``USE_LEARNER_RECORD_MFE`` -- Toggles the navigation in credentials to redirect to this MFE
-* ``LEARNER_RECORD_MFE_RECORDS_PAGE_URL`` -- The URL for the base URL of this MFE
+* ``LEARNER_RECORD_MFE_RECORDS_PAGE_URL`` -- The base URL of the Learne Record MFE
 
-More details for these flags can be found in the base configuration of credentials: ``credentials/settings/base``
-This MFE has 2 flags of its own:
+For more info, see the Learner Records documentation on ReadTheDocs: https://edx-credentials.readthedocs.io/en/latest/learner_records.html.
+
+This MFE has a setting of its own:
 
 * ``SUPPORT_URL_LEARNER_RECORDS`` -- A link to a help/support center for learners who run into problems whilst trying to share their records
-* ``USE_LR_MFE`` -- A toggle that when on, uses the MFE to host shared records instead of the the old UI inside of credentials
 
 Verifiable Credentials
 ......................
