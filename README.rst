@@ -1,9 +1,10 @@
+###########################
 frontend-app-learner-record
-#############################
-
+############################
 
 |Build Status| |Codecov| |license|
 
+********
 Purpose
 *******
 
@@ -19,6 +20,7 @@ This is the Learner Record micro-frontend, currently under development by `edX <
 
 .. _verifiable credentials: https://en.wikipedia.org/wiki/Verifiable_credentials
 
+***************
 Getting Started
 ***************
 
@@ -26,7 +28,7 @@ Developing
 ==========
 
 One Time Setup
---------------
+==============
 .. code-block::
 
   # Clone the repository via SSH
@@ -44,7 +46,7 @@ One Time Setup
 The page will then be hosted on http://localhost:1990/
 
 Every time you develop something in this repo
----------------------------------------------
+=============================================
 .. code-block::
 
   # Grab the latest code
@@ -73,20 +75,19 @@ Every time you develop something in this repo
   # Open a PR and ask for review after the github CI has passed.
 
 Environment Variables/Setup Notes
----------------------------------
+=================================
 
 Currently, this MFE is not intergrated into the devstack, and must be run locally. This MFE requires credentials to be running, and will use a REST API from the Credentials IDA located at `credentials/apps/records/rest_api`.
 
-Credentials uses 2 enviroment variables to link to this MFE:
+Credentials requires configuring a Django setting to support directing traffic to the Learner Record MFE:
 
-* ``USE_LEARNER_RECORD_MFE`` -- Toggles the navigation in credentials to redirect to this MFE
-* ``LEARNER_RECORD_MFE_RECORDS_PAGE_URL`` -- The URL for the base URL of this MFE
+* ``LEARNER_RECORD_MFE_RECORDS_PAGE_URL`` -- The base URL of the Learne Record MFE
 
-More details for these flags can be found in the base configuration of credentials: ``credentials/settings/base``
-This MFE has 2 flags of its own:
+For more info, see the Learner Records documentation on ReadTheDocs: https://edx-credentials.readthedocs.io/en/latest/learner_records.html.
+
+This MFE has a setting of its own:
 
 * ``SUPPORT_URL_LEARNER_RECORDS`` -- A link to a help/support center for learners who run into problems whilst trying to share their records
-* ``USE_LR_MFE`` -- A toggle that when on, uses the MFE to host shared records instead of the the old UI inside of credentials
 
 Verifiable Credentials
 ......................
@@ -101,7 +102,7 @@ The Verifiable Credentials UI is a functional addition to the corresponding back
 
 
 Project Structure
------------------
+==================
 
 The source for this project is organized into nested submodules according to the ADR `Feature-based Application Organization <https://github.com/edx/frontend-template-application/blob/master/docs/decisions/0002-feature-based-application-organization.rst>`_.
 
@@ -116,11 +117,8 @@ General deployment information can be found in the `Microfrontend onboarding`_ d
 
 .. _Microfrontend onboarding: https://openedx.atlassian.net/wiki/spaces/FEDX/pages/2629829454/Micro+Frontend+MFE+Onboarding#Deployment
 
-
 Getting Help
-************
-More Help
-=========
+============
 
 If you're having trouble, we have discussion forums at
 https://discuss.openedx.org where you can connect with others in the
@@ -142,7 +140,7 @@ For more information about these options, see the `Getting Help`_ page.
 .. _Getting Help: https://openedx.org/getting-help
 
 License
-*******
+=======
 
 The code in this repository is licensed under the `GNU AFFERO GENERAL PUBLIC LICENSE` unless
 otherwise noted.
@@ -150,7 +148,7 @@ otherwise noted.
 Please see `LICENSE.txt <LICENSE.txt>`_ for details.
 
 Contributing
-************
+============
 
 Contributions are very welcome.
 Please read `How To Contribute <https://openedx.org/r/how-to-contribute>`_ for details.
@@ -163,14 +161,13 @@ You can start a conversation by creating a new issue on this repo summarizing
 your idea.
 
 The Open edX Code of Conduct
-****************************
-
+============================
 All community members are expected to follow the `Open edX Code of Conduct`_.
 
 .. _Open edX Code of Conduct: https://openedx.org/code-of-conduct/
 
 People
-******
+======
 
 The assigned maintainers for this component and other project details may be
 found in `Backstage`_. Backstage pulls this data from the ``catalog-info.yaml``
@@ -179,7 +176,7 @@ file in this repo.
 .. _Backstage: https://open-edx-backstage.herokuapp.com/catalog/default/component/{{ cookiecutter.repo_name }}
 
 Reporting Security Issues
-*************************
+==========================
 
 Please do not report security issues in public. Please email security@openedx.org.
 
