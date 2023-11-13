@@ -71,6 +71,6 @@
     "husky": "7.0.4",
     "jest": "27.5.1",
     "resize-observer-polyfill": "^1.5.1",
-    "rosie": "2.1.0"
+    "rosie": "2.1.1"
   }
 }
