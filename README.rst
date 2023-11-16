@@ -1,10 +1,10 @@
 ###########################
 frontend-app-learner-record
-############################
+###########################
 
 |Build Status| |Codecov| |license|
 
-********
+*******
 Purpose
 *******
 
@@ -29,19 +29,20 @@ Developing
 
 One Time Setup
 ==============
+
 .. code-block::
 
   # Clone the repository via SSH
   git clone git@github.com:openedx/frontend-app-learner-record.git
 
   # Enter the directory
-    cd frontend-app-learner-record
+  cd frontend-app-learner-record
 
   # Clean Install dependencies
-    npm ci
+  npm ci
 
   # Start the Learner Record MFE
-    npm start
+  npm start
 
 The page will then be hosted on http://localhost:1990/
 
@@ -50,27 +51,27 @@ Every time you develop something in this repo
 .. code-block::
 
   # Grab the latest code
-    git fetch
-    git pull
+  git fetch
+  git pull
 
   # Make a new branch for your changes
-    git checkout -b <your_github_username>/<short_description>
+  git checkout -b <your_github_username>/<short_description>
 
   # Clean install/update the dev requirements
-    npm ci
+  npm ci
 
   # Start the Learner Record MFE
-    npm start
+  npm start
 
   # Using your favorite editor, edit the code to make your change.
-    vim ...
+  vim ...
 
   # Run the tests after making changes (to verify the status before you make any changes)
-    npm test
+  npm test
 
   # Commit all your changes
-    git commit ...
-    git push
+  git commit ...
+  git push
 
   # Open a PR and ask for review after the github CI has passed.
 
@@ -81,7 +82,7 @@ Currently, this MFE is not intergrated into the devstack, and must be run locall
 
 Credentials requires configuring a Django setting to support directing traffic to the Learner Record MFE:
 
-* ``LEARNER_RECORD_MFE_RECORDS_PAGE_URL`` -- The base URL of the Learne Record MFE
+* ``LEARNER_RECORD_MFE_RECORDS_PAGE_URL`` -- The base URL of the Learner Record MFE
 
 For more info, see the Learner Records documentation on ReadTheDocs: https://edx-credentials.readthedocs.io/en/latest/learner_records.html.
 
@@ -102,7 +103,7 @@ The Verifiable Credentials UI is a functional addition to the corresponding back
 
 
 Project Structure
-==================
+=================
 
 The source for this project is organized into nested submodules according to the ADR `Feature-based Application Organization <https://github.com/edx/frontend-template-application/blob/master/docs/decisions/0002-feature-based-application-organization.rst>`_.
 
@@ -129,9 +130,7 @@ invitation`_, then join our `community Slack workspace`_.
 
 For anything non-trivial, the best path is to open an issue in this
 repository with as many details about the issue you are facing as you
-can provide.
-
-https://github.com/openedx/frontend-app-learner-record/issues
+can provide: https://github.com/openedx/frontend-app-learner-record/issues
 
 For more information about these options, see the `Getting Help`_ page.
 
@@ -176,7 +175,7 @@ file in this repo.
 .. _Backstage: https://open-edx-backstage.herokuapp.com/catalog/default/component/{{ cookiecutter.repo_name }}
 
 Reporting Security Issues
-==========================
+=========================
 
 Please do not report security issues in public. Please email security@openedx.org.
 
