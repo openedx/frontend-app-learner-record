@@ -45,7 +45,7 @@
     "@fortawesome/react-fontawesome": "0.2.0",
     "axios": "0.27.2",
     "babel-polyfill": "6.26.0",
-    "core-js": "3.25.3",
+    "core-js": "3.33.3",
     "js-cookie": "3.0.5",
     "lodash": "4.17.21",
     "prop-types": "15.8.1",
