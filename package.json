@@ -45,7 +45,7 @@
     "@fortawesome/react-fontawesome": "0.2.0",
     "axios": "0.27.2",
     "babel-polyfill": "6.26.0",
-    "core-js": "3.25.3",
+    "core-js": "3.33.3",
     "js-cookie": "3.0.5",
     "lodash": "4.17.21",
     "prop-types": "15.8.1",
@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@edx/browserslist-config": "^1.2.0",
-    "@edx/frontend-build": "13.0.4",
+    "@edx/frontend-build": "13.0.8",
     "@edx/reactifex": "1.1.0",
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "12.1.5",
@@ -71,6 +71,6 @@
     "husky": "7.0.4",
     "jest": "27.5.1",
     "resize-observer-polyfill": "^1.5.1",
-    "rosie": "2.1.0"
+    "rosie": "2.1.1"
   }
 }
