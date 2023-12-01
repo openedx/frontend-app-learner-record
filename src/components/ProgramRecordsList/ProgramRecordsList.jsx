@@ -45,7 +45,7 @@ function ProgramRecordsList() {
     const { username } = getAuthenticatedUser();
     return (
       <Hyperlink
-        destination={`${getConfig().LMS_BASE_URL}/u/${username}`}
+        destination={`${getConfig().ACCOUNT_PROFILE_URL}/u/${username}`}
         className="mb-4 d-inline-block muted-link pl-3 pr-3"
       >
         <ChevronLeft className="mb-1" />
