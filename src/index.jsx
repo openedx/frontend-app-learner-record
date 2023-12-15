@@ -16,15 +16,22 @@ import './index.scss';
 import ProgramRecordsList from './components/ProgramRecordsList';
 import ProgramCertificatesList from './components/ProgramCertificatesList';
 import ProgramRecord from './components/ProgramRecord';
+import PluginProgramRecord from './components/PluginProgramRecord';
 import Head from './components/Head';
 import { ROUTES } from './constants';
+
+// TODO: Show this to Jason
+// What is a more elegant way of hiding header and footer?
+const pluginRegex = /^\/plugin/;
+const currentLocation = window.location.pathname;
+const isPlugin = pluginRegex.test(currentLocation);
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider>
       <HelmetProvider>
         <Head />
-        <Header />
+        {!isPlugin && (<Header />)}
         <Routes>
           <Route
             path={ROUTES.PROGRAM_RECORDS}
@@ -39,13 +46,21 @@ subscribe(APP_READY, () => {
             element={<AuthenticatedPageRoute><ProgramRecord isPublic={false} /></AuthenticatedPageRoute>}
           />
           {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
-            <Route
-              path={ROUTES.VERIFIABLE_CREDENTIALS}
-              element={<AuthenticatedPageRoute><ProgramCertificatesList /></AuthenticatedPageRoute>}
-            />
+          <Route
+            path={ROUTES.VERIFIABLE_CREDENTIALS}
+            element={<AuthenticatedPageRoute><ProgramCertificatesList /></AuthenticatedPageRoute>}
+          />
           )}
+          <Route
+            path="/plugin-example-record"
+            element={(
+              <AuthenticatedPageRoute>
+                <PluginProgramRecord />
+              </AuthenticatedPageRoute>
+            )}
+          />
         </Routes>
-        <Footer />
+        {!isPlugin && (<Footer />)}
       </HelmetProvider>
     </AppProvider>,
     document.getElementById('root'),

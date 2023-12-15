@@ -14,6 +14,56 @@ import NavigationBar from '../NavigationBar/NavigationBar';
 
 import getProgramRecords from './data/service';
 
+export const RecordsList = (records) => (
+  <section id="program-records-list" className="pl-3 pr-3 pb-3">
+    <header>
+      <h2 className="h4">
+        <FormattedMessage
+          id="records.subheader"
+          defaultMessage="Program Records"
+          description="Subheader for the Learner Records page"
+        />
+      </h2>
+      <p>
+        <FormattedMessage
+          id="records.description"
+          defaultMessage="A program record is created once you have earned at least one course certificate
+          in a program."
+          description="Description of program records for the Learner Records page"
+        />
+      </p>
+    </header>
+    {records.map((record, index) => {
+      const useBackground = (index % 2) === 0;
+      return (
+        <div
+          key={record.uuid}
+          className={`d-flex justify-content-between flex-wrap p-4 ${useBackground ? 'bg-gray-200' : ''}`}
+        >
+          <div className="flex-column">
+            <h3>{record.name}</h3>
+            <div>{record.partner} | {record.status}</div>
+          </div>
+          <div className="d-flex align-items-center pt-3 pt-lg-0">
+            <Hyperlink
+              variant="muted"
+              destination={`/${record.uuid}`}
+            >
+              <Button variant="outline-primary">
+                <FormattedMessage
+                  id="records.record.view.link"
+                  defaultMessage="View Program Record"
+                  description="Link text for button that redirects user to view a program record"
+                />
+              </Button>
+            </Hyperlink>
+          </div>
+        </div>
+      );
+    })}
+  </section>
+);
+
 function ProgramRecordsList() {
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [hasNoData, setHasNoData] = React.useState(false);
@@ -82,56 +132,6 @@ function ProgramRecordsList() {
     </p>
   );
 
-  const renderProgramRecords = () => (
-    <section id="program-records-list" className="pl-3 pr-3 pb-3">
-      <header>
-        <h2 className="h4">
-          <FormattedMessage
-            id="records.subheader"
-            defaultMessage="Program Records"
-            description="Subheader for the Learner Records page"
-          />
-        </h2>
-        <p>
-          <FormattedMessage
-            id="records.description"
-            defaultMessage="A program record is created once you have earned at least one course certificate
-            in a program."
-            description="Description of program records for the Learner Records page"
-          />
-        </p>
-      </header>
-      {records.map((record, index) => {
-        const useBackground = (index % 2) === 0;
-        return (
-          <div
-            key={record.uuid}
-            className={`d-flex justify-content-between flex-wrap p-4 ${useBackground ? 'bg-gray-200' : ''}`}
-          >
-            <div className="flex-column">
-              <h3>{record.name}</h3>
-              <div>{record.partner} | {record.status}</div>
-            </div>
-            <div className="d-flex align-items-center pt-3 pt-lg-0">
-              <Hyperlink
-                variant="muted"
-                destination={`/${record.uuid}`}
-              >
-                <Button variant="outline-primary">
-                  <FormattedMessage
-                    id="records.record.view.link"
-                    defaultMessage="View Program Record"
-                    description="Link text for button that redirects user to view a program record"
-                  />
-                </Button>
-              </Hyperlink>
-            </div>
-          </div>
-        );
-      })}
-    </section>
-  );
-
   const renderData = () => {
     if (isLoaded) {
       if (hasNoData) {
@@ -140,7 +140,7 @@ function ProgramRecordsList() {
       if (!records.length) {
         return renderEmpty();
       }
-      return renderProgramRecords();
+      return <RecordsList records={records} />;
     }
     return null;
   };
