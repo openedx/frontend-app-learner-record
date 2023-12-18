@@ -3,7 +3,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: 'Learner Records'
+  name: 'frontend-app-learner-record'
   description: 'The Microfrontend for the Credentials service. Contains views for the learner records and credentials sharing.'
   links:
     - url: 'https://github.com/openedx/frontend-app-learner-record/blob/master/README.rst'
