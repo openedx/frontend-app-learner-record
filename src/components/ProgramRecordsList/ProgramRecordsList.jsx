@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
-import { ChevronLeft, Info } from '@edx/paragon/icons';
+import { ChevronLeft, Info } from '@openedx/paragon/icons';
 import {
   Alert, Button, Hyperlink,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';

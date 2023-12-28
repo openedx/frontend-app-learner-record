@@ -6,7 +6,7 @@ import {
   injectIntl,
   intlShape,
 } from '@edx/frontend-platform/i18n';
-import { Hyperlink, DropdownButton, Dropdown } from '@edx/paragon';
+import { Hyperlink, DropdownButton, Dropdown } from '@openedx/paragon';
 import messages from './messages';
 
 function ProgramCertificate({
