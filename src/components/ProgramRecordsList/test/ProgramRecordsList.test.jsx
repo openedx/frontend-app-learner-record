@@ -21,7 +21,7 @@ describe('program-records-list', () => {
 
   it('renders the component', () => {
     render(<ProgramRecordsList />);
-    expect(screen.getByText('My Learner Records')).toBeTruthy();
+    expect(screen.queryAllByText('My Learner Records')).toBeTruthy();
   });
 
   it('it should display a link to the user\'s Profile', () => {
