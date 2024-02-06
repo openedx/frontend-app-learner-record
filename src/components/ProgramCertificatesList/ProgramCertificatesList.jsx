@@ -160,19 +160,21 @@ function ProgramCertificatesList({ intl }) {
   );
 
   return (
-    <main id="main-content" className="pt-5 pb-5 pl-4 pr-4" tabIndex="-1">
-      {renderProfile()}
-      <NavigationBar />
-      <h1 className="h3 pl-3 pr-3 mb-4">
-        {intl.formatMessage(messages.credentialsHeader)}
-      </h1>
-      {renderData()}
-      {renderHelp()}
-      <ProgramCertificateModal
-        isOpen={modalIsOpen}
-        close={closeModal}
-        data={verifiableCredentialIssuanceData}
-      />
+    <main id="main-content" className="pt-5 pb-5" tabIndex="-1">
+      <div className="container-fluid">
+        {renderProfile()}
+        <NavigationBar />
+        <h1 className="h3 pl-3 pr-3 mb-4">
+          {intl.formatMessage(messages.credentialsHeader)}
+        </h1>
+        {renderData()}
+        {renderHelp()}
+        <ProgramCertificateModal
+          isOpen={modalIsOpen}
+          close={closeModal}
+          data={verifiableCredentialIssuanceData}
+        />
+      </div>
     </main>
   );
 }
