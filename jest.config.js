@@ -2,11 +2,15 @@ const path = require('path');
 const fs = require('fs');
 const { createConfig } = require('@edx/frontend-build');
 
+/** in case there isn't an env.config.js in development or pushed into the master branch
+    we want to rely on a fallback config that exists in ./jest that provides an empty object.
+    This implementation was first done in frontend-build
+    https://github.com/openedx/frontend-build/blob/master/config/jest/fallback.env.config.js
+*/
 let envConfigPath = path.resolve(__dirname, './jest/fallback.env.config.js');
 const appEnvConfigPath = path.resolve(process.cwd(), './env.config.js');
 
 if (fs.existsSync(appEnvConfigPath)) {
-  console.log('TRUTH');
   envConfigPath = appEnvConfigPath;
 }
 

@@ -7,8 +7,6 @@ the master branch. To switch to using `env.config.js`:
 1. Make a copy of `example.env.config.js` and configure as needed.
 2. To ensure the port number is assigned to the one provided in your env.config,
 uncomment the lines in webpack.dev.config.js . This will eventually be resolved in https://github.com/openedx/frontend-build/issues/513
-3. To continue testing with Jest Snapshot, there is a mock in `/src/setupTest.jsx` for `getConfig` that will need to be
-uncommented.
 
 Note: having both .env and env.config.js files will follow a predictable order, in which non-empty values in the
 JS-based config will overwrite the .env environment variables.
