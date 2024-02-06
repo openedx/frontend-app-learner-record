@@ -115,6 +115,7 @@ function SendLearnerRecordModal({
             className="checkbox-group"
             onChange={handleCheckboxChange}
             value={selectedPathways}
+            ariaLabel="pathway selection"
           >
             {creditPathways.map(pathway => (
               <SelectableBox
