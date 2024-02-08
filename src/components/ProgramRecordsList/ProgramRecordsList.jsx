@@ -10,7 +10,7 @@ import { getConfig } from '@edx/frontend-platform/config';
 import { logError } from '@edx/frontend-platform/logging';
 import _ from 'lodash';
 
-import NavigationBar from '../NavigationBar/NavigationBar';
+import NavigationBar from '../NavigationBar';
 
 import getProgramRecords from './data/service';
 

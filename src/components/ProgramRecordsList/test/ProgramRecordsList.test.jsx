@@ -12,6 +12,8 @@ import {
 import ProgramRecordsList from '..';
 import programListRecordsFactory from './__factories__/programListRecords.factory';
 
+jest.mock('../../NavigationBar', () => 'NavigationBar');
+
 describe('program-records-list', () => {
   beforeAll(async () => {
     await initializeMockApp();
@@ -21,7 +23,7 @@ describe('program-records-list', () => {
 
   it('renders the component', () => {
     render(<ProgramRecordsList />);
-    expect(screen.queryAllByText('My Learner Records')).toBeTruthy();
+    expect(screen.getByText('My Learner Records')).toBeTruthy();
   });
 
   it('it should display a link to the user\'s Profile', () => {
