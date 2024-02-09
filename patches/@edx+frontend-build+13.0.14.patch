@@ -1,15 +1,17 @@
 diff --git a/node_modules/@edx/frontend-build/config/jest.config.js b/node_modules/@edx/frontend-build/config/jest.config.js
-index ae08b70..a198be1 100644
+index ae08b70..2c8c0fa 100644
 --- a/node_modules/@edx/frontend-build/config/jest.config.js
 +++ b/node_modules/@edx/frontend-build/config/jest.config.js
-@@ -4,11 +4,14 @@ const fs = require('fs');
+@@ -3,12 +3,16 @@ const fs = require('fs');
+ 
  const presets = require('../lib/presets');
  
++console.log('If you are expecting to use an env.config.jsx config, make sure to run `npm run postinstall` first!')
  let envConfigPath = path.resolve(__dirname, './jest/fallback.env.config.js');
 -const appEnvConfigPath = path.resolve(process.cwd(), './env.config.js');
 +const appEnvConfigPathJs = path.resolve(process.cwd(), './env.config.js');
 +const appEnvConfigPathJsx = path.resolve(process.cwd(), './env.config.jsx');
-                   
+ 
 -if (fs.existsSync(appEnvConfigPath)) {
 -  envConfigPath = appEnvConfigPath;
 -}
@@ -22,7 +24,7 @@ index ae08b70..a198be1 100644
  module.exports = {
    testURL: 'http://localhost/',
 diff --git a/node_modules/@edx/frontend-build/config/webpack.dev.config.js b/node_modules/@edx/frontend-build/config/webpack.dev.config.js
-index 5ce7716..fe9888e 100644
+index 5ce7716..6828971 100644
 --- a/node_modules/@edx/frontend-build/config/webpack.dev.config.js
 +++ b/node_modules/@edx/frontend-build/config/webpack.dev.config.js
 @@ -7,6 +7,7 @@ const Dotenv = require('dotenv-webpack');
@@ -33,10 +35,11 @@ index 5ce7716..fe9888e 100644
  const PostCssAutoprefixerPlugin = require('autoprefixer');
  const PostCssRTLCSS = require('postcss-rtlcss');
  const PostCssCustomMediaCSS = require('postcss-custom-media');
-@@ -17,6 +18,16 @@ const presets = require('../lib/presets');
+@@ -17,6 +18,17 @@ const presets = require('../lib/presets');
  const resolvePrivateEnvConfig = require('../lib/resolvePrivateEnvConfig');
  const getLocalAliases = require('./getLocalAliases');
  
++console.log('If you are expecting to use the PORT from env.config, make sure to run `npm run postinstall` first!');
 +let envConfig = {};
 +const envConfigPathJs = path.resolve(process.cwd(),'./env.config.js');
 +const envConfigPathJsx = path.resolve(process.cwd(), './env.config.jsx');
@@ -50,7 +53,7 @@ index 5ce7716..fe9888e 100644
  // Add process env vars. Currently used only for setting the
  // server port and the publicPath
  dotenv.config({
-@@ -174,7 +185,7 @@ module.exports = merge(commonConfig, {
+@@ -174,7 +186,7 @@ module.exports = merge(commonConfig, {
    // reloading.
    devServer: {
      host: '0.0.0.0',
@@ -59,38 +62,3 @@ index 5ce7716..fe9888e 100644
      historyApiFallback: {
        index: path.join(PUBLIC_PATH, 'index.html'),
        disableDotRule: true,
-diff --git a/node_modules/@edx/frontend-build/config/webpack.prod.config.js b/node_modules/@edx/frontend-build/config/webpack.prod.config.js
-index 2879dd9..64c2e7b 100644
---- a/node_modules/@edx/frontend-build/config/webpack.prod.config.js
-+++ b/node_modules/@edx/frontend-build/config/webpack.prod.config.js
-@@ -12,6 +12,7 @@ const NewRelicSourceMapPlugin = require('@edx/new-relic-source-map-webpack-plugi
- const HtmlWebpackPlugin = require('html-webpack-plugin');
- const MiniCssExtractPlugin = require('mini-css-extract-plugin');
- const path = require('path');
-+const fs = require('fs');
- const PostCssAutoprefixerPlugin = require('autoprefixer');
- const PostCssRTLCSS = require('postcss-rtlcss');
- const PostCssCustomMediaCSS = require('postcss-custom-media');
-@@ -23,6 +24,22 @@ const HtmlWebpackNewRelicPlugin = require('../lib/plugins/html-webpack-new-relic
- const commonConfig = require('./webpack.common.config');
- const presets = require('../lib/presets');
- 
-+/** This condition confirms whether the configuration for the MFE has switched to a JS-based configuration
-+ * as previously implemented in frontend-build and frontend-platform. If the environment variable exists, then
-+ * an env.config.js file will be created at the root directory and its env variables can be accessed with getConfig().
-+ *
-+ * https://github.com/openedx/frontend-build/blob/master/docs/0002-js-environment-config.md
-+ * https://github.com/openedx/frontend-platform/blob/master/docs/decisions/0007-javascript-file-configuration.rst
-+ */
-+const envConfigPath = process.env.JS_CONFIG_FILEPATH;
-+if (envConfigPath) {
-+  const envConfigFilename = envConfigPath.slice(envConfigPath.indexOf('env.config'));
-+
-+  fs.copyFile(process.env.JS_CONFIG_FILEPATH, envConfigFilename, (err) => {
-+    if (err) { throw err; }
-+  });
-+}
-+
- // Add process env vars. Currently used only for setting the PUBLIC_PATH.
- dotenv.config({
-   path: path.resolve(process.cwd(), '.env'),
