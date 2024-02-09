@@ -72,6 +72,7 @@
     "glob": "7.2.3",
     "husky": "7.0.4",
     "jest": "27.5.1",
+    "patch-package": "8.0.0",
     "resize-observer-polyfill": "^1.5.1",
     "rosie": "2.1.1",
     "sharp": "0.32.6"
