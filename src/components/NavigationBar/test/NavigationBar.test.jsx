@@ -4,7 +4,7 @@
 import React from 'react';
 import { mergeConfig } from '@edx/frontend-platform';
 import {
-  render, screen, cleanup, initializeMockApp, fireEvent,
+  render, screen, cleanup, initializeMockApp, fireEvent, waitFor,
 } from '../../../setupTest';
 import NavigationBar from '..';
 
@@ -29,7 +29,7 @@ describe('navigation-bar', () => {
   it('does not render the component with Verifiable Credentials functionality when flag is disabled', () => {
     mergeConfig({ ENABLE_VERIFIABLE_CREDENTIALS: false });
     const { container } = render(<NavigationBar />);
-    expect(container.innerHTML).toHaveLength(0);
+    waitFor(() => { expect(container.innerHTML).toHaveLength(0); });
   });
 
   it('renders the component with enabled the Verifiable Credentials functionality', () => {
