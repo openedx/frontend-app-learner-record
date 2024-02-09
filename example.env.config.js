@@ -2,13 +2,9 @@
 Learner Record is now able to handle JS-based configuration!
 
 For the time being, the `.env.*` files are still made available when cloning down this repo or pulling from
-the master branch. To switch to using `env.config.js`:
+the master branch. To switch to using `env.config.js(x)`:
 
-1. Make a copy of `example.env.config.js` and configure as needed.
-2. To ensure the port number is assigned to the one provided in your env.config,
-uncomment the lines in webpack.dev.config.js . This will eventually be resolved in https://github.com/openedx/frontend-build/issues/513
-
-Note: having both .env and env.config.js files will follow a predictable order, in which non-empty values in the
+Note: having both .env and env.config.js(x) files will follow a predictable order, in which non-empty values in the
 JS-based config will overwrite the .env environment variables.
 
 frontend-platform's getConfig loads configuration in the following sequence:
