@@ -12,6 +12,8 @@ import {
 import ProgramCertificatesList from '..';
 import { getProgramCredentialsFactory, getAvailableStoragesFactory } from './__factories__/programCertificatesList.factory';
 
+jest.mock('../../NavigationBar', () => 'NavigationBar');
+
 describe('program-certificates-list', () => {
   beforeAll(async () => {
     await initializeMockApp();
