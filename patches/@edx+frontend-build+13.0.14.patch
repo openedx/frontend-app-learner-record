@@ -60,7 +60,7 @@ index 5ce7716..fe9888e 100644
        index: path.join(PUBLIC_PATH, 'index.html'),
        disableDotRule: true,
 diff --git a/node_modules/@edx/frontend-build/config/webpack.prod.config.js b/node_modules/@edx/frontend-build/config/webpack.prod.config.js
-index 2879dd9..32af231 100644
+index 2879dd9..4cd1e42 100644
 --- a/node_modules/@edx/frontend-build/config/webpack.prod.config.js
 +++ b/node_modules/@edx/frontend-build/config/webpack.prod.config.js
 @@ -12,6 +12,7 @@ const NewRelicSourceMapPlugin = require('@edx/new-relic-source-map-webpack-plugi
@@ -71,7 +71,7 @@ index 2879dd9..32af231 100644
  const PostCssAutoprefixerPlugin = require('autoprefixer');
  const PostCssRTLCSS = require('postcss-rtlcss');
  const PostCssCustomMediaCSS = require('postcss-custom-media');
-@@ -23,6 +24,23 @@ const HtmlWebpackNewRelicPlugin = require('../lib/plugins/html-webpack-new-relic
+@@ -23,6 +24,25 @@ const HtmlWebpackNewRelicPlugin = require('../lib/plugins/html-webpack-new-relic
  const commonConfig = require('./webpack.common.config');
  const presets = require('../lib/presets');
  
@@ -84,14 +84,32 @@ index 2879dd9..32af231 100644
 + */
 +
 +const envConfigPath = process.env.JS_CONFIG_FILEPATH;
++let envConfig = {};
 +
 +if (envConfigPath) {
 +  const envConfigFilename = envConfigPath.slice(envConfigPath.indexOf('env.config'));
-+  fs.copyFile(envConfigPath, envConfigFilename, (err) => {
-+    if (err) { throw err; }
-+  });
-+}
++  fs.copyFileSync(envConfigPath, envConfigFilename);
++
++  let newConfigFilepath = path.resolve(process.cwd(), envConfigFilename);
++  envConfig = require(newConfigFilepath);
++};
 +
  // Add process env vars. Currently used only for setting the PUBLIC_PATH.
  dotenv.config({
    path: path.resolve(process.cwd(), '.env'),
+@@ -45,12 +65,12 @@ if (process.env.ENABLE_NEW_RELIC !== 'false') {
+     agentID: process.env.NEW_RELIC_AGENT_ID || 'undefined_agent_id',
+     trustKey: process.env.NEW_RELIC_TRUST_KEY || 'undefined_trust_key',
+     licenseKey: process.env.NEW_RELIC_LICENSE_KEY || 'undefined_license_key',
+-    applicationID: process.env.NEW_RELIC_APP_ID || 'undefined_application_id',
++    applicationID: envConfig.NEW_RELIC_APP_ID || process.env.NEW_RELIC_APP_ID || 'undefined_application_id',
+   }));
+   extraPlugins.push(new NewRelicSourceMapPlugin({
+-    applicationId: process.env.NEW_RELIC_APP_ID,
++    applicationId: envConfig.NEW_RELIC_APP_ID || process.env.NEW_RELIC_APP_ID,
+     apiKey: process.env.NEW_RELIC_ADMIN_KEY,
+-    staticAssetUrl: process.env.BASE_URL,
++    staticAssetUrl: envConfig.BASE_URL || process.env.BASE_URL,
+     // upload source maps in prod builds only
+     noop: typeof process.env.NEW_RELIC_ADMIN_KEY === 'undefined',
+   }));
