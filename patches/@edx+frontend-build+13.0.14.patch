@@ -60,10 +60,10 @@ index 5ce7716..fe9888e 100644
        index: path.join(PUBLIC_PATH, 'index.html'),
        disableDotRule: true,
 diff --git a/node_modules/@edx/frontend-build/config/webpack.prod.config.js b/node_modules/@edx/frontend-build/config/webpack.prod.config.js
-index 2879dd9..4cd1e42 100644
+index 2879dd9..555be8f 100644
 --- a/node_modules/@edx/frontend-build/config/webpack.prod.config.js
 +++ b/node_modules/@edx/frontend-build/config/webpack.prod.config.js
-@@ -12,6 +12,7 @@ const NewRelicSourceMapPlugin = require('@edx/new-relic-source-map-webpack-plugi
+@@ -12,17 +12,39 @@ const NewRelicSourceMapPlugin = require('@edx/new-relic-source-map-webpack-plugi
  const HtmlWebpackPlugin = require('html-webpack-plugin');
  const MiniCssExtractPlugin = require('mini-css-extract-plugin');
  const path = require('path');
@@ -71,7 +71,12 @@ index 2879dd9..4cd1e42 100644
  const PostCssAutoprefixerPlugin = require('autoprefixer');
  const PostCssRTLCSS = require('postcss-rtlcss');
  const PostCssCustomMediaCSS = require('postcss-custom-media');
-@@ -23,6 +24,25 @@ const HtmlWebpackNewRelicPlugin = require('../lib/plugins/html-webpack-new-relic
+ 
+ // Reduce CSS file size by ~70%
+ const purgecss = require('@fullhuman/postcss-purgecss');
+-
+ const HtmlWebpackNewRelicPlugin = require('../lib/plugins/html-webpack-new-relic-plugin');
++const resolveRelativePath = require('../lib/resolveRelativePath')
  const commonConfig = require('./webpack.common.config');
  const presets = require('../lib/presets');
  
@@ -88,7 +93,9 @@ index 2879dd9..4cd1e42 100644
 +
 +if (envConfigPath) {
 +  const envConfigFilename = envConfigPath.slice(envConfigPath.indexOf('env.config'));
-+  fs.copyFileSync(envConfigPath, envConfigFilename);
++  const relEnvConfigFilePath = resolveRelativePath(process.cwd(), envConfigPath)
++
++  fs.copyFileSync(relEnvConfigFilePath, envConfigFilename);
 +
 +  let newConfigFilepath = path.resolve(process.cwd(), envConfigFilename);
 +  envConfig = require(newConfigFilepath);
@@ -97,7 +104,7 @@ index 2879dd9..4cd1e42 100644
  // Add process env vars. Currently used only for setting the PUBLIC_PATH.
  dotenv.config({
    path: path.resolve(process.cwd(), '.env'),
-@@ -45,12 +65,12 @@ if (process.env.ENABLE_NEW_RELIC !== 'false') {
+@@ -45,12 +67,12 @@ if (process.env.ENABLE_NEW_RELIC !== 'false') {
      agentID: process.env.NEW_RELIC_AGENT_ID || 'undefined_agent_id',
      trustKey: process.env.NEW_RELIC_TRUST_KEY || 'undefined_trust_key',
      licenseKey: process.env.NEW_RELIC_LICENSE_KEY || 'undefined_license_key',
@@ -113,3 +120,40 @@ index 2879dd9..4cd1e42 100644
      // upload source maps in prod builds only
      noop: typeof process.env.NEW_RELIC_ADMIN_KEY === 'undefined',
    }));
+diff --git a/node_modules/@edx/frontend-build/lib/resolveRelativePath.js b/node_modules/@edx/frontend-build/lib/resolveRelativePath.js
+new file mode 100644
+index 0000000..7fdbcf5
+--- /dev/null
++++ b/node_modules/@edx/frontend-build/lib/resolveRelativePath.js
+@@ -0,0 +1,31 @@
++/**
++ * Returns the relative filepath given the directory to start from (FROM) and the target filepath (TO).
++ * Useful for finding files by traversing upward from the starting directory
++ *
++ * @param {string} startDir is string path of where to begin searching for filepath
++ * @param {string} targetFilePath
++ *
++ * @returns {string} - relative path from startDir to targetFilePath
++ * */
++
++const fs = require('fs');
++const path = require('path');
++
++module.exports = (startDir = process.cwd(), targetFilePath) => {
++  let rootOfFilePath = targetFilePath.split('/')[0];
++
++  while(true) {
++    // retrieve list of all directories/files in the directory
++    let list = fs.readdirSync(startDir)
++
++    // searches for rootOfFilePath in list, and will either return
++    // a relative path or reassign startDir to its parent
++    if (list.indexOf(rootOfFilePath) != -1) {
++      return path.join(startDir, targetFilePath);
++    } else if (startDir === '/') {
++      throw new Error(`The target (${targetFilePath}) does not exist in the current working directory or its parents`)
++    } else {
++      startDir = path.normalize(path.join(startDir, '..'));
++    };
++  };
++};
