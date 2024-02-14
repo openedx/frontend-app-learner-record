@@ -60,7 +60,7 @@ index 5ce7716..fe9888e 100644
        index: path.join(PUBLIC_PATH, 'index.html'),
        disableDotRule: true,
 diff --git a/node_modules/@edx/frontend-build/config/webpack.prod.config.js b/node_modules/@edx/frontend-build/config/webpack.prod.config.js
-index 2879dd9..0495327 100644
+index 2879dd9..4cd1e42 100644
 --- a/node_modules/@edx/frontend-build/config/webpack.prod.config.js
 +++ b/node_modules/@edx/frontend-build/config/webpack.prod.config.js
 @@ -12,6 +12,7 @@ const NewRelicSourceMapPlugin = require('@edx/new-relic-source-map-webpack-plugi
@@ -71,7 +71,7 @@ index 2879dd9..0495327 100644
  const PostCssAutoprefixerPlugin = require('autoprefixer');
  const PostCssRTLCSS = require('postcss-rtlcss');
  const PostCssCustomMediaCSS = require('postcss-custom-media');
-@@ -23,6 +24,27 @@ const HtmlWebpackNewRelicPlugin = require('../lib/plugins/html-webpack-new-relic
+@@ -23,6 +24,25 @@ const HtmlWebpackNewRelicPlugin = require('../lib/plugins/html-webpack-new-relic
  const commonConfig = require('./webpack.common.config');
  const presets = require('../lib/presets');
  
@@ -83,10 +83,8 @@ index 2879dd9..0495327 100644
 + * https://github.com/openedx/frontend-platform/blob/master/docs/decisions/0007-javascript-file-configuration.rst
 + */
 +
-+console.log('THIS IS THE ABSOLUTE PATH: ', process.cwd());
 +const envConfigPath = process.env.JS_CONFIG_FILEPATH;
 +let envConfig = {};
-+
 +
 +if (envConfigPath) {
 +  const envConfigFilename = envConfigPath.slice(envConfigPath.indexOf('env.config'));
@@ -99,7 +97,7 @@ index 2879dd9..0495327 100644
  // Add process env vars. Currently used only for setting the PUBLIC_PATH.
  dotenv.config({
    path: path.resolve(process.cwd(), '.env'),
-@@ -45,12 +67,12 @@ if (process.env.ENABLE_NEW_RELIC !== 'false') {
+@@ -45,12 +65,12 @@ if (process.env.ENABLE_NEW_RELIC !== 'false') {
      agentID: process.env.NEW_RELIC_AGENT_ID || 'undefined_agent_id',
      trustKey: process.env.NEW_RELIC_TRUST_KEY || 'undefined_trust_key',
      licenseKey: process.env.NEW_RELIC_LICENSE_KEY || 'undefined_license_key',
