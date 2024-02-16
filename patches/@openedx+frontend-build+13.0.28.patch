@@ -1,0 +1,118 @@
+diff --git a/node_modules/@openedx/frontend-build/config/jest.config.js b/node_modules/@openedx/frontend-build/config/jest.config.js
+index ac5f730..ddce396 100644
+--- a/node_modules/@openedx/frontend-build/config/jest.config.js
++++ b/node_modules/@openedx/frontend-build/config/jest.config.js
+@@ -3,11 +3,16 @@ const fs = require('fs');
+ 
+ const presets = require('../lib/presets');
+ 
++// This assigns the envConfigPath filepath based on whether env.config exists, otherwise it uses the fallback filepath.
++
+ let envConfigPath = path.resolve(__dirname, './jest/fallback.env.config.js');
+-const appEnvConfigPath = path.resolve(process.cwd(), './env.config.js');
++const appEnvConfigPathJs = path.resolve(process.cwd(), './env.config.js');
++const appEnvConfigPathJsx = path.resolve(process.cwd(), './env.config.jsx');
+ 
+-if (fs.existsSync(appEnvConfigPath)) {
+-  envConfigPath = appEnvConfigPath;
++if (fs.existsSync(appEnvConfigPathJs)) {
++  envConfigPath = appEnvConfigPathJs;
++} else if (fs.existsSync(appEnvConfigPathJsx)) {
++  envConfigPath = appEnvConfigPathJsx;
+ }
+ 
+ module.exports = {
+diff --git a/node_modules/@openedx/frontend-build/config/webpack.dev.config.js b/node_modules/@openedx/frontend-build/config/webpack.dev.config.js
+index 5ce7716..2fbc646 100644
+--- a/node_modules/@openedx/frontend-build/config/webpack.dev.config.js
++++ b/node_modules/@openedx/frontend-build/config/webpack.dev.config.js
+@@ -6,6 +6,7 @@ const { merge } = require('webpack-merge');
+ const Dotenv = require('dotenv-webpack');
+ const dotenv = require('dotenv');
+ const HtmlWebpackPlugin = require('html-webpack-plugin');
++const fs = require('fs');
+ const path = require('path');
+ const PostCssAutoprefixerPlugin = require('autoprefixer');
+ const PostCssRTLCSS = require('postcss-rtlcss');
+@@ -17,6 +18,18 @@ const presets = require('../lib/presets');
+ const resolvePrivateEnvConfig = require('../lib/resolvePrivateEnvConfig');
+ const getLocalAliases = require('./getLocalAliases');
+ 
++// Provides the env.config object that is available in local development so that devserver port number
++// can be assigned below. If no env.config exists (JS or JSX), then it provides an empty object.
++let envConfig = {};
++const envConfigPathJs = path.resolve(process.cwd(), './env.config.js');
++const envConfigPathJsx = path.resolve(process.cwd(), './env.config.jsx');
++
++if (fs.existsSync(envConfigPathJs)) {
++  envConfig = require(envConfigPathJs);
++} else if (fs.existsSync(envConfigPathJsx)) {
++  envConfig = require(envConfigPathJsx);
++}
++
+ // Add process env vars. Currently used only for setting the
+ // server port and the publicPath
+ dotenv.config({
+@@ -174,7 +187,7 @@ module.exports = merge(commonConfig, {
+   // reloading.
+   devServer: {
+     host: '0.0.0.0',
+-    port: process.env.PORT || 8080,
++    port: envConfig.PORT || process.env.PORT || 8080,
+     historyApiFallback: {
+       index: path.join(PUBLIC_PATH, 'index.html'),
+       disableDotRule: true,
+diff --git a/node_modules/@openedx/frontend-build/config/webpack.prod.config.js b/node_modules/@openedx/frontend-build/config/webpack.prod.config.js
+index 2879dd9..1ddb07f 100644
+--- a/node_modules/@openedx/frontend-build/config/webpack.prod.config.js
++++ b/node_modules/@openedx/frontend-build/config/webpack.prod.config.js
+@@ -11,6 +11,7 @@ const dotenv = require('dotenv');
+ const NewRelicSourceMapPlugin = require('@edx/new-relic-source-map-webpack-plugin');
+ const HtmlWebpackPlugin = require('html-webpack-plugin');
+ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
++const fs = require('fs');
+ const path = require('path');
+ const PostCssAutoprefixerPlugin = require('autoprefixer');
+ const PostCssRTLCSS = require('postcss-rtlcss');
+@@ -23,6 +24,25 @@ const HtmlWebpackNewRelicPlugin = require('../lib/plugins/html-webpack-new-relic
+ const commonConfig = require('./webpack.common.config');
+ const presets = require('../lib/presets');
+ 
++/** This condition confirms whether the configuration for the MFE has switched to a JS-based configuration
++ * as previously implemented in frontend-build and frontend-platform. If the environment variable exists, then
++ * an env.config.js file will be created at the root directory and its env variables can be accessed with getConfig().
++ *
++ * https://github.com/openedx/frontend-build/blob/master/docs/0002-js-environment-config.md
++ * https://github.com/openedx/frontend-platform/blob/master/docs/decisions/0007-javascript-file-configuration.rst
++ */
++
++const envConfigPath = process.env.JS_CONFIG_FILEPATH;
++let envConfig = {};
++
++if (envConfigPath) {
++  const envConfigFilename = envConfigPath.slice(envConfigPath.indexOf('env.config'));
++  fs.copyFileSync(envConfigPath, envConfigFilename);
++
++  const newConfigFilepath = path.resolve(process.cwd(), envConfigFilename);
++  envConfig = require(newConfigFilepath);
++}
++
+ // Add process env vars. Currently used only for setting the PUBLIC_PATH.
+ dotenv.config({
+   path: path.resolve(process.cwd(), '.env'),
+@@ -45,12 +65,12 @@ if (process.env.ENABLE_NEW_RELIC !== 'false') {
+     agentID: process.env.NEW_RELIC_AGENT_ID || 'undefined_agent_id',
+     trustKey: process.env.NEW_RELIC_TRUST_KEY || 'undefined_trust_key',
+     licenseKey: process.env.NEW_RELIC_LICENSE_KEY || 'undefined_license_key',
+-    applicationID: process.env.NEW_RELIC_APP_ID || 'undefined_application_id',
++    applicationID: envConfig.NEW_RELIC_APP_ID || process.env.NEW_RELIC_APP_ID || 'undefined_application_id',
+   }));
+   extraPlugins.push(new NewRelicSourceMapPlugin({
+-    applicationId: process.env.NEW_RELIC_APP_ID,
++    applicationId: envConfig.NEW_RELIC_APP_ID || process.env.NEW_RELIC_APP_ID,
+     apiKey: process.env.NEW_RELIC_ADMIN_KEY,
+-    staticAssetUrl: process.env.BASE_URL,
++    staticAssetUrl: envConfig.BASE_URL || process.env.BASE_URL,
+     // upload source maps in prod builds only
+     noop: typeof process.env.NEW_RELIC_ADMIN_KEY === 'undefined',
+   }));

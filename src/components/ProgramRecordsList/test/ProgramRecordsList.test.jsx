@@ -12,6 +12,8 @@ import {
 import ProgramRecordsList from '..';
 import programListRecordsFactory from './__factories__/programListRecords.factory';
 
+jest.mock('../../NavigationBar', () => 'NavigationBar');
+
 describe('program-records-list', () => {
   beforeAll(async () => {
     await initializeMockApp();
