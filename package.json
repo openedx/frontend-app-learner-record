@@ -76,7 +76,7 @@
     "patch-package": "8.0.0",
     "resize-observer-polyfill": "^1.5.1",
     "rosie": "2.1.1",
-    "sharp": "0.32.6"
+    "sharp": "0.33.2"
   },
   "overrides": {
     "@edx/frontend-build": {
