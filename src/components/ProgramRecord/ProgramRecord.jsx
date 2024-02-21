@@ -6,10 +6,10 @@ import { useParams } from 'react-router-dom';
 
 import {
   Info, ArrowBack,
-} from '@edx/paragon/icons';
+} from '@openedx/paragon/icons';
 import {
   Alert, Container, Button, Hyperlink,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { logError } from '@edx/frontend-platform/logging';

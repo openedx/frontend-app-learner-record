@@ -1,10 +1,13 @@
-diff --git a/node_modules/@edx/frontend-build/config/jest.config.js b/node_modules/@edx/frontend-build/config/jest.config.js
-index ae08b70..9440d81 100644
---- a/node_modules/@edx/frontend-build/config/jest.config.js
-+++ b/node_modules/@edx/frontend-build/config/jest.config.js
-@@ -4,11 +4,14 @@ const fs = require('fs');
+diff --git a/node_modules/@openedx/frontend-build/config/jest.config.js b/node_modules/@openedx/frontend-build/config/jest.config.js
+index ac5f730..ddce396 100644
+--- a/node_modules/@openedx/frontend-build/config/jest.config.js
++++ b/node_modules/@openedx/frontend-build/config/jest.config.js
+@@ -3,11 +3,16 @@ const fs = require('fs');
+ 
  const presets = require('../lib/presets');
  
++// This assigns the envConfigPath filepath based on whether env.config exists, otherwise it uses the fallback filepath.
++
  let envConfigPath = path.resolve(__dirname, './jest/fallback.env.config.js');
 -const appEnvConfigPath = path.resolve(process.cwd(), './env.config.js');
 +const appEnvConfigPathJs = path.resolve(process.cwd(), './env.config.js');
@@ -12,45 +15,45 @@ index ae08b70..9440d81 100644
  
 -if (fs.existsSync(appEnvConfigPath)) {
 -  envConfigPath = appEnvConfigPath;
--}
 +if (fs.existsSync(appEnvConfigPathJs)) {
 +  envConfigPath = appEnvConfigPathJs;
 +} else if (fs.existsSync(appEnvConfigPathJsx)) {
 +  envConfigPath = appEnvConfigPathJsx;
-+};
+ }
  
  module.exports = {
-   testURL: 'http://localhost/',
-diff --git a/node_modules/@edx/frontend-build/config/webpack.dev.config.js b/node_modules/@edx/frontend-build/config/webpack.dev.config.js
-index 5ce7716..fe9888e 100644
---- a/node_modules/@edx/frontend-build/config/webpack.dev.config.js
-+++ b/node_modules/@edx/frontend-build/config/webpack.dev.config.js
-@@ -7,6 +7,7 @@ const Dotenv = require('dotenv-webpack');
+diff --git a/node_modules/@openedx/frontend-build/config/webpack.dev.config.js b/node_modules/@openedx/frontend-build/config/webpack.dev.config.js
+index 5ce7716..2fbc646 100644
+--- a/node_modules/@openedx/frontend-build/config/webpack.dev.config.js
++++ b/node_modules/@openedx/frontend-build/config/webpack.dev.config.js
+@@ -6,6 +6,7 @@ const { merge } = require('webpack-merge');
+ const Dotenv = require('dotenv-webpack');
  const dotenv = require('dotenv');
  const HtmlWebpackPlugin = require('html-webpack-plugin');
- const path = require('path');
 +const fs = require('fs');
+ const path = require('path');
  const PostCssAutoprefixerPlugin = require('autoprefixer');
  const PostCssRTLCSS = require('postcss-rtlcss');
- const PostCssCustomMediaCSS = require('postcss-custom-media');
-@@ -17,6 +18,16 @@ const presets = require('../lib/presets');
+@@ -17,6 +18,18 @@ const presets = require('../lib/presets');
  const resolvePrivateEnvConfig = require('../lib/resolvePrivateEnvConfig');
  const getLocalAliases = require('./getLocalAliases');
  
++// Provides the env.config object that is available in local development so that devserver port number
++// can be assigned below. If no env.config exists (JS or JSX), then it provides an empty object.
 +let envConfig = {};
-+const envConfigPathJs = path.resolve(process.cwd(),'./env.config.js');
++const envConfigPathJs = path.resolve(process.cwd(), './env.config.js');
 +const envConfigPathJsx = path.resolve(process.cwd(), './env.config.jsx');
 +
 +if (fs.existsSync(envConfigPathJs)) {
 +  envConfig = require(envConfigPathJs);
 +} else if (fs.existsSync(envConfigPathJsx)) {
 +  envConfig = require(envConfigPathJsx);
-+};
++}
 +
  // Add process env vars. Currently used only for setting the
  // server port and the publicPath
  dotenv.config({
-@@ -174,7 +185,7 @@ module.exports = merge(commonConfig, {
+@@ -174,7 +187,7 @@ module.exports = merge(commonConfig, {
    // reloading.
    devServer: {
      host: '0.0.0.0',
@@ -59,18 +62,18 @@ index 5ce7716..fe9888e 100644
      historyApiFallback: {
        index: path.join(PUBLIC_PATH, 'index.html'),
        disableDotRule: true,
-diff --git a/node_modules/@edx/frontend-build/config/webpack.prod.config.js b/node_modules/@edx/frontend-build/config/webpack.prod.config.js
-index 2879dd9..4cd1e42 100644
---- a/node_modules/@edx/frontend-build/config/webpack.prod.config.js
-+++ b/node_modules/@edx/frontend-build/config/webpack.prod.config.js
-@@ -12,6 +12,7 @@ const NewRelicSourceMapPlugin = require('@edx/new-relic-source-map-webpack-plugi
+diff --git a/node_modules/@openedx/frontend-build/config/webpack.prod.config.js b/node_modules/@openedx/frontend-build/config/webpack.prod.config.js
+index 2879dd9..1ddb07f 100644
+--- a/node_modules/@openedx/frontend-build/config/webpack.prod.config.js
++++ b/node_modules/@openedx/frontend-build/config/webpack.prod.config.js
+@@ -11,6 +11,7 @@ const dotenv = require('dotenv');
+ const NewRelicSourceMapPlugin = require('@edx/new-relic-source-map-webpack-plugin');
  const HtmlWebpackPlugin = require('html-webpack-plugin');
  const MiniCssExtractPlugin = require('mini-css-extract-plugin');
- const path = require('path');
 +const fs = require('fs');
+ const path = require('path');
  const PostCssAutoprefixerPlugin = require('autoprefixer');
  const PostCssRTLCSS = require('postcss-rtlcss');
- const PostCssCustomMediaCSS = require('postcss-custom-media');
 @@ -23,6 +24,25 @@ const HtmlWebpackNewRelicPlugin = require('../lib/plugins/html-webpack-new-relic
  const commonConfig = require('./webpack.common.config');
  const presets = require('../lib/presets');
@@ -90,9 +93,9 @@ index 2879dd9..4cd1e42 100644
 +  const envConfigFilename = envConfigPath.slice(envConfigPath.indexOf('env.config'));
 +  fs.copyFileSync(envConfigPath, envConfigFilename);
 +
-+  let newConfigFilepath = path.resolve(process.cwd(), envConfigFilename);
++  const newConfigFilepath = path.resolve(process.cwd(), envConfigFilename);
 +  envConfig = require(newConfigFilepath);
-+};
++}
 +
  // Add process env vars. Currently used only for setting the PUBLIC_PATH.
  dotenv.config({

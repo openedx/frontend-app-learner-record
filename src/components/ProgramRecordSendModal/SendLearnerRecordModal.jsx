@@ -4,7 +4,7 @@ import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import PropTypes from 'prop-types';
 import {
   ModalDialog, Form, SelectableBox, ActionRow, Button,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { logError } from '@edx/frontend-platform/logging';
