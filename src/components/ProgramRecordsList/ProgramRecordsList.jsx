@@ -174,7 +174,7 @@ function ProgramRecordsList() {
   );
 
   return (
-    <main id="main-content" className="pt-5 pb-5" tabIndex="-1">
+    <main id="main-content" className="pt-5 pb-5 pl-4 pr-4" tabIndex="-1">
       <div className="container-fluid">
         {renderProfile()}
         <NavigationBar />
