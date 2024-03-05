@@ -77,6 +77,18 @@ function ProgramRecordHeader({
         </span>
       </div>
       <div className="learner-info my-3">
+        {
+          learner.full_name && (
+          <FormattedMessage
+            id="learner.full_name"
+            defaultMessage="{full_name} | "
+            description="Full name of the learner"
+            values={{
+              full_name: learner.full_name,
+            }}
+          />
+          )
+        }
         <FormattedMessage
           id="learner.email"
           defaultMessage="{email}"
