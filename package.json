@@ -39,6 +39,7 @@
     "@edx/frontend-component-footer": "13.0.3",
     "@edx/frontend-component-header": "5.0.2",
     "@edx/frontend-platform": "7.1.1",
+    "@edx/frontend-plugin-framework": "openedx/frontend-plugin-framework",
     "@edx/openedx-atlas": "^0.6.0",
     "@fortawesome/fontawesome-svg-core": "6.5.1",
     "@fortawesome/free-brands-svg-icons": "6.5.1",
