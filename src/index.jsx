@@ -7,7 +7,7 @@ import {
   APP_INIT_ERROR, APP_READY, subscribe, initialize, mergeConfig, getConfig,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage, AuthenticatedPageRoute } from '@edx/frontend-platform/react';
-import { PluginSlot } from '@edx/frontend-plugin-framework/src';
+import { PluginSlot } from '@openedx/frontend-plugin-framework/src';
 import { HelmetProvider } from 'react-helmet-async';
 import Header from '@edx/frontend-component-header';
 import Footer from '@edx/frontend-component-footer';
