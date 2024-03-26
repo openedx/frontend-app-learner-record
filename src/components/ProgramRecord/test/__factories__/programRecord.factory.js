@@ -3,7 +3,7 @@ import { Factory } from 'rosie'; // eslint-disable-line import/no-extraneous-dep
 export default Factory.define('program_record_details')
   .attr('record', {
     learner: {
-      full_name: '',
+      full_name: 'test',
       username: 'edx',
       email: 'edx@example.com',
     },
