@@ -68,7 +68,7 @@
     "@edx/reactifex": "2.2.0",
     "@openedx/frontend-build": "13.0.29",
     "@testing-library/jest-dom": "6.4.2",
-    "@testing-library/react": "12.1.5",
+    "@testing-library/react": "14.2.2",
     "axios-mock-adapter": "1.22.0",
     "babel-plugin-react-intl": "8.2.25",
     "glob": "10.3.10",
