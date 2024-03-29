@@ -21,6 +21,7 @@ import ProgramRecordTable from './ProgramRecordTable';
 import RecordsHelp from './RecordsHelp';
 import ProgramRecordAlert from '../ProgramRecordAlert';
 import SendLearnerRecordModal from '../ProgramRecordSendModal';
+import createCorrectInternalRoute from '../../utils';
 
 import getProgramDetails from './data/service';
 
@@ -81,7 +82,7 @@ function ProgramRecord({ isPublic }) {
       className="back-to-records"
     >
       <Hyperlink
-        destination="/"
+        destination={createCorrectInternalRoute('/')}
         variant="muted"
       >
         <FormattedMessage

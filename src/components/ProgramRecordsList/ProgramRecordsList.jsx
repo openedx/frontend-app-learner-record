@@ -12,6 +12,7 @@ import _ from 'lodash';
 
 import NavigationBar from '../NavigationBar';
 
+import createCorrectInternalRoute from '../../utils';
 import getProgramRecords from './data/service';
 
 function ProgramRecordsList() {
@@ -115,7 +116,7 @@ function ProgramRecordsList() {
             <div className="d-flex align-items-center pt-3 pt-lg-0">
               <Hyperlink
                 variant="muted"
-                destination={`/${record.uuid}`}
+                destination={createCorrectInternalRoute(`/${record.uuid}`)}
               >
                 <Button variant="outline-primary">
                   <FormattedMessage
