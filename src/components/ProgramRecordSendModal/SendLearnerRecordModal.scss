@@ -15,6 +15,12 @@
 
         > div {
             width: 100%;
+            @extend .d-flex;
+
+            input[type=checkbox] {
+                margin-top: 4px;
+                flex-shrink: 0;
+            }
         }
     }
 }
