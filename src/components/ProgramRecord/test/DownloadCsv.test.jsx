@@ -7,7 +7,7 @@ import { Factory } from 'rosie';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform';
 import {
-  render, screen, cleanup, fireEvent, act, initializeMockApp,
+  render, screen, cleanup, fireEvent, act, initializeMockApp, waitFor,
 } from '../../../setupTest';
 import ProgramRecord from '../ProgramRecord';
 import programRecordFactory from './__factories__/programRecord.factory';
@@ -51,7 +51,7 @@ describe('program-record', () => {
       },
     }));
     expect(screen.getByRole('button', { name: 'Download program record' })).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: 'Download program record' }));
+    waitFor(() => fireEvent.click(screen.findByRole('button', { name: 'Download program record' })));
     expect(await screen.findByText(`${responseMock.record.program.name} Record`)).toBeTruthy();
     expect(await screen.findByText(`${responseMock.record.program.type_name} Program Record`)).toBeTruthy();
     expect(await screen.findByText(`${responseMock.record.platform_name} | ${responseMock.record.program.school}`)).toBeTruthy();
