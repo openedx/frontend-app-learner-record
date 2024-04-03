@@ -1,7 +1,3 @@
-export TRANSIFEX_RESOURCE = frontend-app-learner-record
-transifex_resource = frontend-app-learner-record
-transifex_langs = "ar,fr,es_419,zh_CN,fr_CA,it_IT,pt_PT,de_DE,uk,ru,hi"
-
 intl_imports = ./node_modules/.bin/intl-imports.js
 transifex_utils = ./node_modules/.bin/transifex-utils.js
 i18n = ./src/i18n
@@ -45,35 +41,19 @@ detect_changed_source_translations:
 	# Checking for changed translations...
 	git diff --exit-code $(i18n)
 
-# Pushes translations to Transifex.  You must run make extract_translations first.
-push_translations:
-	# Pushing strings to Transifex...
-	tx push -s
-	# Fetching hashes from Transifex...
-	./node_modules/@edx/reactifex/bash_scripts/get_hashed_strings_v3.sh
-	# Writing out comments to file...
-	$(transifex_utils) $(transifex_temp) --comments --v3-scripts-path
-	# Pushing comments to Transifex...
-	./node_modules/@edx/reactifex/bash_scripts/put_comments_v3.sh
-
-ifeq ($(OPENEDX_ATLAS_PULL),)
-# Pulls translations from Transifex.
-pull_translations:
-	tx pull -t -f --mode reviewed --languages=$(transifex_langs)
-else
 # Experimental: OEP-58 Pulls translations using atlas
 pull_translations:
 	rm -rf src/i18n/messages
 	mkdir src/i18n/messages
 	cd src/i18n/messages \
-      && atlas pull --filter=$(transifex_langs) \
+      && atlas pull $(ATLAS_OPTIONS) \
                translations/frontend-component-footer/src/i18n/messages:frontend-component-footer \
                translations/frontend-component-header/src/i18n/messages:frontend-component-header \
+               translations/frontend-platform/src/i18n/messages:frontend-platform \
                translations/paragon/src/i18n/messages:paragon \
                translations/frontend-app-learner-record/src/i18n/messages:frontend-app-learner-record
 
-	$(intl_imports) frontend-component-header frontend-component-footer paragon frontend-app-learner-record
-endif
+	$(intl_imports) frontend-component-header frontend-component-footer frontend-platform paragon frontend-app-learner-record
 
 # This target is used by Travis.
 validate-no-uncommitted-package-lock-changes:

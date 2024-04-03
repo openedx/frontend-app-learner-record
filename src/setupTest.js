@@ -9,12 +9,15 @@ import { configure as configureI18n } from '@edx/frontend-platform/i18n';
 import { configure as configureLogging, MockLoggingService } from '@edx/frontend-platform/logging';
 import { getConfig, mergeConfig } from '@edx/frontend-platform';
 import { configure as configureAuth, MockAuthService } from '@edx/frontend-platform/auth';
+import envConfig from '../env.config';
 import messages from './i18n';
 
 jest.mock('@edx/frontend-platform/react/hooks', () => ({
   ...jest.requireActual('@edx/frontend-platform/react/hooks'),
   useTrackColorSchemeChoice: jest.fn(),
 }));
+
+mergeConfig(envConfig);
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -38,6 +41,7 @@ export function initializeMockApp() {
       roles: [],
       administrator: false,
     },
+    ...envConfig,
   });
 
   const loggingService = configureLogging(MockLoggingService, {
@@ -53,11 +57,6 @@ export function initializeMockApp() {
   const authService = configureAuth(MockAuthService, { config: getConfig(), loggingService });
   return { loggingService, i18nService, authService };
 }
-
-jest.mock('@edx/frontend-platform/react/hooks', () => ({
-  ...jest.requireActual('@edx/frontend-platform/react/hooks'),
-  useTrackColorSchemeChoice: jest.fn(),
-}));
 
 function render(ui, options) {
   // eslint-disable-next-line react/prop-types

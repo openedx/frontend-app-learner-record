@@ -4,8 +4,8 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { BrowserView, MobileView, isBrowser } from 'react-device-detect';
 import {
   ActionRow, Button, Row, StandardModal,
-} from '@edx/paragon';
-import { Info, ContentCopy } from '@edx/paragon/icons';
+} from '@openedx/paragon';
+import { Info, ContentCopy } from '@openedx/paragon/icons';
 
 import messages from './messages';
 import appStoreImg from '../../assets/images/appStore.png';

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Alert, Button, Hyperlink } from '@edx/paragon';
-import { Info, CheckCircle } from '@edx/paragon/icons';
+import { Alert, Button, Hyperlink } from '@openedx/paragon';
+import { Info, CheckCircle } from '@openedx/paragon/icons';
 
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { logError } from '@edx/frontend-platform/logging';

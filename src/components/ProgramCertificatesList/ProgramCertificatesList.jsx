@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { ChevronLeft, Info } from '@edx/paragon/icons';
+import { ChevronLeft, Info } from '@openedx/paragon/icons';
 import {
   Alert, Hyperlink, Row, useToggle,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';
@@ -161,18 +161,20 @@ function ProgramCertificatesList({ intl }) {
 
   return (
     <main id="main-content" className="pt-5 pb-5 pl-4 pr-4" tabIndex="-1">
-      {renderProfile()}
-      <NavigationBar />
-      <h1 className="h3 pl-3 pr-3 mb-4">
-        {intl.formatMessage(messages.credentialsHeader)}
-      </h1>
-      {renderData()}
-      {renderHelp()}
-      <ProgramCertificateModal
-        isOpen={modalIsOpen}
-        close={closeModal}
-        data={verifiableCredentialIssuanceData}
-      />
+      <div className="container-fluid">
+        {renderProfile()}
+        <NavigationBar />
+        <h1 className="h3 pl-3 pr-3 mb-4">
+          {intl.formatMessage(messages.credentialsHeader)}
+        </h1>
+        {renderData()}
+        {renderHelp()}
+        <ProgramCertificateModal
+          isOpen={modalIsOpen}
+          close={closeModal}
+          data={verifiableCredentialIssuanceData}
+        />
+      </div>
     </main>
   );
 }

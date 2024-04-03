@@ -6,10 +6,10 @@ import { useParams } from 'react-router-dom';
 
 import {
   Info, ArrowBack,
-} from '@edx/paragon/icons';
+} from '@openedx/paragon/icons';
 import {
   Alert, Container, Button, Hyperlink,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { logError } from '@edx/frontend-platform/logging';
@@ -21,6 +21,7 @@ import ProgramRecordTable from './ProgramRecordTable';
 import RecordsHelp from './RecordsHelp';
 import ProgramRecordAlert from '../ProgramRecordAlert';
 import SendLearnerRecordModal from '../ProgramRecordSendModal';
+import createCorrectInternalRoute from '../../utils';
 
 import getProgramDetails from './data/service';
 
@@ -81,7 +82,7 @@ function ProgramRecord({ isPublic }) {
       className="back-to-records"
     >
       <Hyperlink
-        destination="/"
+        destination={createCorrectInternalRoute('/')}
         variant="muted"
       >
         <FormattedMessage
