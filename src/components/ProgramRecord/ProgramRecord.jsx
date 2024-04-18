@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
 import {
-  Info, ArrowBack,
+  Info, ChevronLeft,
 } from '@edx/paragon/icons';
 import {
-  Alert, Container, Button, Hyperlink,
+  Alert, Container, Hyperlink,
 } from '@edx/paragon';
 
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
@@ -76,22 +76,17 @@ function ProgramRecord({ isPublic }) {
   };
 
   const renderBackButton = () => (
-    <Button
-      variant="tertiary"
-      iconBefore={ArrowBack}
-      className="back-to-records"
+    <Hyperlink
+      destination={createCorrectInternalRoute('/')}
+      variant="muted"
     >
-      <Hyperlink
-        destination={createCorrectInternalRoute('/')}
-        variant="muted"
-      >
-        <FormattedMessage
-          id="link.back.to.records"
-          defaultMessage="Back to My Records"
-          description="A link that takes the user back to their program records"
-        />
-      </Hyperlink>
-    </Button>
+      <ChevronLeft />
+      <FormattedMessage
+        id="link.back.to.records"
+        defaultMessage="Back to My Records"
+        description="A link that takes the user back to their program records"
+      />
+    </Hyperlink>
   );
 
   const renderProgramDetails = () => (
