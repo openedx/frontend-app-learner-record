@@ -77,15 +77,18 @@ function ProgramRecordHeader({
         </span>
       </div>
       <div className="learner-info my-3">
-        <FormattedMessage
-          id="learner.username"
-          defaultMessage="{username}"
-          description="Username of the learner"
-          values={{
-            username: learner.username,
-          }}
-        />
-        |
+        {
+          learner.full_name && (
+          <FormattedMessage
+            id="learner.full_name"
+            defaultMessage="{full_name} | "
+            description="Full name of the learner"
+            values={{
+              full_name: learner.full_name,
+            }}
+          />
+          )
+        }
         <FormattedMessage
           id="learner.email"
           defaultMessage="{email}"
@@ -103,7 +106,6 @@ ProgramRecordHeader.propTypes = {
   learner: PropTypes.shape({
     email: PropTypes.string,
     full_name: PropTypes.string,
-    username: PropTypes.string,
   }).isRequired,
   program: PropTypes.shape({
     name: PropTypes.string,
