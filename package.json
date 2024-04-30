@@ -4,7 +4,7 @@
   "description": "Frontend application template",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/edx/frontend-app-learner-record.git"
+    "url": "git+https://github.com/openedx/frontend-app-learner-record.git"
   },
   "browserslist": [
     "extends @edx/browserslist-config"
