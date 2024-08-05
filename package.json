@@ -71,7 +71,7 @@
     "axios-mock-adapter": "1.22.0",
     "babel-plugin-react-intl": "8.2.25",
     "glob": "10.4.5",
-    "husky": "9.1.1",
+    "husky": "9.1.4",
     "jest": "^29.7.0",
     "resize-observer-polyfill": "^1.5.1",
     "rosie": "2.1.1"
