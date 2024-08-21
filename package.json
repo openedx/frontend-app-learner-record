@@ -68,7 +68,7 @@
     "@openedx/frontend-build": "14.1.0",
     "@testing-library/jest-dom": "6.4.8",
     "@testing-library/react": "12.1.5",
-    "axios-mock-adapter": "1.22.0",
+    "axios-mock-adapter": "2.0.0",
     "babel-plugin-react-intl": "8.2.25",
     "glob": "10.4.5",
     "husky": "9.1.4",
