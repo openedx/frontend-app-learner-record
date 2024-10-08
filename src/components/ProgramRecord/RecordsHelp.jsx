@@ -6,13 +6,13 @@ import { Hyperlink } from '@openedx/paragon';
 function RecordsHelp({ helpUrl }) {
   return (
     <section className="help">
-      <h2>
+      <h3 className="h5">
         <FormattedMessage
           id="help.section.header"
           defaultMessage="Questions about Learner Records?"
           description="A header for the help section"
         />
-      </h2>
+      </h3>
       <p>
         <FormattedMessage
           id="help.section.content.with.link"
