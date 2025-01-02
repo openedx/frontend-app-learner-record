@@ -10,9 +10,9 @@ const messages = defineMessages({
   credentialsListEmpty: {
     id: 'credentials.list.empty',
     defaultMessage:
-      'No certificate available. Finish your first program to get a certificate.',
+      'No certificate available. Finish your first course or program to get a certificate.',
     description:
-      'A message indicating the user has no program certificates to display on the Verifiable Credentials page',
+      'A message indicating the user has no program or course certificates to display on the Verifiable Credentials page',
   },
   credentialsListError: {
     id: 'credentials.list.error',
@@ -26,12 +26,19 @@ const messages = defineMessages({
     defaultMessage: 'Verifiable Credentials',
     description: 'Header for the Verifiable Credentials page',
   },
-  credentialsDescription: {
+  programCredentialsDescription: {
     id: 'credentials.description',
     defaultMessage:
       'A certificate for a program will appear in the list once you have earned all course certificates in a program.',
     description:
       'Description of program credentials for the Verifiable Credentials page',
+  },
+  courseCredentialsDescription: {
+    id: 'credentials.description',
+    defaultMessage:
+      'A certificate for a course will appear once you have completed course.',
+    description:
+      'Description of course credentials for the Verifiable Credentials page',
   },
   credentialsHelpHeader: {
     id: 'credentials.help.header',
@@ -49,9 +56,9 @@ const messages = defineMessages({
     defaultMessage: 'read in our Verifiable Credentials Support Page.',
     description: 'Text containing link that redirects user to support page',
   },
-  errorProgramCertificatesLoading: {
+  errorCertificatesLoading: {
     id: 'credentials.error.fetch.certificates',
-    defaultMessage: 'Could not fetch program certificates',
+    defaultMessage: 'Could not fetch certificates',
     description:
       'API data fetching error when program certificates cannot be loaded',
   },
