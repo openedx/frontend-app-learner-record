@@ -9,25 +9,30 @@ import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';
 import { logError } from '@edx/frontend-platform/logging';
 
-import ProgramCertificate from '../ProgramCertificate';
 import NavigationBar from '../NavigationBar';
 import {
-  getProgramCertificates,
+  getCertificates,
   getAvailableStorages,
   initVerifiableCredentialIssuance,
 } from './data/service';
 import messages from './messages';
-import ProgramCertificateModal from '../ProgramCertificateModal';
+import CertificateModal from '../CertificateModal';
+import Certificate from '../Certificate';
 
-function ProgramCertificatesList({ intl }) {
+function CertificatesList({ intl }) {
   const [certificatesAreLoaded, setCertificatesAreLoaded] = useState(false);
   const [dataLoadingIssue, setDataLoadingIssue] = useState('');
-  const [certificates, setCertificates] = useState([]);
+  const [certificates, setCertificates] = useState({
+    program_credentials: [],
+    course_credentials: [],
+  });
 
   const [storagesIsLoaded, setStoragesIsLoaded] = useState(false);
   const [storages, setStorages] = useState([]);
 
   const [modalIsOpen, openModal, closeModal] = useToggle(false);
+
+  const isCertificatesEmpty = !certificates.program_credentials.length && !certificates.course_credentials.length;
 
   const [
     verifiableCredentialIssuanceData,
@@ -35,15 +40,13 @@ function ProgramCertificatesList({ intl }) {
   ] = useState({});
 
   useEffect(() => {
-    getProgramCertificates()
+    getCertificates()
       .then((data) => {
-        setCertificates(data.program_credentials);
+        setCertificates(data);
         setCertificatesAreLoaded(true);
       })
       .catch((error) => {
-        const errorMessage = intl.formatMessage(
-          messages.errorProgramCertificatesLoading,
-        );
+        const errorMessage = intl.formatMessage(messages.errorCertificatesLoading);
         setDataLoadingIssue(errorMessage);
         logError(errorMessage + error.message);
       });
@@ -112,35 +115,38 @@ function ProgramCertificatesList({ intl }) {
     </p>
   );
 
-  const renderProgramCertificates = () => (
-    <section id="program-certificates-list" className="pl-3 pr-3 pb-3">
-      <p>{intl.formatMessage(messages.credentialsDescription)}</p>
-      <Row className="mt-4">
-        {certificates.map((certificate) => (
-          <ProgramCertificate
-            key={certificate.uuid}
-            storages={storages}
-            handleCreate={handleCreate}
-            {...certificate}
-          />
-        ))}
-      </Row>
-    </section>
-  );
+  const renderCertificates = (type) => {
+    if (!certificates[`${type}_credentials`].length) {
+      return null;
+    }
 
-  const renderData = () => {
-    if (dataLoadingIssue) {
-      return renderCredentialsServiceIssueAlert({
-        message: dataLoadingIssue,
-      });
-    }
-    if (!certificates.length) {
-      return renderEmpty();
-    }
+    return (
+      <section id={`${type}-certificates-list`} className="pl-3 pr-3 pb-3">
+        <p>
+          {type === 'program'
+            ? intl.formatMessage(messages.programCredentialsDescription)
+            : intl.formatMessage(messages.courseCredentialsDescription)}
+        </p>
+        <Row className="mt-4">
+          {certificates[`${type}_credentials`].map((certificate) => (
+            <Certificate
+              type={type}
+              key={certificate.uuid}
+              storages={storages}
+              handleCreate={handleCreate}
+              {...certificate}
+            />
+          ))}
+        </Row>
+      </section>
+    );
+  };
+
+  const renderData = (type) => {
     if (!certificatesAreLoaded || !storagesIsLoaded) {
       return null;
     }
-    return renderProgramCertificates();
+    return renderCertificates(type);
   };
 
   const renderHelp = () => (
@@ -159,6 +165,24 @@ function ProgramCertificatesList({ intl }) {
     </div>
   );
 
+  const renderContent = () => {
+    if (dataLoadingIssue) {
+      return renderCredentialsServiceIssueAlert({
+        message: dataLoadingIssue,
+      });
+    }
+    if (isCertificatesEmpty) {
+      return renderEmpty();
+    }
+
+    return (
+      <>
+        {renderData('program')}
+        {renderData('course')}
+      </>
+    );
+  };
+
   return (
     <main id="main-content" className="pt-5 pb-5 pl-4 pr-4" tabIndex="-1">
       <div className="container-fluid">
@@ -167,9 +191,9 @@ function ProgramCertificatesList({ intl }) {
         <h1 className="h3 pl-3 pr-3 mb-4">
           {intl.formatMessage(messages.credentialsHeader)}
         </h1>
-        {renderData()}
+        {renderContent()}
         {renderHelp()}
-        <ProgramCertificateModal
+        <CertificateModal
           isOpen={modalIsOpen}
           close={closeModal}
           data={verifiableCredentialIssuanceData}
@@ -179,8 +203,8 @@ function ProgramCertificatesList({ intl }) {
   );
 }
 
-ProgramCertificatesList.propTypes = {
+CertificatesList.propTypes = {
   intl: intlShape.isRequired,
 };
 
-export default injectIntl(ProgramCertificatesList);
+export default injectIntl(CertificatesList);
