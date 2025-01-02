@@ -20,7 +20,7 @@ const messages = defineMessages({
     id: 'credentials.modal.mobile.title',
     defaultMessage:
       'To download a verifiable credential to your mobile wallet application, please follow the instructions below.',
-    description: 'Text for a mobile dialog of the program certificate.',
+    description: 'Text for a mobile dialog of the certificate.',
   },
   certificateModalAppStoreBtn: {
     id: 'credentials.modal.instruction.appStore.button',
@@ -84,9 +84,9 @@ const messages = defineMessages({
   credentialsModalError: {
     id: 'credentials.modal.error',
     defaultMessage:
-      'An error occurred attempting to retrieve your program certificate. Please try again later.',
+      'An error occurred attempting to retrieve your certificate. Please try again later.',
     description:
-      "An error message indicating there is a problem retrieving the user's program certificate data",
+      "An error message indicating there is a problem retrieving the user's certificate data",
   },
 });
 

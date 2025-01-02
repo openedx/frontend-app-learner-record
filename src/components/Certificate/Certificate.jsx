@@ -9,10 +9,11 @@ import {
 import { Hyperlink, DropdownButton, Dropdown } from '@openedx/paragon';
 import messages from './messages';
 
-function ProgramCertificate({
+function Certificate({
   intl,
-  program_title: programTitle,
-  program_org: programOrg,
+  type,
+  credential_title: certificateTitle,
+  credential_org: certificateOrg,
   modified_date: modifiedDate,
   uuid,
   handleCreate,
@@ -48,15 +49,17 @@ function ProgramCertificate({
         <div className="card-body d-flex flex-column">
           <div className="card-title">
             <p className="small mb-0">
-              {intl.formatMessage(messages.certificateCardName)}
+              {type === 'program'
+                ? intl.formatMessage(messages.programCertificateCardName)
+                : intl.formatMessage(messages.courseCertificateCardName)}
             </p>
-            <h4 className="certificate-title">{programTitle}</h4>
+            <h4 className="certificate-title">{certificateTitle}</h4>
           </div>
-          <p className="small mb-0">
+          <p className="small mb-0 mt-auto">
             {intl.formatMessage(messages.certificateCardOrgLabel)}
           </p>
           <p className="h6 mb-4">
-            {programOrg
+            {certificateOrg
               || intl.formatMessage(messages.certificateCardNoOrgText)}
           </p>
           <p className="small mb-2">
@@ -71,10 +74,11 @@ function ProgramCertificate({
   );
 }
 
-ProgramCertificate.propTypes = {
+Certificate.propTypes = {
   intl: intlShape.isRequired,
-  program_title: PropTypes.string.isRequired,
-  program_org: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['program', 'course']),
+  credential_title: PropTypes.string.isRequired,
+  credential_org: PropTypes.string.isRequired,
   modified_date: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
   handleCreate: PropTypes.func.isRequired,
@@ -86,4 +90,4 @@ ProgramCertificate.propTypes = {
   ).isRequired,
 };
 
-export default injectIntl(ProgramCertificate);
+export default injectIntl(Certificate);
