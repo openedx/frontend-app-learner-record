@@ -105,7 +105,7 @@ function ProgramRecordActions({
       })
       .catch((error) => {
         logError(error);
-        setShowCreateLinkAlert(true)
+        setShowCreateLinkAlert(true);
       });
     handleCopyEvent();
   };
