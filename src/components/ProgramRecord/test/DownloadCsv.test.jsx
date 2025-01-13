@@ -58,4 +58,19 @@ describe('program-record', () => {
     expect(await screen.findByText(`Last Updated ${new Date(responseMock.record.program.last_updated).toLocaleDateString()}`)).toBeTruthy();
     expect(screen.getByRole('link', { name: 'read more in our records help area.' })).toBeTruthy();
   });
+  it('renders an alert when CSV download is unsuccessful', async () => {
+    const responseMock = programRecordFactory.build();
+    await act(async () => {
+      const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
+      axiosMock
+        .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/test-id/?is_public=true`)
+        .reply(200, responseMock);
+      axiosMock
+        .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/programs/shared/test-id/csv`)
+        .reply(404, {});
+      render(<ProgramRecord isPublic />);
+    });
+    fireEvent.click(await screen.findByRole('button', { name: 'Download program record' }));
+    waitFor(() => expect(screen.getByRole('button', { name: 'Download program record failed' })).toBeTruthy());
+  });
 });
