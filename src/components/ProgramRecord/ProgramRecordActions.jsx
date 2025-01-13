@@ -289,4 +289,8 @@ ProgramRecordActions.propTypes = {
   sharedRecordUUID: PropTypes.string,
 };
 
+ProgramRecordActions.defaultProps = {
+  sharedRecordUUID: '',
+}
+
 export default ProgramRecordActions;
