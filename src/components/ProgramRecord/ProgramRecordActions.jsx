@@ -291,6 +291,6 @@ ProgramRecordActions.propTypes = {
 
 ProgramRecordActions.defaultProps = {
   sharedRecordUUID: '',
-}
+};
 
 export default ProgramRecordActions;
