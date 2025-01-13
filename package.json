@@ -47,7 +47,7 @@
     "@openedx/frontend-plugin-framework": "^1.2.0",
     "@openedx/paragon": "^22.2.2",
     "babel-polyfill": "6.26.0",
-    "core-js": "3.39.0",
+    "core-js": "3.40.0",
     "js-cookie": "3.0.5",
     "lodash": "4.17.21",
     "prop-types": "15.8.1",
