@@ -20,6 +20,7 @@ function ProgramRecordActions({
 }) {
   const [programRecordUrl, setProgramRecordUrl] = useState(sharedRecordUUID && `${getConfig().CREDENTIALS_BASE_URL}/records/programs/shared/${sharedRecordUUID}`);
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
+  const [showCreateLinkAlert, setShowCreateLinkAlert] = useState(false);
   const [showDownloadToast, setShowDownloadToast] = useState(false);
   const [downloadRecord, setDownloadRecord] = useState('default');
 
@@ -44,6 +45,13 @@ function ProgramRecordActions({
           id="download.button.complete"
           defaultMessage="Download complete"
           description="Completed state for the download program record button"
+        />
+      ),
+      error: (
+        <FormattedMessage
+          id="download.button.error"
+          defaultMessage="Download program record failed"
+          description="Error state for the download program record button"
         />
       ),
     },
@@ -97,7 +105,7 @@ function ProgramRecordActions({
       })
       .catch((error) => {
         logError(error);
-        throw new Error(error);
+        setShowCreateLinkAlert(true);
       });
     handleCopyEvent();
   };
@@ -112,8 +120,8 @@ function ProgramRecordActions({
         }
       })
       .catch((error) => {
+        setDownloadRecord('error');
         logError(error);
-        throw new Error(error);
       });
   };
 
@@ -177,6 +185,16 @@ function ProgramRecordActions({
                     defaultMessage="Create program record link"
                     description="Button text for creating a link to the program record"
                   />
+                  <Toast
+                    onClose={() => setShowCreateLinkAlert(false)}
+                    show={showCreateLinkAlert}
+                  >
+                    <FormattedMessage
+                      id="create.link.error"
+                      defaultMessage="Program record link creation failed. Please log out, log back in, and try again."
+                      description="A message to briefly display when the  creation of a shared program record link fails"
+                    />
+                  </Toast>
                 </Button>
               )}
             </OverlayTrigger>
@@ -251,7 +269,7 @@ function ProgramRecordActions({
           >
             <FormattedMessage
               id="successful.record.download.toast.message"
-              defaultMessage="Program record sucessfullly downloaded"
+              defaultMessage="Program record sucessfully downloaded"
               description="A message to briefly display when the user successfully downloads a program record"
             />
           </Toast>
@@ -268,7 +286,11 @@ ProgramRecordActions.propTypes = {
   renderBackButton: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   programUUID: PropTypes.string.isRequired,
-  sharedRecordUUID: PropTypes.string.isRequired,
+  sharedRecordUUID: PropTypes.string,
+};
+
+ProgramRecordActions.defaultProps = {
+  sharedRecordUUID: '',
 };
 
 export default ProgramRecordActions;
