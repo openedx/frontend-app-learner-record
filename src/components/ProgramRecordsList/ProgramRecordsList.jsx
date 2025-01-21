@@ -163,7 +163,6 @@ function ProgramRecordsList() {
       <Hyperlink
         destination={`${getConfig().SUPPORT_URL_LEARNER_RECORDS}`}
         target="_blank"
-        showLaunchIcon={false}
       >
         <FormattedMessage
           id="records.help.link"
