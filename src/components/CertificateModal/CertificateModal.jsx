@@ -11,7 +11,7 @@ import messages from './messages';
 import appStoreImg from '../../assets/images/appStore.png';
 import googlePlayImg from '../../assets/images/googleplay.png';
 
-function ProgramCertificateModal({
+function CertificateModal({
   intl, isOpen, close, data,
 }) {
   const {
@@ -171,11 +171,11 @@ function ProgramCertificateModal({
   );
 }
 
-ProgramCertificateModal.propTypes = {
+CertificateModal.propTypes = {
   intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
   close: PropTypes.func.isRequired,
   data: PropTypes.shape.isRequired,
 };
 
-export default injectIntl(ProgramCertificateModal);
+export default injectIntl(CertificateModal);

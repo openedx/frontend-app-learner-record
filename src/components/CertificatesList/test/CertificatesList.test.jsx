@@ -9,20 +9,20 @@ import { getConfig } from '@edx/frontend-platform/config';
 import {
   render, screen, cleanup, initializeMockApp, act,
 } from '../../../setupTest';
-import ProgramCertificatesList from '..';
-import { getProgramCredentialsFactory, getAvailableStoragesFactory } from './__factories__/programCertificatesList.factory';
+import CertificatesList from '..';
+import { getCredentialsFactory, getAvailableStoragesFactory } from './__factories__/certificatesList.factory';
 
 jest.mock('../../NavigationBar', () => 'NavigationBar');
 
-describe('program-certificates-list', () => {
+describe('certificates-list', () => {
   beforeAll(async () => {
     await initializeMockApp();
   });
   beforeEach(() => jest.resetModules);
   afterEach(cleanup);
 
-  it('renders the Program Certificates List', () => {
-    render(<ProgramCertificatesList />);
+  it('renders the Certificates List', () => {
+    render(<CertificatesList />);
 
     expect(screen.getByText('Verifiable Credentials')).toBeTruthy();
     expect(screen.getByText('Back to My Profile')).toBeTruthy();
@@ -30,7 +30,7 @@ describe('program-certificates-list', () => {
   });
 });
 
-describe('program-certificates-data', () => {
+describe('certificates-data', () => {
   beforeAll(async () => {
     await initializeMockApp();
   });
@@ -43,12 +43,12 @@ describe('program-certificates-data', () => {
     await act(async () => {
       const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
       axiosMock
-        .onGet(`${getConfig().CREDENTIALS_BASE_URL}/verifiable_credentials/api/v1/program_credentials/`)
-        .reply(200, getProgramCredentialsFactory.build());
+        .onGet(`${getConfig().CREDENTIALS_BASE_URL}/verifiable_credentials/api/v1/credentials/`)
+        .reply(200, getCredentialsFactory.build());
       axiosMock
         .onGet(`${getConfig().CREDENTIALS_BASE_URL}/verifiable_credentials/api/v1/storages/`)
         .reply(200, getAvailableStoragesFactory.buildList(1));
-      render(<ProgramCertificatesList />);
+      render(<CertificatesList />);
     });
 
     expect(await screen.findByText('Verifiable Credentials')).toBeTruthy();
@@ -62,16 +62,16 @@ describe('program-certificates-data', () => {
     await act(async () => {
       const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
       axiosMock
-        .onGet(`${getConfig().CREDENTIALS_BASE_URL}/verifiable_credentials/api/v1/program_credentials/`)
-        .reply(200, { program_credentials: [] });
+        .onGet(`${getConfig().CREDENTIALS_BASE_URL}/verifiable_credentials/api/v1/credentials/`)
+        .reply(200, { program_credentials: [], course_credentials: [] });
       axiosMock
         .onGet(`${getConfig().CREDENTIALS_BASE_URL}/verifiable_credentials/api/v1/storages/`)
         .reply(200, []);
-      render(<ProgramCertificatesList />);
+      render(<CertificatesList />);
     });
     expect(
       await screen.findByText(
-        'No certificate available. Finish your first program to get a certificate.',
+        'No certificate available. Finish your first course or program to get a certificate.',
       ),
     ).toBeTruthy();
   });
