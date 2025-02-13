@@ -15,8 +15,8 @@ import Footer from '@edx/frontend-component-footer';
 import messages from './i18n';
 import './index.scss';
 import ProgramRecordsList from './components/ProgramRecordsList';
-import ProgramCertificatesList from './components/ProgramCertificatesList';
 import ProgramRecord from './components/ProgramRecord';
+import CertificatesList from './components/CertificatesList';
 import Head from './components/Head';
 import { ROUTES } from './constants';
 
@@ -42,7 +42,7 @@ subscribe(APP_READY, () => {
           {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
             <Route
               path={ROUTES.VERIFIABLE_CREDENTIALS}
-              element={<AuthenticatedPageRoute><ProgramCertificatesList /></AuthenticatedPageRoute>}
+              element={<AuthenticatedPageRoute><CertificatesList /></AuthenticatedPageRoute>}
             />
           )}
         </Routes>

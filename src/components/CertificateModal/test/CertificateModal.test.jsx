@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import ProgramCertificateModal from '..';
+import CertificateModal from '..';
 import {
   render, screen, cleanup, initializeMockApp,
 } from '../../../setupTest';
@@ -18,7 +18,7 @@ const props = {
   },
 };
 
-describe('program-certificate-modal', () => {
+describe('certificate-modal', () => {
   beforeAll(async () => {
     await initializeMockApp();
   });
@@ -26,7 +26,7 @@ describe('program-certificate-modal', () => {
   afterEach(cleanup);
 
   it('renders the component', () => {
-    render(<ProgramCertificateModal {...props} />);
+    render(<CertificateModal {...props} />);
     expect(screen.getByText('Verifiable credential')).toBeTruthy();
     expect(screen.getByText('Close modal window')).toBeTruthy();
   });

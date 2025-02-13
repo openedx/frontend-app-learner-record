@@ -1,10 +1,10 @@
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';
 
-export async function getProgramCertificates() {
+export async function getCertificates() {
   const url = `${
     getConfig().CREDENTIALS_BASE_URL
-  }/verifiable_credentials/api/v1/program_credentials/`;
+  }/verifiable_credentials/api/v1/credentials/`;
   let data = {};
   try {
     ({ data } = await getAuthenticatedHttpClient().get(url, {
