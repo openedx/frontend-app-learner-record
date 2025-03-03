@@ -148,13 +148,13 @@ function ProgramRecordsList() {
 
   const renderHelp = () => (
     <div className="pl-3 pr-3 pt-4 pb-1">
-      <h3 className="h5">
+      <h2 className="h5">
         <FormattedMessage
           id="records.help.header"
           defaultMessage="Questions about Learner Records?"
           description="Header for the help section of Learner Records page"
         />
-      </h3>
+      </h2>
       <FormattedMessage
         id="records.help.description"
         defaultMessage="To learn more about records you can "
