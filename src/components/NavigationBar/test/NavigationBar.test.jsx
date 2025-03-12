@@ -34,13 +34,13 @@ describe('navigation-bar', () => {
 
   it('renders the component with enabled the Verifiable Credentials functionality', () => {
     render(<NavigationBar />);
-    expect(screen.getByText('My Learner Records')).toBeTruthy();
-    expect(screen.getByText('Verifiable Credentials')).toBeTruthy();
+    waitFor(() => { expect(screen.getByText('My Learner Records')).toBeTruthy(); });
+    waitFor(() => { expect(screen.getByText('Verifiable Credentials')).toBeTruthy(); });
   });
 
   it('redirects the appropriate route on tab click', () => {
     render(<NavigationBar />);
-    fireEvent.click(screen.getByText('Verifiable Credentials'));
-    expect(mockedNavigator).toHaveBeenCalledWith('/verifiable-credentials');
+    waitFor(() => { fireEvent.click(screen.getByText('Verifiable Credentials')); });
+    waitFor(() => { expect(mockedNavigator).toHaveBeenCalledWith('/verifiable-credentials'); });
   });
 });
