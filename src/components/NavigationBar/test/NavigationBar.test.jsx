@@ -32,14 +32,15 @@ describe('navigation-bar', () => {
     waitFor(() => { expect(container.innerHTML).toHaveLength(0); });
   });
 
-  it('renders the component with enabled the Verifiable Credentials functionality', () => {
+  it('renders the component with enabled the Verifiable Credentials functionality', async () => {
     render(<NavigationBar />);
-    expect(screen.getByText('My Learner Records')).toBeTruthy();
-    expect(screen.getByText('Verifiable Credentials')).toBeTruthy();
+    await screen.findByText('My Learner Records');
+    await screen.findByText('Verifiable Credentials');
   });
 
-  it('redirects the appropriate route on tab click', () => {
+  it('redirects the appropriate route on tab click', async () => {
     render(<NavigationBar />);
+    await screen.findByText('Verifiable Credentials');
     fireEvent.click(screen.getByText('Verifiable Credentials'));
     expect(mockedNavigator).toHaveBeenCalledWith('/verifiable-credentials');
   });
