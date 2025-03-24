@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { Routes, Route } from 'react-router-dom';
 import {
@@ -20,8 +20,10 @@ import CertificatesList from './components/CertificatesList';
 import Head from './components/Head';
 import { ROUTES } from './constants';
 
+const rootNode = createRoot(document.getElementById('root'));
+
 subscribe(APP_READY, () => {
-  ReactDOM.render(
+  rootNode.render(
     <AppProvider>
       <HelmetProvider>
         <Head />
@@ -58,7 +60,7 @@ subscribe(APP_READY, () => {
 });
 
 subscribe(APP_INIT_ERROR, (error) => {
-  ReactDOM.render(<ErrorPage message={error.message} />, document.getElementById('root'));
+  rootNode.render(<ErrorPage message={error.message} />);
 });
 
 initialize({
