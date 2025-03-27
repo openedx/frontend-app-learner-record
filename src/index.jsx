@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-import React from 'react';
+import React, { StrictMode } from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { createRoot } from 'react-dom/client';
 
@@ -25,37 +25,39 @@ const rootNode = createRoot(document.getElementById('root'));
 
 subscribe(APP_READY, () => {
   rootNode.render(
-    <AppProvider>
-      <HelmetProvider>
-        <Head />
-        <Header />
-        <Routes>
-          <Route
-            path={ROUTES.PROGRAM_RECORDS}
-            element={<AuthenticatedPageRoute><ProgramRecordsList /></AuthenticatedPageRoute>}
-          />
-          <Route
-            path={ROUTES.PROGRAM_RECORD_SHARED}
-            element={<ProgramRecord isPublic />}
-          />
-          <Route
-            path={ROUTES.PROGRAM_RECORD_ITEM}
-            element={<AuthenticatedPageRoute><ProgramRecord isPublic={false} /></AuthenticatedPageRoute>}
-          />
-          {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
+    <StrictMode>
+      <AppProvider>
+        <HelmetProvider>
+          <Head />
+          <Header />
+          <Routes>
+            <Route
+              path={ROUTES.PROGRAM_RECORDS}
+              element={<AuthenticatedPageRoute><ProgramRecordsList /></AuthenticatedPageRoute>}
+            />
+            <Route
+              path={ROUTES.PROGRAM_RECORD_SHARED}
+              element={<ProgramRecord isPublic />}
+            />
+            <Route
+              path={ROUTES.PROGRAM_RECORD_ITEM}
+              element={<AuthenticatedPageRoute><ProgramRecord isPublic={false} /></AuthenticatedPageRoute>}
+            />
+            {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
             <Route
               path={ROUTES.VERIFIABLE_CREDENTIALS}
               element={<AuthenticatedPageRoute><CertificatesList /></AuthenticatedPageRoute>}
             />
-          )}
-        </Routes>
-        <PluginSlot
-          id="footer_plugin_slot"
-        >
-          <Footer />
-        </PluginSlot>
-      </HelmetProvider>
-    </AppProvider>,
+            )}
+          </Routes>
+          <PluginSlot
+            id="footer_plugin_slot"
+          >
+            <Footer />
+          </PluginSlot>
+        </HelmetProvider>
+      </AppProvider>
+    </StrictMode>,
   );
 });
 
