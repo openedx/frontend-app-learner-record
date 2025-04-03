@@ -1,6 +1,6 @@
 import 'babel-polyfill';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
 import { Routes, Route } from 'react-router-dom';
 import {
@@ -20,45 +20,48 @@ import CertificatesList from './components/CertificatesList';
 import Head from './components/Head';
 import { ROUTES } from './constants';
 
+const rootNode = createRoot(document.getElementById('root'));
+
 subscribe(APP_READY, () => {
-  ReactDOM.render(
-    <AppProvider>
-      <HelmetProvider>
-        <Head />
-        <Header />
-        <Routes>
-          <Route
-            path={ROUTES.PROGRAM_RECORDS}
-            element={<AuthenticatedPageRoute><ProgramRecordsList /></AuthenticatedPageRoute>}
-          />
-          <Route
-            path={ROUTES.PROGRAM_RECORD_SHARED}
-            element={<ProgramRecord isPublic />}
-          />
-          <Route
-            path={ROUTES.PROGRAM_RECORD_ITEM}
-            element={<AuthenticatedPageRoute><ProgramRecord isPublic={false} /></AuthenticatedPageRoute>}
-          />
-          {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
+  rootNode.render(
+    <StrictMode>
+      <AppProvider>
+        <HelmetProvider>
+          <Head />
+          <Header />
+          <Routes>
+            <Route
+              path={ROUTES.PROGRAM_RECORDS}
+              element={<AuthenticatedPageRoute><ProgramRecordsList /></AuthenticatedPageRoute>}
+            />
+            <Route
+              path={ROUTES.PROGRAM_RECORD_SHARED}
+              element={<ProgramRecord isPublic />}
+            />
+            <Route
+              path={ROUTES.PROGRAM_RECORD_ITEM}
+              element={<AuthenticatedPageRoute><ProgramRecord isPublic={false} /></AuthenticatedPageRoute>}
+            />
+            {getConfig().ENABLE_VERIFIABLE_CREDENTIALS && (
             <Route
               path={ROUTES.VERIFIABLE_CREDENTIALS}
               element={<AuthenticatedPageRoute><CertificatesList /></AuthenticatedPageRoute>}
             />
-          )}
-        </Routes>
-        <PluginSlot
-          id="footer_plugin_slot"
-        >
-          <Footer />
-        </PluginSlot>
-      </HelmetProvider>
-    </AppProvider>,
-    document.getElementById('root'),
+            )}
+          </Routes>
+          <PluginSlot
+            id="footer_plugin_slot"
+          >
+            <Footer />
+          </PluginSlot>
+        </HelmetProvider>
+      </AppProvider>
+    </StrictMode>,
   );
 });
 
 subscribe(APP_INIT_ERROR, (error) => {
-  ReactDOM.render(<ErrorPage message={error.message} />, document.getElementById('root'));
+  rootNode.render(<ErrorPage message={error.message} />);
 });
 
 initialize({
