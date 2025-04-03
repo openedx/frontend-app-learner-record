@@ -1,6 +1,5 @@
 import 'babel-polyfill';
 import React, { StrictMode } from 'react';
-// eslint-disable-next-line import/no-unresolved
 import { createRoot } from 'react-dom/client';
 
 import { Routes, Route } from 'react-router-dom';
