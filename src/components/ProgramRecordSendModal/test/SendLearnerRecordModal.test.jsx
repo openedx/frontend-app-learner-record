@@ -8,7 +8,7 @@ import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform';
 import * as analytics from '@edx/frontend-platform/analytics';
 import {
-  render, screen, cleanup, fireEvent, act, initializeMockApp,
+  render, screen, cleanup, fireEvent, initializeMockApp,
 } from '../../../setupTest';
 import ProgramRecord from '../../ProgramRecord/ProgramRecord';
 import programRecordFactory from '../../ProgramRecord/test/__factories__/programRecord.factory';
@@ -38,24 +38,25 @@ describe('program-record-alert', () => {
 
   it('renders a modal for sending program records when the "Send program record" button is clicked', async () => {
     const responseMock = programRecordFactory.build();
-    await act(async () => {
-      const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
-      axiosMock
-        .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/test-id/?is_public=false`)
-        .reply(200, responseMock);
-      axiosMock
-        .onPost()
-        .reply(200, { data: { url: `${getConfig().CREDENTIALS_BASE_URL}/records/programs/shared/test-id/` } });
-      render(<ProgramRecord isPublic={false} />);
-    });
-    fireEvent.click(screen.getByRole('button', { name: 'Send program record' }));
+    const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
+    axiosMock
+      .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/test-id/?is_public=false`)
+      .reply(200, responseMock);
+    axiosMock
+      .onPost()
+      .reply(200, { data: { url: `${getConfig().CREDENTIALS_BASE_URL}/records/programs/shared/test-id/` } });
+
+    render(<ProgramRecord isPublic={false} />);
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Send program record' }));
+
     expect(await screen.findByText(`Send Program Record to ${responseMock.record.platform_name} Credit Partner`)).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Send program record' })).toBeDisabled();
-    fireEvent.click(screen.getByRole('button', { name: 'Send program record' }));
-    setTimeout(() => {
-      expect(screen.getByRole('button', { name: 'Send program record' })).toBeEnabled();
-    }, 0);
+    expect(await screen.findByRole('button', { name: 'Send program record' })).toBeDisabled();
+
+    fireEvent.click(await screen.findByText('Funambulist'));
+    expect(await screen.findByRole('button', { name: 'Send program record' })).toBeEnabled();
     // TODO: test for when the user clicks the send button inside the modal
+
     fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
     expect(screen.queryByText('Send Program Record to edX Credit Partner')).toBeNull();
     expect(analytics.sendTrackEvent.mock.calls.length).toBe(1);

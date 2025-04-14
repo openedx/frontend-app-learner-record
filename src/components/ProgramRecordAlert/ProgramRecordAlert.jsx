@@ -10,7 +10,7 @@ import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { logError } from '@edx/frontend-platform/logging';
 
 import { getConfig } from '@edx/frontend-platform';
-import sendRecords from '../ProgramRecordSendModal/data/service';
+import { sendRecords } from '../ProgramRecordSendModal/data/service';
 
 const ProgramRecordAlert = ({
   alertType, onClose, programUUID, username, setSendRecord, creditPathway, platform,
@@ -29,7 +29,7 @@ const ProgramRecordAlert = ({
       pending: (
         <FormattedMessage
           id="send.records.pending.button"
-          defaultMessage="Sending..."
+          defaultMessage="Re-trying..."
           description="Button to indicate loading state for Try Again functionality"
         />
       ),
