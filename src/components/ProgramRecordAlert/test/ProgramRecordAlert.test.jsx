@@ -127,4 +127,15 @@ describe('ProgramRecordAlert', () => {
       expect(container.firstChild.firstChild).toBeNull();
     });
   });
+
+  it('tries to send the record again when the Try Again button is clicked', async () => {
+    const alertProps = programAlertDataFactory.build({ alertType: 'failure' });
+
+    render(<ProgramRecordAlert {...alertProps} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Try Again' }));
+    expect(sendRecords).toHaveBeenCalled();
+    expect(sendRecords).toHaveBeenCalledWith('12345', 'edX', 1);
+    expect(await screen.findByText('Re-trying...')).toBeTruthy();
+  });
 });
