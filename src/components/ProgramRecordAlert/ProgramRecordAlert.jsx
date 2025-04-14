@@ -53,7 +53,6 @@ const ProgramRecordAlert = ({
       .catch(error => {
         const errorMessage = (`Error: Could not send record again: ${error.message}`);
         logError(errorMessage);
-        console.log(errorMessage);
         setTryAgainButtonState('default');
       });
   };
