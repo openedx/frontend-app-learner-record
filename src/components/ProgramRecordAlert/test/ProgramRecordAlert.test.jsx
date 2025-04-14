@@ -36,8 +36,8 @@ const mockProps = {
 };
 
 describe('ProgramRecordAlert', () => {
-  beforeAll(async () => {
-    await initializeMockApp();
+  beforeAll(() => {
+    initializeMockApp();
   });
   beforeEach(() => {
     jest.clearAllMocks();
