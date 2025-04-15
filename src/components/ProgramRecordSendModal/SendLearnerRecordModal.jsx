@@ -9,7 +9,7 @@ import {
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { logError } from '@edx/frontend-platform/logging';
 
-import sendRecords from './data/service';
+import { sendRecords } from './data/service';
 
 function SendLearnerRecordModal({
   isOpen, toggleSendRecordModal, creditPathways, programUUID, username, setSendRecord, platform, programType,

@@ -1,19 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Alert, Button, Hyperlink } from '@openedx/paragon';
+import {
+  Alert, Hyperlink, StatefulButton,
+} from '@openedx/paragon';
 import { Info, CheckCircle } from '@openedx/paragon/icons';
 
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { logError } from '@edx/frontend-platform/logging';
 
 import { getConfig } from '@edx/frontend-platform';
-import sendRecords from '../ProgramRecordSendModal/data/service';
+import { sendRecords } from '../ProgramRecordSendModal/data/service';
 
 const ProgramRecordAlert = ({
   alertType, onClose, programUUID, username, setSendRecord, creditPathway, platform,
 }) => {
+  const [tryAgainButtonState, setTryAgainButtonState] = useState('default');
+
+  const tryAgainButtonProps = {
+    labels: {
+      default: (
+        <FormattedMessage
+          id="send.records.try.again.button"
+          defaultMessage="Try Again"
+          description="Button that attempts to send the records again"
+        />
+      ),
+      pending: (
+        <FormattedMessage
+          id="send.records.pending.button"
+          defaultMessage="Re-trying..."
+          description="Button to indicate loading state for Try Again functionality"
+        />
+      ),
+    },
+    disabledStates: ['pending'],
+  };
+
   const handleTryAgainSendRecord = () => {
+    setTryAgainButtonState('pending');
     sendRecords(programUUID, username, creditPathway.id)
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
@@ -23,14 +48,16 @@ const ProgramRecordAlert = ({
             sendRecordFailureOrgs: prev.sendRecordFailureOrgs.filter(pathway => pathway.id !== creditPathway.id),
           }));
         }
+        setTryAgainButtonState('default');
       })
       .catch(error => {
         const errorMessage = (`Error: Could not send record again: ${error.message}`);
         logError(errorMessage);
+        setTryAgainButtonState('default');
       });
   };
 
-  const getAlert = () => {
+  const renderAlert = () => {
     switch (alertType) {
       case 'failure':
         return (
@@ -38,15 +65,12 @@ const ProgramRecordAlert = ({
             variant="danger"
             icon={Info}
             actions={[
-              <Button
+              <StatefulButton
+                variant="primary"
+                {...tryAgainButtonProps}
+                state={tryAgainButtonState}
                 onClick={handleTryAgainSendRecord}
-              >
-                <FormattedMessage
-                  id="send.records.try.again.button"
-                  defaultMessage="Try Again"
-                  description="Button that attempts to send the records again"
-                />
-              </Button>,
+              />,
             ]}
             dismissible
             onClose={() => onClose(creditPathway.id)}
@@ -106,7 +130,7 @@ const ProgramRecordAlert = ({
         return '';
     }
   };
-  return getAlert();
+  return renderAlert();
 };
 
 ProgramRecordAlert.propTypes = {
