@@ -33,6 +33,9 @@ function SendLearnerRecordModal({
         }
       })
       .catch(error => {
+        console.log(error);
+        console.log(error.response);
+        console.log(error.request);
         orgs.sendRecordFailureOrgs.push(pathway);
         const errorMessage = (`Error: Could not send ${pathway.name} record: ${error.message}`);
         logError(errorMessage);
