@@ -7,10 +7,9 @@ import {
   APP_INIT_ERROR, APP_READY, subscribe, initialize, mergeConfig, getConfig,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage, AuthenticatedPageRoute } from '@edx/frontend-platform/react';
-import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import { HelmetProvider } from 'react-helmet-async';
 import Header from '@edx/frontend-component-header';
-import Footer from '@edx/frontend-component-footer';
+import { FooterSlot } from '@edx/frontend-component-footer';
 
 import messages from './i18n';
 import './index.scss';
@@ -49,11 +48,7 @@ subscribe(APP_READY, () => {
             />
             )}
           </Routes>
-          <PluginSlot
-            id="footer_plugin_slot"
-          >
-            <Footer />
-          </PluginSlot>
+          <FooterSlot />
         </HelmetProvider>
       </AppProvider>
     </StrictMode>,
