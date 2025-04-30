@@ -12,7 +12,15 @@ import { logError } from '@edx/frontend-platform/logging';
 import { sendRecords } from './data/service';
 
 function SendLearnerRecordModal({
-  isOpen, toggleSendRecordModal, creditPathways, programUUID, username, setSendRecord, platform, programType,
+  isOpen,
+  toggleSendRecordModal,
+  creditPathways,
+  programUUID,
+  username,
+  setSendRecord,
+  platform,
+  programType,
+  setShowProgramRecord429Error,
 }) {
   const [selectedPathways, setSelectedPathways] = useState([]);
 
@@ -20,23 +28,20 @@ function SendLearnerRecordModal({
     const pathwaysToSendRecords = creditPathways.filter(pathway => selectedPathways.includes(pathway.name));
 
     const orgs = {
-      sendRecordSuccessOrgs: [],
-      sendRecordFailureOrgs: [],
+      sendRecordSuccessPathways: [],
+      sendRecordFailurePathways: [],
     };
 
     await Promise.all(pathwaysToSendRecords.map(pathway => sendRecords(programUUID, username, pathway.id)
-      .then(response => {
-        if (response.status >= 200 && response.status < 300) {
-          orgs.sendRecordSuccessOrgs.push(pathway);
-        } else {
-          orgs.sendRecordFailureOrgs.push(pathway);
-        }
+      .then(() => {
+        orgs.sendRecordSuccessPathways.push(pathway);
       })
       .catch(error => {
-        console.log(error);
-        console.log(error.response);
-        console.log(error.request);
-        orgs.sendRecordFailureOrgs.push(pathway);
+        if (error.status === 429) {
+          setShowProgramRecord429Error(true);
+        } else {
+          orgs.sendRecordFailurePathways.push(pathway);
+        }
         const errorMessage = (`Error: Could not send ${pathway.name} record: ${error.message}`);
         logError(errorMessage);
       })));
@@ -170,6 +175,7 @@ SendLearnerRecordModal.propTypes = {
   setSendRecord: PropTypes.func.isRequired,
   platform: PropTypes.string.isRequired,
   programType: PropTypes.string.isRequired,
+  setShowProgramRecord429Error: PropTypes.func.isRequired,
 };
 
 export default SendLearnerRecordModal;

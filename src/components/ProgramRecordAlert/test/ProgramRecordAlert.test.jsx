@@ -76,10 +76,10 @@ describe('ProgramRecordAlert', () => {
         expect(screen.getByRole('button', { name: 'Try Again' })).toBeInTheDocument();
         expect(mockProps.setSendRecord).toHaveBeenCalledWith(expect.any(Function));
         const setSendRecordCall = mockProps.setSendRecord.mock.calls[0][0];
-        const previousState = { sendRecordSuccessOrgs: [], sendRecordFailureOrgs: [mockCreditPathway] };
+        const previousState = { sendRecordSuccessPathways: [], sendRecordFailurePathways: [mockCreditPathway] };
         const newState = setSendRecordCall(previousState);
-        expect(newState.sendRecordSuccessOrgs).toEqual([mockCreditPathway]);
-        expect(newState.sendRecordFailureOrgs).toEqual([]);
+        expect(newState.sendRecordSuccessPathways).toEqual([mockCreditPathway]);
+        expect(newState.sendRecordFailurePathways).toEqual([]);
       });
     });
 
