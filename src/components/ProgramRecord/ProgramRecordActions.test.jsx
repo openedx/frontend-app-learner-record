@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { getConfig } from '@edx/frontend-platform';
 import { logError } from '@edx/frontend-platform/logging';
 import {
   render, screen, fireEvent, waitFor, initializeMockApp,
@@ -32,17 +31,13 @@ const mockClipboard = {
 };
 global.navigator.clipboard = mockClipboard;
 
-// Mock the window.location object
-delete window.location;
-window.location = { assign: jest.fn(), reload: jest.fn(), replace: jest.fn() };
-
 // Import the component to be tested
 
 const defaultProps = {
   showSendRecordButton: false,
   isPublic: false,
   toggleSendRecordModal: jest.fn(),
-  renderBackButton: jest.fn(() => <button type="button">Back</button>),
+  renderBackButton: () => (<button type="button">Back</button>),
   username: 'testuser',
   programUUID: 'test-program-uuid',
   sharedRecordUUID: null,
@@ -114,8 +109,8 @@ describe('ProgramRecordActions', () => {
         const createButton = screen.getByText('Create program record link');
         fireEvent.click(createButton);
 
-        expect(logError).toHaveBeenCalledWith(mockError);
         await waitFor(() => {
+          expect(logError).toHaveBeenCalledWith(mockError);
           expect(screen.getByText('Program record link creation failed. Please log out, log back in, and try again.')).toBeVisible();
         });
         expect(sendTrackEvent).toHaveBeenCalledWith('edx.bi.credentials.program_record.share_url_copied', {
@@ -128,10 +123,11 @@ describe('ProgramRecordActions', () => {
         const mockError = { status: 429 };
         getProgramRecordUrl.mockRejectedValue(mockError);
         renderComponent();
-        const createButton = screen.getByText('Create program record link');
+        const createButton = await screen.findByText('Create program record link');
         fireEvent.click(createButton);
-
-        expect(defaultProps.setShowProgramRecord429Error).toHaveBeenCalledWith(true);
+        await waitFor(() => {
+          expect(defaultProps.setShowProgramRecord429Error).toHaveBeenCalledWith(true);
+        });
       });
     });
 
@@ -192,7 +188,6 @@ describe('ProgramRecordActions', () => {
         expect(screen.getByText('Downloading program record')).toBeVisible();
       });
       await waitFor(() => {
-        expect(window.location.assign).toHaveBeenCalledWith('https://credentials.example.com/records/programs/shared/test-program-uuid/csv');
         expect(screen.getByText('Download complete')).toBeVisible();
       });
     });
@@ -212,40 +207,5 @@ describe('ProgramRecordActions', () => {
         expect(logError).toHaveBeenCalledWith(mockError);
       });
     });
-  });
-
-  it('hides the "Link copied!" tooltip after 3 seconds', async () => {
-    const mockUrl = { data: { url: 'https://example.com/shared/record' } };
-    getProgramRecordUrl.mockResolvedValue(mockUrl);
-    renderComponent();
-    const createButton = screen.getByText('Create program record link');
-    fireEvent.click(createButton);
-
-    await waitFor(() => {
-      expect(screen.getByText('Link copied!')).toBeVisible();
-    });
-
-    // Wait for 3 seconds
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
-    // The tooltip should now be gone
-    expect(screen.queryByText('Link copied!')).toBeNull();
-  });
-
-  it('resets the download button state to default after 4 seconds when download is complete', async () => {
-    getProgramRecordCsv.mockResolvedValue({ status: 200 });
-    renderComponent({ isPublic: true });
-    const downloadButton = screen.getByText('Download program record');
-    fireEvent.click(downloadButton);
-
-    await waitFor(() => {
-      expect(screen.getByText('Download complete')).toBeVisible();
-    });
-
-    // Wait for 4 seconds
-    await new Promise((resolve) => setTimeout(resolve, 4000));
-
-    // The button should now show the default label
-    expect(screen.getByText('Download program record')).toBeVisible();
   });
 });

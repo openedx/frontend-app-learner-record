@@ -69,6 +69,7 @@ describe('program-record', () => {
     expect(screen.queryByRole('button', { name: 'Send program record' })).toBeNull();
   });
 
+  // TODO: can probably remove this test as it is covered in ProgramRecordAlert test now
   it('renders alert on successful request with no data', async () => {
     const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
     axiosMock
