@@ -4,9 +4,9 @@ import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { logError } from '@edx/frontend-platform/logging';
 import {
   render, screen, fireEvent, waitFor, initializeMockApp,
-} from '../../setupTest';
-import { getProgramRecordUrl, getProgramRecordCsv } from './data/service';
-import ProgramRecordActions from './ProgramRecordActions';
+} from '../../../setupTest';
+import { getProgramRecordUrl, getProgramRecordCsv } from '../data/service';
+import ProgramRecordActions from '../ProgramRecordActions';
 
 // Mock necessary modules and functions
 jest.mock('@edx/frontend-platform/analytics', () => ({
@@ -20,7 +20,7 @@ jest.mock('@edx/frontend-platform', () => ({
     CREDENTIALS_BASE_URL: 'https://credentials.example.com',
   })),
 }));
-jest.mock('./data/service', () => ({
+jest.mock('../data/service', () => ({
   getProgramRecordUrl: jest.fn(),
   getProgramRecordCsv: jest.fn(),
 }));
