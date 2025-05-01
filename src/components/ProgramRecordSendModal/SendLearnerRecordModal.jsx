@@ -62,7 +62,6 @@ function SendLearnerRecordModal({
 
   const handleCheckboxChange = (e) => {
     e.persist();
-
     if (e.target.checked) {
       setSelectedPathways(prev => ([
         ...prev,
@@ -129,7 +128,7 @@ function SendLearnerRecordModal({
               <SelectableBox
                 value={pathway.name}
                 type="checkbox"
-                aria-label="checkbox"
+                aria-label={pathway.name}
                 inputHidden={false}
                 key={pathway.id}
               >
