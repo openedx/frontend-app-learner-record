@@ -141,7 +141,6 @@ const ProgramRecordAlert = ({
             />
           </Alert>
         );
-        // TODO: add tests for 429
       case '429':
         return (
           <Alert

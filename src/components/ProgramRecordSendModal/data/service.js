@@ -1,6 +1,5 @@
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';
-// import { logError } from '@edx/frontend-platform/logging';
 
 export async function sendRecords(programUUID, username, orgId) {
   const url = `${getConfig().CREDENTIALS_BASE_URL}/records/programs/${programUUID}/send`;

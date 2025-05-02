@@ -15,8 +15,6 @@ import { logError } from '@edx/frontend-platform/logging';
 import { getConfig } from '@edx/frontend-platform';
 import { getProgramRecordUrl, getProgramRecordCsv } from './data/service';
 
-// TODO: make a test file for this component
-
 function ProgramRecordActions({
   showSendRecordButton,
   isPublic,

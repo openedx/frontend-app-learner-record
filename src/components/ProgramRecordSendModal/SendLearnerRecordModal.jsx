@@ -151,6 +151,7 @@ function SendLearnerRecordModal({
             variant="primary"
             disabled={selectedPathways.length === 0}
             onClick={handleSendRecords}
+            data-testid="send-records-modal-button"
           >
             <FormattedMessage
               id="send.record.modal.send.button"
