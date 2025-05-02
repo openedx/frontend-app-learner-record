@@ -3,8 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { logError } from '@edx/frontend-platform/logging';
 import {
-  render, screen, waitFor, initializeMockApp,
-  fireEvent,
+  render, screen, waitFor, initializeMockApp, fireEvent,
 } from '../../../setupTest';
 
 import ProgramRecord from '../ProgramRecord';
@@ -74,17 +73,6 @@ describe('ProgramRecord', () => {
       expect(getProgramDetails).toHaveBeenCalledWith(mockProgramUUID, false);
     });
   });
-
-  // it('renders ProgramRecordActions, Header, Table, and Help when data is loaded', async () => {
-  //   renderComponent();
-  //   await waitFor(() => {
-  //     // TODO: find another way to check for these -- maybe add the test ids to the component itself?
-  //     // expect(screen.getByTestId('program-record-actions')).toBeInTheDocument();
-  //     // expect(screen.getByTestId('program-record-header')).toBeInTheDocument();
-  //     // expect(screen.getByTestId('program-record-table')).toBeInTheDocument();
-  //     // expect(screen.getByTestId('records-help')).toBeInTheDocument();
-  //   });
-  // });
 
   it('logs an error when getProgramDetails fails', async () => {
     const mockError = new Error('Failed to fetch data');

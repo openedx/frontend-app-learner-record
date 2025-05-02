@@ -8,7 +8,6 @@ import {
 import { getProgramRecordUrl, getProgramRecordCsv } from '../data/service';
 import ProgramRecordActions from '../ProgramRecordActions';
 
-// Mock necessary modules and functions
 jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
 }));
@@ -30,8 +29,6 @@ const mockClipboard = {
   writeText: jest.fn(),
 };
 global.navigator.clipboard = mockClipboard;
-
-// Import the component to be tested
 
 const defaultProps = {
   showSendRecordButton: false,
