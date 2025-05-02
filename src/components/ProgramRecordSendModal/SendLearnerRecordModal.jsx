@@ -27,20 +27,20 @@ function SendLearnerRecordModal({
   const handleSendRecords = async () => {
     const pathwaysToSendRecords = creditPathways.filter(pathway => selectedPathways.includes(pathway.name));
 
-    const orgs = {
+    const pathways = {
       sendRecordSuccessPathways: [],
       sendRecordFailurePathways: [],
     };
 
     await Promise.all(pathwaysToSendRecords.map(pathway => sendRecords(programUUID, username, pathway.id)
       .then(() => {
-        orgs.sendRecordSuccessPathways.push(pathway);
+        pathways.sendRecordSuccessPathways.push(pathway);
       })
       .catch(error => {
         if (error.status === 429) {
           setShowProgramRecord429Error(true);
         } else {
-          orgs.sendRecordFailurePathways.push(pathway);
+          pathways.sendRecordFailurePathways.push(pathway);
         }
         const errorMessage = (`Error: Could not send ${pathway.name} record: ${error.message}`);
         logError(errorMessage);
@@ -48,7 +48,7 @@ function SendLearnerRecordModal({
 
     setSendRecord(prev => ({
       ...prev,
-      ...orgs,
+      ...pathways,
     }));
 
     sendTrackEvent('edx.bi.credentials.program_record.send_finished', {

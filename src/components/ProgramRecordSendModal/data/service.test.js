@@ -41,3 +41,5 @@ describe('SendRecordModalService', () => {
     await expect(sendRecords('test-uuid', 'testuser', 'some-pathway')).rejects.toThrow(mockError);
   });
 });
+
+// TODO: check package-lock.json for history package and remove if possible -- might be needed for Router

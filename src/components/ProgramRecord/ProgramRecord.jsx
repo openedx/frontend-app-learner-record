@@ -103,12 +103,12 @@ function ProgramRecord({ isPublic }) {
         sharedRecordUUID={recordDetails.record.shared_program_record_uuid}
         setShowProgramRecord429Error={setShowProgramRecord429Error}
       />
-      {sendRecord.sendRecordSuccessPathways && sendRecord.sendRecordSuccessPathways.map(org => (
+      {sendRecord.sendRecordSuccessPathways && sendRecord.sendRecordSuccessPathways.map(pathway => (
         <ProgramRecordAlert
-          key={org.id}
+          key={pathway.id}
           alertType="success"
           onClose={onCloseSuccessAndFailureAlert}
-          creditPathway={org}
+          creditPathway={pathway}
           setSendRecord={setSendRecord}
           programUUID={programUUID}
           username={recordDetails.record.learner.username}
@@ -121,7 +121,7 @@ function ProgramRecord({ isPublic }) {
           setShowProgramRecord429Error={setShowProgramRecord429Error}
         />
       )}
-      {sendRecord.sendRecordFailurePathways && sendRecord.sendRecordFailurePathways.map((pathway) => (
+      {sendRecord.sendRecordFailurePathways && sendRecord.sendRecordFailurePathways.map(pathway => (
         <ProgramRecordAlert
           key={pathway.id}
           alertType="failure"
