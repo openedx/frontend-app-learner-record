@@ -69,6 +69,15 @@ describe('program-record', () => {
     expect(screen.queryByRole('button', { name: 'Send program record' })).toBeNull();
   });
 
+  it('renders alert on successful request with no data', async () => {
+    const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
+    axiosMock
+      .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/test-id/?is_public=false`)
+      .reply(200, {});
+    render(<ProgramRecord isPublic={false} />);
+    expect(await screen.findByText('An error occurred attempting to retrieve your program records. Please try again later.')).toBeTruthy();
+  });
+
   it('renders loading message on delay', async () => {
     const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
     axiosMock

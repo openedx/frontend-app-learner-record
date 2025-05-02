@@ -23,7 +23,7 @@ import ProgramRecordAlert from '../ProgramRecordAlert';
 import SendLearnerRecordModal from '../ProgramRecordSendModal';
 import createCorrectInternalRoute from '../../utils';
 
-import getProgramDetails from './data/service';
+import { getProgramDetails } from './data/service';
 
 function ProgramRecord({ isPublic }) {
   const [recordDetails, setRecordDetails] = useState({});
