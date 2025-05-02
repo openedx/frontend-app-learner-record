@@ -63,6 +63,13 @@ describe('ProgramRecordService', () => {
       expect(mockPost).toHaveBeenCalledWith(expectedUrl, { username }, { withCredentials: true });
       expect(result).toEqual(mockResponse);
     });
+
+    it('correctly handles API errors', async () => {
+      const mockError = new Error('API request failed');
+      mockPost.mockRejectedValue(mockError);
+
+      await expect(getProgramRecordUrl('test-uuid', 'testuser')).rejects.toThrow(mockError);
+    });
   });
 
   describe('getProgramRecordCsv', () => {
@@ -77,6 +84,13 @@ describe('ProgramRecordService', () => {
       expect(getAuthenticatedHttpClient).toHaveBeenCalled();
       expect(mockGet).toHaveBeenCalledWith(expectedUrl, { withCredentials: true });
       expect(result).toEqual(mockResponse);
+    });
+
+    it('correctly handles API errors', async () => {
+      const mockError = new Error('API request failed');
+      mockGet.mockRejectedValue(mockError);
+
+      await expect(getProgramRecordCsv('test-uuid')).rejects.toThrow(mockError);
     });
   });
 });
