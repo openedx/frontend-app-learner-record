@@ -33,6 +33,7 @@ const mockProps = {
   programUUID: 'test-uuid',
   username: 'test-user',
   platform: 'Test Platform',
+  setShowProgramRecord429Error: jest.fn(),
 };
 
 describe('ProgramRecordAlert', () => {
@@ -76,10 +77,10 @@ describe('ProgramRecordAlert', () => {
         expect(screen.getByRole('button', { name: 'Try Again' })).toBeInTheDocument();
         expect(mockProps.setSendRecord).toHaveBeenCalledWith(expect.any(Function));
         const setSendRecordCall = mockProps.setSendRecord.mock.calls[0][0];
-        const previousState = { sendRecordSuccessOrgs: [], sendRecordFailureOrgs: [mockCreditPathway] };
+        const previousState = { sendRecordSuccessPathways: [], sendRecordFailurePathways: [mockCreditPathway] };
         const newState = setSendRecordCall(previousState);
-        expect(newState.sendRecordSuccessOrgs).toEqual([mockCreditPathway]);
-        expect(newState.sendRecordFailureOrgs).toEqual([]);
+        expect(newState.sendRecordSuccessPathways).toEqual([mockCreditPathway]);
+        expect(newState.sendRecordFailurePathways).toEqual([]);
       });
     });
 
@@ -101,6 +102,29 @@ describe('ProgramRecordAlert', () => {
         expect(logError).toHaveBeenCalledWith(`Error: Could not send record again: ${mockError.message}`);
       });
     });
+
+    it('calls sendRecords, sets 429 error state, and updates sendRecord on "Try Again" click with 429 error', async () => {
+      const mockError = { status: 429, message: 'Too Many Requests' };
+      sendRecords.mockRejectedValue(mockError);
+      render(<ProgramRecordAlert {...mockProps} alertType="failure" />);
+      const tryAgainButton = screen.getByRole('button', { name: 'Try Again' });
+
+      fireEvent.click(tryAgainButton);
+
+      expect(sendRecords).toHaveBeenCalledWith(mockProps.programUUID, mockProps.username, mockCreditPathway.id);
+      expect(screen.getByRole('button', { name: 'Re-trying...' })).toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: 'Try Again' })).toBeInTheDocument();
+        expect(mockProps.setShowProgramRecord429Error).toHaveBeenCalledWith(true);
+        expect(mockProps.setSendRecord).toHaveBeenCalledWith(expect.any(Function));
+        const setSendRecordCall = mockProps.setSendRecord.mock.calls[0][0];
+        const previousState = { sendRecordSuccessPathways: [], sendRecordFailurePathways: [mockCreditPathway] };
+        const newState = setSendRecordCall(previousState);
+        expect(newState.sendRecordSuccessPathways).toEqual([]);
+        expect(newState.sendRecordFailurePathways).toEqual([]);
+      });
+    });
   });
 
   describe('when alertType is "success"', () => {
@@ -118,6 +142,31 @@ describe('ProgramRecordAlert', () => {
       const closeButton = screen.getByRole('button', { name: /Dismiss/i });
       fireEvent.click(closeButton);
       expect(mockProps.onClose).toHaveBeenCalledWith(mockCreditPathway.id);
+    });
+  });
+
+  describe('when alertType is "429"', () => {
+    it('renders the 429 alert with the correct message', () => {
+      render(<ProgramRecordAlert {...mockProps} alertType="429" />);
+
+      expect(screen.getByRole('alert')).toHaveClass('alert-danger');
+      expect(screen.getByText('Too many requests.')).toBeInTheDocument();
+      expect(screen.getByText('Please try again in a few minutes.')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Dismiss/i })).toBeInTheDocument();
+    });
+
+    it('calls setShowProgramRecord429Error with false when the close button is clicked', () => {
+      render(<ProgramRecordAlert {...mockProps} alertType="429" />);
+      const closeButton = screen.getByRole('button', { name: /Dismiss/i });
+      fireEvent.click(closeButton);
+      expect(mockProps.setShowProgramRecord429Error).toHaveBeenCalledWith(false);
+    });
+  });
+
+  describe('when alertType is not "success", "failure", or "429"', () => {
+    it('renders an empty string', () => {
+      const { container } = render(<ProgramRecordAlert {...mockProps} alertType="info" />);
+      expect(container.firstChild.firstChild).toBeNull();
     });
   });
 

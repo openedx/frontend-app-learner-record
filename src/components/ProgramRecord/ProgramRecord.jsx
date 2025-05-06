@@ -23,7 +23,7 @@ import ProgramRecordAlert from '../ProgramRecordAlert';
 import SendLearnerRecordModal from '../ProgramRecordSendModal';
 import createCorrectInternalRoute from '../../utils';
 
-import getProgramDetails from './data/service';
+import { getProgramDetails } from './data/service';
 
 function ProgramRecord({ isPublic }) {
   const [recordDetails, setRecordDetails] = useState({});
@@ -31,10 +31,12 @@ function ProgramRecord({ isPublic }) {
   const [hasNoData, setHasNoData] = useState(false);
   const [showSendRecordButton, setShowSendRecordButton] = useState(false);
 
+  const [showProgramRecord429Error, setShowProgramRecord429Error] = useState(false);
+
   const [sendRecord, setSendRecord] = useState({
     sendRecordModalOpen: false,
-    sendRecordSuccessOrgs: [],
-    sendRecordFailureOrgs: [],
+    sendRecordSuccessPathways: [],
+    sendRecordFailurePathways: [],
   });
 
   const { programUUID } = useParams();
@@ -67,11 +69,11 @@ function ProgramRecord({ isPublic }) {
     }));
   };
 
-  const updateSuccessAndFailureOrgs = (id) => {
+  const onCloseSuccessAndFailureAlert = (id) => {
     setSendRecord(prev => ({
       ...prev,
-      sendRecordSuccessOrgs: prev.sendRecordSuccessOrgs.filter(org => org.id !== id),
-      sendRecordFailureOrgs: prev.sendRecordFailureOrgs.filter(org => org.id !== id),
+      sendRecordSuccessPathways: prev.sendRecordSuccessPathways.filter(pathway => pathway.id !== id),
+      sendRecordFailurePathways: prev.sendRecordFailurePathways.filter(pathway => pathway.id !== id),
     }));
   };
 
@@ -99,29 +101,37 @@ function ProgramRecord({ isPublic }) {
         username={recordDetails.record.learner.username}
         programUUID={programUUID}
         sharedRecordUUID={recordDetails.record.shared_program_record_uuid}
+        setShowProgramRecord429Error={setShowProgramRecord429Error}
       />
-      {sendRecord.sendRecordSuccessOrgs && sendRecord.sendRecordSuccessOrgs.map(org => (
+      {sendRecord.sendRecordSuccessPathways && sendRecord.sendRecordSuccessPathways.map(pathway => (
         <ProgramRecordAlert
-          key={org.id}
+          key={pathway.id}
           alertType="success"
-          onClose={updateSuccessAndFailureOrgs}
-          creditPathway={org}
+          onClose={onCloseSuccessAndFailureAlert}
+          creditPathway={pathway}
           setSendRecord={setSendRecord}
           programUUID={programUUID}
           username={recordDetails.record.learner.username}
           platform={recordDetails.record.platform_name}
         />
       ))}
-      {sendRecord.sendRecordFailureOrgs && sendRecord.sendRecordFailureOrgs.map(org => (
+      {showProgramRecord429Error && (
         <ProgramRecordAlert
-          key={org.id}
+          alertType="429"
+          setShowProgramRecord429Error={setShowProgramRecord429Error}
+        />
+      )}
+      {sendRecord.sendRecordFailurePathways && sendRecord.sendRecordFailurePathways.map(pathway => (
+        <ProgramRecordAlert
+          key={pathway.id}
           alertType="failure"
-          onClose={updateSuccessAndFailureOrgs}
-          creditPathway={org}
+          onClose={onCloseSuccessAndFailureAlert}
+          creditPathway={pathway}
           setSendRecord={setSendRecord}
           programUUID={programUUID}
           username={recordDetails.record.learner.username}
           platform={recordDetails.record.platform_name}
+          setShowProgramRecord429Error={setShowProgramRecord429Error}
         />
       ))}
       <article className="program-record my-4.5">
@@ -138,21 +148,22 @@ function ProgramRecord({ isPublic }) {
       </article>
 
       {recordDetails.records_help_url && (
-        <RecordsHelp
-          helpUrl={recordDetails.records_help_url}
-        />
+      <RecordsHelp
+        helpUrl={recordDetails.records_help_url}
+      />
       )}
       {sendRecord.sendRecordModalOpen && (
-        <SendLearnerRecordModal
-          isOpen={sendRecord.sendRecordModalOpen}
-          toggleSendRecordModal={toggleSendRecordModal}
-          creditPathways={recordDetails.record.pathways}
-          programUUID={programUUID}
-          username={recordDetails.record.learner.username}
-          setSendRecord={setSendRecord}
-          platform={recordDetails.record.platform_name}
-          programType={recordDetails.record.program.type_name}
-        />
+      <SendLearnerRecordModal
+        isOpen={sendRecord.sendRecordModalOpen}
+        toggleSendRecordModal={toggleSendRecordModal}
+        creditPathways={recordDetails.record.pathways}
+        programUUID={programUUID}
+        username={recordDetails.record.learner.username}
+        setSendRecord={setSendRecord}
+        platform={recordDetails.record.platform_name}
+        programType={recordDetails.record.program.type_name}
+        setShowProgramRecord429Error={setShowProgramRecord429Error}
+      />
       )}
     </>
   );

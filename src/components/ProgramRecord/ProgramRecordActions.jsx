@@ -16,7 +16,14 @@ import { getConfig } from '@edx/frontend-platform';
 import { getProgramRecordUrl, getProgramRecordCsv } from './data/service';
 
 function ProgramRecordActions({
-  showSendRecordButton, isPublic, toggleSendRecordModal, renderBackButton, username, programUUID, sharedRecordUUID,
+  showSendRecordButton,
+  isPublic,
+  toggleSendRecordModal,
+  renderBackButton,
+  username,
+  programUUID,
+  sharedRecordUUID,
+  setShowProgramRecord429Error,
 }) {
   const [programRecordUrl, setProgramRecordUrl] = useState(sharedRecordUUID && `${getConfig().CREDENTIALS_BASE_URL}/records/programs/shared/${sharedRecordUUID}`);
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
@@ -105,6 +112,9 @@ function ProgramRecordActions({
       })
       .catch((error) => {
         logError(error);
+        if (error.status === 429) {
+          setShowProgramRecord429Error(true);
+        }
         setShowCreateLinkAlert(true);
       });
     handleCopyEvent();
@@ -174,17 +184,19 @@ function ProgramRecordActions({
                   />
                 </Button>
               ) : (
-                <Button
-                  variant="outline-primary"
-                  iconBefore={ContentCopy}
-                  className="copy-record-button"
-                  onClick={handleProgramUrlCreate}
-                >
-                  <FormattedMessage
-                    id="create.program.record.link"
-                    defaultMessage="Create program record link"
-                    description="Button text for creating a link to the program record"
-                  />
+                <>
+                  <Button
+                    variant="outline-primary"
+                    iconBefore={ContentCopy}
+                    className="copy-record-button"
+                    onClick={handleProgramUrlCreate}
+                  >
+                    <FormattedMessage
+                      id="create.program.record.link"
+                      defaultMessage="Create program record link"
+                      description="Button text for creating a link to the program record"
+                    />
+                  </Button>
                   <Toast
                     onClose={() => setShowCreateLinkAlert(false)}
                     show={showCreateLinkAlert}
@@ -195,7 +207,7 @@ function ProgramRecordActions({
                       description="A message to briefly display when the  creation of a shared program record link fails"
                     />
                   </Toast>
-                </Button>
+                </>
               )}
             </OverlayTrigger>
             <OverlayTrigger
@@ -287,6 +299,7 @@ ProgramRecordActions.propTypes = {
   username: PropTypes.string.isRequired,
   programUUID: PropTypes.string.isRequired,
   sharedRecordUUID: PropTypes.string,
+  setShowProgramRecord429Error: PropTypes.func.isRequired,
 };
 
 ProgramRecordActions.defaultProps = {

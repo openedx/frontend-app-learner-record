@@ -1,88 +1,147 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
-import MockAdapter from 'axios-mock-adapter';
-import { Factory } from 'rosie';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-import { getConfig } from '@edx/frontend-platform';
-import {
-  render, screen, cleanup, fireEvent, act, initializeMockApp,
-} from '../../../setupTest';
-import ProgramRecord from '../ProgramRecord';
-import programRecordFactory from './__factories__/programRecord.factory';
-import programRecordUrlFactory from './__factories__/programRecordActions.factory';
+import { useParams } from 'react-router-dom';
 
+import { logError } from '@edx/frontend-platform/logging';
+import {
+  render, screen, waitFor, initializeMockApp, fireEvent,
+} from '../../../setupTest';
+
+import ProgramRecord from '../ProgramRecord';
+import { getProgramDetails } from '../data/service';
+import { sendRecords } from '../../ProgramRecordSendModal/data/service';
+
+jest.mock('@edx/frontend-platform/analytics', () => ({
+  sendTrackEvent: jest.fn(),
+}));
+jest.mock('@edx/frontend-platform/logging', () => ({
+  logError: jest.fn(),
+}));
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ programUUID: 'test-id' }),
+  useParams: jest.fn(),
 }));
 
-describe('program-record', () => {
+jest.mock('../data/service', () => ({
+  getProgramDetails: jest.fn(),
+}));
+
+jest.mock('../../ProgramRecordSendModal/data/service', () => ({
+  sendRecords: jest.fn(),
+}));
+
+const mockProgramUUID = 'test-uuid';
+const mockRecordDetails = {
+  record: {
+    learner: { username: 'testuser' },
+    program: { type_name: 'Test Program' },
+    platform_name: 'Test Platform',
+    grades: [],
+    pathways: [{ id: 'pathway-1', name: 'Pathway 1' }],
+    shared_program_record_uuid: 'shared-uuid',
+  },
+  records_help_url: 'https://example.com/help',
+};
+
+const defaultProps = {
+  isPublic: false,
+};
+
+const renderComponent = (props = {}) => {
+  useParams.mockReturnValue({ programUUID: mockProgramUUID });
+  render(<ProgramRecord {...{ ...defaultProps, ...props }} />);
+};
+
+describe('ProgramRecord', () => {
   beforeAll(async () => {
     await initializeMockApp();
   });
-  afterEach(() => {
-    cleanup();
-    Factory.resetAll();
+  beforeEach(() => {
+    getProgramDetails.mockResolvedValue(mockRecordDetails);
+    jest.clearAllMocks();
   });
 
-  it('renders the program record on successful request of a private record with credit pathways', async () => {
-    const responseMock = programRecordFactory.build();
-    await act(async () => {
-      const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
-      axiosMock
-        .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/test-id/?is_public=false`)
-        .reply(200, responseMock);
-      axiosMock
-        .onPost()
-        .reply(200, programRecordUrlFactory.build());
-      render(<ProgramRecord isPublic={false} />);
+  it('renders loading message initially', () => {
+    getProgramDetails.mockImplementation(() => new Promise(() => {})); // Never resolves
+    renderComponent();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Back to My Records' })).toBeInTheDocument();
+  });
+
+  it('fetches program details on mount with correct UUID and isPublic flag', async () => {
+    renderComponent();
+    await waitFor(() => {
+      expect(getProgramDetails).toHaveBeenCalledWith(mockProgramUUID, false);
+    });
+  });
+
+  it('logs an error when getProgramDetails fails', async () => {
+    const mockError = new Error('Failed to fetch data');
+
+    getProgramDetails.mockRejectedValue(mockError);
+    renderComponent();
+    await waitFor(() => {
+      expect(logError).toHaveBeenCalledWith(`Error: Could not fetch program record data for user: ${mockError.message}`);
+      expect(screen.getByText('Loading...')).toBeInTheDocument(); // Still shows loading initially
+      expect(screen.getByRole('link', { name: 'Back to My Records' })).toBeInTheDocument();
+    });
+  });
+
+  it('renders the service issue alert when there is no data', async () => {
+    getProgramDetails.mockResolvedValue({});
+    renderComponent();
+    await waitFor(() => {
+      expect(screen.getByText('An error occurred attempting to retrieve your program records. Please try again later.')).toBeInTheDocument();
+    });
+  });
+
+  it('renders SendLearnerRecordModal when toggleSendRecordModal is called', async () => {
+    renderComponent(); // Initial render with modal closed
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('modal-backdrop')).toBeNull();
     });
 
-    expect(screen.getByRole('link', { name: 'Back to My Records' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Send program record' })).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Send program record' }));
 
-    fireEvent.click(screen.getByRole('button', { name: /help/i }));
-    expect(await screen.findByText('Sending your Program Record')).toBeTruthy();
-
-    expect(await screen.findByText(`${responseMock.record.program.name} Record`)).toBeTruthy();
-    expect(await screen.findByText(`${responseMock.record.program.type_name} Program Record`)).toBeTruthy();
-    expect(await screen.findByText(`${responseMock.record.platform_name} | ${responseMock.record.program.school}`)).toBeTruthy();
-    expect(await screen.findByText(`Last Updated ${new Date(responseMock.record.program.last_updated).toLocaleDateString()}`)).toBeTruthy();
-    expect(screen.getByRole('link', { name: 'read more in our records help area.' })).toBeTruthy();
-  });
-
-  it('doesn\'t render a "Send program record" button when there are no credit pathways', async () => {
-    const responseMock = programRecordFactory.build();
-    await act(async () => {
-      responseMock.record.pathways = [];
-      const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
-      axiosMock
-        .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/test-id/?is_public=false`)
-        .reply(200, responseMock);
-      axiosMock
-        .onPost()
-        .reply(200, programRecordUrlFactory.build());
-      render(<ProgramRecord isPublic={false} />);
+    await waitFor(() => {
+      expect(screen.getByTestId('modal-backdrop')).toBeInTheDocument();
     });
-    expect(screen.queryByRole('button', { name: 'Send program record' })).toBeNull();
   });
 
-  it('renders alert on successful request with no data', async () => {
-    const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
-    axiosMock
-      .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/test-id/?is_public=false`)
-      .reply(200, {});
-    render(<ProgramRecord isPublic={false} />);
-    expect(await screen.findByText('An error occurred attempting to retrieve your program records. Please try again later.')).toBeTruthy();
+  it('renders a success alert when successfully sending a program record', () => {
+    renderComponent(); // Initial render with modal closed
+
+    waitFor(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'Send program record' }));
+      fireEvent.click(screen.getByText('Pathway 1'));
+      fireEvent.click(screen.getByTestId('send-records-modal-button'));
+
+      expect(screen.getByText('You have successfully sent your program record')).toBeInTheDocument();
+
+      fireEvent.click(screen.getByText('Dismiss'));
+      expect(screen.getByText('You have successfully sent your program record')).toBeNull();
+    });
   });
 
-  it('renders loading message on delay', async () => {
-    const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
-    axiosMock
-      .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/test-id/?is_public=false`);
-    render(<ProgramRecord isPublic={false} />);
-    expect(await screen.findByText('Loading...')).toBeTruthy();
+  it('renders a failure alert when it fails sending a program record', () => {
+    renderComponent(); // Initial render with modal closed
+    const mockError = new Error('Failed to send records');
+
+    sendRecords.mockRejectedValue(mockError);
+    waitFor(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'Send program record' }));
+      fireEvent.click(screen.getByText('Pathway 1'));
+      fireEvent.click(screen.getByTestId('send-records-modal-button'));
+
+      expect(screen.getByText('We were unable to send your program record')).toBeInTheDocument();
+
+      fireEvent.click(screen.getByText('Dismiss'));
+      expect(screen.getByText('We were unable to send your program record')).toBeNull();
+    });
+  });
+
+  it('renders Back button as a Hyperlink', () => {
+    renderComponent();
+    expect(screen.getByRole('link', { name: 'Back to My Records' })).toHaveAttribute('href', '/');
   });
 });

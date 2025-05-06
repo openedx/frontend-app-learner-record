@@ -1,7 +1,7 @@
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';
 
-async function getProgramDetails(programUUID, isPublic) {
+export async function getProgramDetails(programUUID, isPublic) {
   const url = `${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/${programUUID}/?is_public=${isPublic}`;
   let data = {};
 
@@ -18,22 +18,14 @@ async function getProgramDetails(programUUID, isPublic) {
 
 export async function getProgramRecordUrl(programUUID, username) {
   const url = `${getConfig().CREDENTIALS_BASE_URL}/records/programs/${programUUID}/share`;
-  try {
-    const response = await getAuthenticatedHttpClient().post(url, { username }, { withCredentials: true });
-    return response;
-  } catch (error) {
-    throw new Error(error);
-  }
+  const response = await getAuthenticatedHttpClient().post(url, { username }, { withCredentials: true });
+  return response;
 }
 
 export async function getProgramRecordCsv(programUUID) {
   const url = `${getConfig().CREDENTIALS_BASE_URL}/records/programs/shared/${programUUID}/csv`;
-  try {
-    const response = await getAuthenticatedHttpClient().get(url, { withCredentials: true });
-    return response;
-  } catch (error) {
-    throw new Error(error);
-  }
+  const response = await getAuthenticatedHttpClient().get(url, { withCredentials: true });
+  return response;
 }
 
 export default getProgramDetails;

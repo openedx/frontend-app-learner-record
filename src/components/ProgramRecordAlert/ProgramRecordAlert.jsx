@@ -13,7 +13,14 @@ import { getConfig } from '@edx/frontend-platform';
 import { sendRecords } from '../ProgramRecordSendModal/data/service';
 
 const ProgramRecordAlert = ({
-  alertType, onClose, programUUID, username, setSendRecord, creditPathway, platform,
+  alertType,
+  onClose,
+  programUUID,
+  username,
+  setSendRecord,
+  creditPathway,
+  platform,
+  setShowProgramRecord429Error,
 }) => {
   const [tryAgainButtonState, setTryAgainButtonState] = useState('default');
 
@@ -40,17 +47,24 @@ const ProgramRecordAlert = ({
   const handleTryAgainSendRecord = () => {
     setTryAgainButtonState('pending');
     sendRecords(programUUID, username, creditPathway.id)
-      .then(response => {
-        if (response.status >= 200 && response.status < 300) {
-          setSendRecord(prev => ({
-            ...prev,
-            sendRecordSuccessOrgs: [...prev.sendRecordSuccessOrgs, creditPathway],
-            sendRecordFailureOrgs: prev.sendRecordFailureOrgs.filter(pathway => pathway.id !== creditPathway.id),
-          }));
-        }
+      .then(() => {
+        setSendRecord(prev => ({
+          ...prev,
+          sendRecordSuccessPathways: [...prev.sendRecordSuccessPathways, creditPathway],
+          sendRecordFailurePathways: prev.sendRecordFailurePathways.filter(pathway => pathway.id !== creditPathway.id),
+        }));
         setTryAgainButtonState('default');
       })
       .catch(error => {
+        if (error.status === 429) {
+          setShowProgramRecord429Error(true);
+          setSendRecord(prev => ({
+            ...prev,
+            sendRecordFailurePathways: prev.sendRecordFailurePathways.filter(
+              pathway => pathway.id !== creditPathway.id,
+            ),
+          }));
+        }
         const errorMessage = (`Error: Could not send record again: ${error.message}`);
         logError(errorMessage);
         setTryAgainButtonState('default');
@@ -77,13 +91,13 @@ const ProgramRecordAlert = ({
           >
             <Alert.Heading>
               <FormattedMessage
-                id="send.failure.alert.heading"
+                id="send.failure.alert.heading.default"
                 defaultMessage="We were unable to send your program record"
                 description="Heading for the alert that displays when the program record fails to send"
               />
             </Alert.Heading>
             <FormattedMessage
-              id="send.failure.alert.message"
+              id="send.failure.alert.message.default"
               defaultMessage="You can try to send your record to the {pathway_name} pathway again. If this issue persists {link}"
               description="Message for the alert that displays when the program record fails to send"
               values={{
@@ -93,6 +107,7 @@ const ProgramRecordAlert = ({
                     destination={`${getConfig().SUPPORT_URL_LEARNER_RECORDS}`}
                     target="_blank"
                     showLaunchIcon={false}
+                    isInline
                   >
                     {`contact ${platform} support.`}
                   </Hyperlink>
@@ -126,6 +141,28 @@ const ProgramRecordAlert = ({
             />
           </Alert>
         );
+      case '429':
+        return (
+          <Alert
+            variant="danger"
+            onClose={() => setShowProgramRecord429Error(false)}
+            icon={Info}
+            dismissible
+          >
+            <Alert.Heading>
+              <FormattedMessage
+                id="send.failure.alert.heading.429"
+                defaultMessage="Too many requests."
+                description="Alert heading for 429 error status"
+              />
+            </Alert.Heading>
+            <FormattedMessage
+              id="send.failure.alert.message.429"
+              defaultMessage="Please try again in a few minutes."
+              description="Alert message for 429 error status"
+            />
+          </Alert>
+        );
       default:
         return '';
     }
@@ -136,7 +173,7 @@ const ProgramRecordAlert = ({
 ProgramRecordAlert.propTypes = {
   alertType: PropTypes.string,
   onClose: PropTypes.func,
-  creditPathway: PropTypes.shape().isRequired,
+  creditPathway: PropTypes.shape(),
   setSendRecord: PropTypes.func,
   programUUID: PropTypes.string,
   username: PropTypes.string,
@@ -146,6 +183,7 @@ ProgramRecordAlert.propTypes = {
 ProgramRecordAlert.defaultProps = {
   alertType: '',
   onClose: () => {},
+  creditPathway: {},
   setSendRecord: () => {},
   programUUID: '',
   username: '',

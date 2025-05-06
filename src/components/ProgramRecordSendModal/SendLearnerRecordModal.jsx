@@ -12,35 +12,43 @@ import { logError } from '@edx/frontend-platform/logging';
 import { sendRecords } from './data/service';
 
 function SendLearnerRecordModal({
-  isOpen, toggleSendRecordModal, creditPathways, programUUID, username, setSendRecord, platform, programType,
+  isOpen,
+  toggleSendRecordModal,
+  creditPathways,
+  programUUID,
+  username,
+  setSendRecord,
+  platform,
+  programType,
+  setShowProgramRecord429Error,
 }) {
   const [selectedPathways, setSelectedPathways] = useState([]);
 
   const handleSendRecords = async () => {
     const pathwaysToSendRecords = creditPathways.filter(pathway => selectedPathways.includes(pathway.name));
 
-    const orgs = {
-      sendRecordSuccessOrgs: [],
-      sendRecordFailureOrgs: [],
+    const pathways = {
+      sendRecordSuccessPathways: [],
+      sendRecordFailurePathways: [],
     };
 
     await Promise.all(pathwaysToSendRecords.map(pathway => sendRecords(programUUID, username, pathway.id)
-      .then(response => {
-        if (response.status >= 200 && response.status < 300) {
-          orgs.sendRecordSuccessOrgs.push(pathway);
-        } else {
-          orgs.sendRecordFailureOrgs.push(pathway);
-        }
+      .then(() => {
+        pathways.sendRecordSuccessPathways.push(pathway);
       })
       .catch(error => {
-        orgs.sendRecordFailureOrgs.push(pathway);
+        if (error.status === 429) {
+          setShowProgramRecord429Error(true);
+        } else {
+          pathways.sendRecordFailurePathways.push(pathway);
+        }
         const errorMessage = (`Error: Could not send ${pathway.name} record: ${error.message}`);
         logError(errorMessage);
       })));
 
     setSendRecord(prev => ({
       ...prev,
-      ...orgs,
+      ...pathways,
     }));
 
     sendTrackEvent('edx.bi.credentials.program_record.send_finished', {
@@ -54,7 +62,6 @@ function SendLearnerRecordModal({
 
   const handleCheckboxChange = (e) => {
     e.persist();
-
     if (e.target.checked) {
       setSelectedPathways(prev => ([
         ...prev,
@@ -121,7 +128,7 @@ function SendLearnerRecordModal({
               <SelectableBox
                 value={pathway.name}
                 type="checkbox"
-                aria-label="checkbox"
+                aria-label={pathway.name}
                 inputHidden={false}
                 key={pathway.id}
               >
@@ -144,6 +151,7 @@ function SendLearnerRecordModal({
             variant="primary"
             disabled={selectedPathways.length === 0}
             onClick={handleSendRecords}
+            data-testid="send-records-modal-button"
           >
             <FormattedMessage
               id="send.record.modal.send.button"
@@ -167,6 +175,7 @@ SendLearnerRecordModal.propTypes = {
   setSendRecord: PropTypes.func.isRequired,
   platform: PropTypes.string.isRequired,
   programType: PropTypes.string.isRequired,
+  setShowProgramRecord429Error: PropTypes.func.isRequired,
 };
 
 export default SendLearnerRecordModal;
