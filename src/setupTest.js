@@ -15,6 +15,7 @@ import messages from './i18n';
 jest.mock('@edx/frontend-platform/react/hooks', () => ({
   ...jest.requireActual('@edx/frontend-platform/react/hooks'),
   useTrackColorSchemeChoice: jest.fn(),
+  useParagonTheme: () => [{ isThemeLoaded: true }, jest.fn()],
 }));
 
 mergeConfig(envConfig);

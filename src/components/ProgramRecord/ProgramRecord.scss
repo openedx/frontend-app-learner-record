@@ -1,20 +1,23 @@
 .program-record-wrapper {
-    @extend .my-4\.5;
+    margin-top: calc(var(--pgn-spacing-spacer-base) * 2) !important;
 
     .back-to-records:hover {
         background: none;
     }
 
     .program-record-nav {
-        @extend .d-flex, .justify-content-between, .mb-3;
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-bottom: var(--pgn-spacing-spacer-base) !important;
 
         .program-record-actions {
-            @extend .d-flex;
+            display: flex !important;
             gap: 0.5rem;
         }
 
         .download-record {
-            @extend .d-flex, .flex-row-reverse;
+            display: flex !important;
+            flex-direction: row-reverse !important;
         }
     }
 
@@ -23,15 +26,17 @@
         .program-record-header {
 
             .program-headings {
-                @extend .d-flex, .justify-content-between;
-                color: $primary-500;
+                display: flex !important;
+                justify-content: space-between !important;
+                color: var(--pgn-color-primary-500);
 
                 h4 {
                     color: inherit;
                 }
 
                 .program-title {
-                    @extend .d-flex, .flex-column;
+                    display: flex !important;
+                    flex-direction: column !important;
 
                     .heading-label {
                         text-transform: capitalize;
@@ -44,20 +49,22 @@
             }
 
             .program-status {
-                @extend .d-flex, .align-items-center;
+                display: flex !important;
+                align-items: center !important;
                 gap: 0.5rem;
 
                 span.badge {
-                    @extend .d-flex;
+                    display: flex !important;
                 }
 
                 span.updated {
-                    @extend .small;
+                    font-size: var(--pgn-typography-font-size-sm);
+                    font-weight: var(--pgn-typography-font-weight-normal);
                 }
             }
 
             .learner-info {
-                @extend .d-flex;
+                display: flex !important;
                 gap: 0.25rem;
             }
         }
@@ -68,6 +75,6 @@
     }
 
     .help {
-        color: $primary-500;
+        color: var(--pgn-color-primary-500);
     }
 }
