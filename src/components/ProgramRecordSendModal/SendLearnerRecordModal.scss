@@ -1,9 +1,11 @@
 .send-record-modal {
-    @extend .d-flex, .flex-column;
+    display: flex !important;
+    flex-direction: column !important;
 
     > div:nth-child(2) {
-        @extend .d-flex, .flex-column;
-        color: $primary-500;
+        display: flex !important;
+        flex-direction: column !important;
+        color: var(--pgn-color-primary-500);
     }
 
     > div:nth-child(3) {
@@ -11,7 +13,8 @@
     }
 
     .checkbox-group {
-        @extend .d-flex, .flex-column;
+        display: flex !important;
+        flex-direction: column !important;
 
         > div {
             width: 100%;
