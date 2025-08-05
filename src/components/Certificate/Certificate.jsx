@@ -1,16 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  FormattedDate,
-  injectIntl,
-  intlShape,
-} from '@edx/frontend-platform/i18n';
+import { FormattedDate, useIntl } from '@edx/frontend-platform/i18n';
 import { Hyperlink, DropdownButton, Dropdown } from '@openedx/paragon';
 import messages from './messages';
 
 function Certificate({
-  intl,
   type,
   credential_title: certificateTitle,
   credential_org: certificateOrg,
@@ -19,6 +13,7 @@ function Certificate({
   handleCreate,
   storages = [],
 }) {
+  const intl = useIntl();
   const showSingleAction = storages.length === 1;
 
   const renderCreationButtons = () => (
@@ -75,7 +70,6 @@ function Certificate({
 }
 
 Certificate.propTypes = {
-  intl: intlShape.isRequired,
   type: PropTypes.oneOf(['program', 'course']),
   credential_title: PropTypes.string.isRequired,
   credential_org: PropTypes.string.isRequired,
@@ -90,4 +84,4 @@ Certificate.propTypes = {
   ).isRequired,
 };
 
-export default injectIntl(Certificate);
+export default Certificate;

@@ -1,10 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { DataTable, Badge } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import messages from './messages';
 
-function ProgramRecordTable({ grades, intl }) {
+function ProgramRecordTable({ grades }) {
+  const intl = useIntl();
   const formatGradeData = (data) => (
     data.map(grade => ({
       ...grade,
@@ -82,7 +82,6 @@ function ProgramRecordTable({ grades, intl }) {
 ProgramRecordTable.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,
-  intl: intlShape.isRequired,
 };
 
-export default injectIntl(ProgramRecordTable);
+export default ProgramRecordTable;

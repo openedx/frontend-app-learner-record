@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ChevronLeft, Info } from '@openedx/paragon/icons';
 import {
   Alert, Hyperlink, Row, useToggle,
 } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';
 import { logError } from '@edx/frontend-platform/logging';
@@ -19,7 +19,8 @@ import messages from './messages';
 import CertificateModal from '../CertificateModal';
 import Certificate from '../Certificate';
 
-function CertificatesList({ intl }) {
+function CertificatesList() {
+  const intl = useIntl();
   const [certificatesAreLoaded, setCertificatesAreLoaded] = useState(false);
   const [dataLoadingIssue, setDataLoadingIssue] = useState('');
   const [certificates, setCertificates] = useState({
@@ -206,8 +207,4 @@ function CertificatesList({ intl }) {
   );
 }
 
-CertificatesList.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(CertificatesList);
+export default CertificatesList;

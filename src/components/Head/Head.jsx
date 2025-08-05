@@ -1,11 +1,12 @@
-import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { getConfig } from '@edx/frontend-platform';
 
 import messages from './messages';
 
-function Head({ intl }) {
+function Head() {
+  const intl = useIntl();
+
   return (
     <Helmet>
       <title>
@@ -16,8 +17,4 @@ function Head({ intl }) {
   );
 }
 
-Head.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(Head);
+export default Head;

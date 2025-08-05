@@ -1,6 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { BrowserView, MobileView, isBrowser } from 'react-device-detect';
 import {
   ActionRow, Button, Row, StandardModal,
@@ -12,7 +11,7 @@ import appStoreImg from '../../assets/images/appStore.png';
 import googlePlayImg from '../../assets/images/googleplay.png';
 
 function CertificateModal({
-  intl, isOpen, close, data,
+  isOpen, close, data,
 }) {
   const {
     deeplink,
@@ -21,6 +20,8 @@ function CertificateModal({
     app_link_ios: appleStoreAppLink,
     error,
   } = data;
+
+  const intl = useIntl();
 
   if (error) {
     return (
@@ -172,10 +173,9 @@ function CertificateModal({
 }
 
 CertificateModal.propTypes = {
-  intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
   close: PropTypes.func.isRequired,
   data: PropTypes.shape.isRequired,
 };
 
-export default injectIntl(CertificateModal);
+export default CertificateModal;
