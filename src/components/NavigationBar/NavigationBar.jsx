@@ -1,14 +1,14 @@
-import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { Tabs, Tab } from '@openedx/paragon';
 import { getConfig } from '@edx/frontend-platform';
 import { ROUTES } from '../../constants';
 
 import messages from './messages';
 
-function NavigationBar({ intl }) {
+function NavigationBar() {
+  const intl = useIntl();
   const NavigationTabs = [
     {
       id: 'learnerRecords',
@@ -43,8 +43,4 @@ function NavigationBar({ intl }) {
   ) : null;
 }
 
-NavigationBar.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(NavigationBar);
+export default NavigationBar;

@@ -1,13 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Badge } from '@openedx/paragon';
 
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 import messages from './messages';
 
 function ProgramRecordHeader({
-  learner, program, platform, intl,
+  learner, program, platform,
 }) {
+  const intl = useIntl();
   return (
     <header className="program-record-header">
       <div className="program-headings">
@@ -117,7 +117,6 @@ ProgramRecordHeader.propTypes = {
     last_updated: PropTypes.string,
   }).isRequired,
   platform: PropTypes.string.isRequired,
-  intl: intlShape.isRequired,
 };
 
-export default injectIntl(ProgramRecordHeader);
+export default ProgramRecordHeader;
