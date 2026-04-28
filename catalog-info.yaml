@@ -21,7 +21,7 @@ metadata:
 spec:
   type: 'service'
   lifecycle: 'production'
-  owner: 2U-aperture
+  owner: user:jajjibhai008
 # (Optional) An array of different components or resources.
 dependsOn:
 - 'Credentials'
