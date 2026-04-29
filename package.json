@@ -34,7 +34,7 @@
     "url": "https://github.com/edx/frontend-app-learner-record/issues"
   },
   "dependencies": {
-    "@edx/brand": "npm:@openedx/brand-openedx@^2.0.0",
+    "@edx/brand": "npm:@openedx/brand-openedx@^1.2.3",
     "@edx/frontend-component-footer": "^14.9.2",
     "@edx/frontend-component-header": "^8.2.1",
     "@edx/frontend-platform": "^8.7.0",
