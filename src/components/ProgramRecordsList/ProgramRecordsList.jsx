@@ -54,7 +54,7 @@ function ProgramRecordsList() {
       const errorMessage = (`Error: Could not fetch learner record data for user: ${error.message}`);
       logError(errorMessage);
     });
-  }, []);
+  }, [intl]);
 
   const renderProfile = () => {
     const { username } = getAuthenticatedUser();
