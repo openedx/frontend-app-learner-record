@@ -57,6 +57,16 @@ describe('program-list-data', () => {
     expect(await screen.findAllByText('View Program Record')).toBeTruthy();
   });
 
+  it('should display translated status strings for completed and partially completed programs', async () => {
+    const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
+    axiosMock
+      .onGet(`${getConfig().CREDENTIALS_BASE_URL}/records/api/v1/program_records/`)
+      .reply(200, programListRecordsFactory.build());
+    render(<ProgramRecordsList />);
+    expect(await screen.findByText('edX | Completed')).toBeTruthy();
+    expect(await screen.findByText('edX | Partially Completed')).toBeTruthy();
+  });
+
   it('should display no records when no enrolled_programs are present', async () => {
     const axiosMock = new MockAdapter(getAuthenticatedHttpClient());
     axiosMock
