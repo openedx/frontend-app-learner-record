@@ -60,7 +60,7 @@
     "react-redux": "7.2.9",
     "react-router": "6.30.3",
     "react-router-dom": "6.30.3",
-    "redux": "4.2.1",
+    "redux": "5.0.1",
     "regenerator-runtime": "0.14.1",
     "schema-utils": "^4.2.0"
   },
