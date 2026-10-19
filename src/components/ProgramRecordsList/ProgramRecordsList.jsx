@@ -4,7 +4,7 @@ import { ChevronLeft, Info } from '@openedx/paragon/icons';
 import {
   Alert, Button, Hyperlink,
 } from '@openedx/paragon';
-import { FormattedMessage } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, defineMessages, useIntl } from '@edx/frontend-platform/i18n';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';
 import { logError } from '@edx/frontend-platform/logging';
@@ -15,7 +15,21 @@ import NavigationBar from '../NavigationBar';
 import createCorrectInternalRoute from '../../utils';
 import getProgramRecords from './data/service';
 
+const messages = defineMessages({
+  completed: {
+    id: 'records.programStatus.completed',
+    defaultMessage: 'Completed',
+    description: 'Status label for a completed program record',
+  },
+  partiallyCompleted: {
+    id: 'records.programStatus.partiallyCompleted',
+    defaultMessage: 'Partially Completed',
+    description: 'Status label for a partially completed program record',
+  },
+});
+
 function ProgramRecordsList() {
+  const intl = useIntl();
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [hasNoData, setHasNoData] = React.useState(false);
   const [records, setRecords] = React.useState([]);
@@ -27,9 +41,9 @@ function ProgramRecordsList() {
       } else {
         (data.enrolled_programs).map((program) => { /* eslint-disable no-param-reassign */
           if (program.completed) {
-            program.status = 'Completed';
+            program.status = intl.formatMessage(messages.completed);
           } else {
-            program.status = 'Partially Completed';
+            program.status = intl.formatMessage(messages.partiallyCompleted);
           }
           return null;
         });
@@ -40,7 +54,7 @@ function ProgramRecordsList() {
       const errorMessage = (`Error: Could not fetch learner record data for user: ${error.message}`);
       logError(errorMessage);
     });
-  }, []);
+  }, [intl]);
 
   const renderProfile = () => {
     const { username } = getAuthenticatedUser();
